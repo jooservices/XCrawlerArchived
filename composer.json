@@ -5,12 +5,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
+        "ext-json": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "santigarcor/laratrust": "^6.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
@@ -51,6 +53,11 @@
         "lint": [
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
+        ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Unit",
             "@php vendor/bin/phpunit --testsuite=Feature"
@@ -58,7 +65,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
         }
     },
     "config": {

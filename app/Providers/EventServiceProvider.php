@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
-use App\Core\EventSourcing\RecordedEvent;
+use App\Core\EventSourcing\RecordedEventInterface;
 use App\Models\User;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -29,9 +29,9 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Event::listen(RecordedEvent::class, RecordedEventSubscriber::class);
+        Event::listen(RecordedEventInterface::class, RecordedEventSubscriber::class);
         User::observe(UserObserver::class);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use App\Core\EventSourcing\RecordedEvent;
+use App\Core\EventSourcing\RecordedEventInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserUpdated implements RecordedEvent
+class UserUpdated implements RecordedEventInterface
 {
     public User $user;
 

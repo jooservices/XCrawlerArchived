@@ -4,7 +4,7 @@ namespace App\Core\EventSourcing;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface RecordedEvent
+interface RecordedEventInterface
 {
     public function getCategory(): string;
 

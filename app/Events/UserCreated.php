@@ -2,11 +2,11 @@
 
 namespace App\Events;
 
-use App\Core\EventSourcing\RecordedEvent;
+use App\Core\EventSourcing\RecordedEventInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCreated implements RecordedEvent
+class UserCreated implements RecordedEventInterface
 {
     public User $user;
 
@@ -15,16 +15,25 @@ class UserCreated implements RecordedEvent
         $this->user = $user;
     }
 
+    /**
+     * @return string
+     */
     public function getCategory(): string
     {
         return 'user';
     }
 
+    /**
+     * @return array
+     */
     public function getPayload(): array
     {
         return [];
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
     public function getAggregate(): Model
     {
         return $this->user;

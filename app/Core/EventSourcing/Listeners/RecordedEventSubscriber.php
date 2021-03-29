@@ -3,18 +3,26 @@
 namespace App\Core\EventSourcing\Listeners;
 
 use App\Core\EventSourcing\EventManager;
-use App\Core\EventSourcing\RecordedEvent;
+use App\Core\EventSourcing\RecordedEventInterface;
 
 class RecordedEventSubscriber
 {
     private EventManager $eventManager;
 
+    /**
+     * @param \App\Core\EventSourcing\EventManager $eventManager
+     */
     public function __construct(EventManager $eventManager)
     {
         $this->eventManager = $eventManager;
     }
 
-    public function handle(RecordedEvent $event)
+    /**
+     * @param \App\Core\EventSourcing\RecordedEventInterface $event
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function handle(RecordedEventInterface $event): void
     {
         $this->eventManager
             ->setEvent(class_basename($event))

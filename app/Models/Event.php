@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * App/Models/Event
+ *
+ * @property int $model_id
+ * @property string $model_type
+ * @property string $category
+ * @property string $event
+ * @property array $data
+ * @property bool $is_reverted
+ * @property int $ip_address
+ */
 class Event extends Model
 {
     use HasFactory;
@@ -22,6 +33,7 @@ class Event extends Model
         'event',
         'data',
         'is_reverted',
+        'ip_address',
     ];
 
     /**
@@ -36,6 +48,7 @@ class Event extends Model
         'event' => 'string',
         'data' => 'array',
         'is_reverted' => 'boolean',
+        'ip_address' => 'integer',
     ];
 
     /**
@@ -43,8 +56,13 @@ class Event extends Model
      *
      * @return MorphTo
      */
-    public function model()
+    public function model(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function getRawIpAddress(): string
+    {
+        return $this->ip_address ? long2ip($this->ip_address) : '';
     }
 }

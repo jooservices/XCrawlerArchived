@@ -80,7 +80,7 @@ class EventManager
      * @return mixed
      * @throws BindingResolutionException
      */
-    public function request()
+    public function request(): mixed
     {
         return Container::getInstance()->make('request');
     }
@@ -112,8 +112,7 @@ class EventManager
             'category' => $this->category,
             'event' => $this->event,
             'data' => $this->attributes,
-            'ip_address' => $request->getClientIp(),
-
+            'ip_address' => ip2long($request->getClientIp()),
         ]);
 
         return $event;
