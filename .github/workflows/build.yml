@@ -80,6 +80,6 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: root
         run: |
-          mysql -uroot -proot -e "CREATE DATABASE xcrawler_tests;"
+          mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS xcrawler_tests;"
           php artisan migrate:fresh
-
+          composer test
