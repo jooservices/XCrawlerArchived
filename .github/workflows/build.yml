@@ -39,7 +39,7 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
-  real:
+  deploy_develop:
     needs: [ build ]
     runs-on: [ self-hosted, X64 ]
 
@@ -55,9 +55,11 @@ jobs:
 
       - name: Install Dependencies
         run: composer update
+        if: success()
 
       - name: Lint
         run: composer lint
+        if: success()
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -76,5 +78,5 @@ jobs:
           DB_PASSWORD: root
         run: |
           mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS xcrawler_tests;"
-          php artisan migrate:fresh
+          php artisan migrate
           composer test
