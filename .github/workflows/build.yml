@@ -39,3 +39,15 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
+  real:
+
+    runs-on: [ self-hosted, X64 ]
+
+    steps:
+      - uses: actions/checkout@v2
+        if: success()
+
+      - name: Setup PHP with coverage driver
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
