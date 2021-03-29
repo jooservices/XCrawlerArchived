@@ -43,6 +43,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyze --level=0 app"
         ]
     },
     "extra": {
