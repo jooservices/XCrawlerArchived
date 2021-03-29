@@ -46,6 +46,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: PHP Security Checker
+        uses: StephaneBour/actions-php-security-checker@1.1
+        with:
+          composer-lock: './composer.lock'
+
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
