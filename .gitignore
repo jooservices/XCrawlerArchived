@@ -1,3 +1,10 @@
+/node_modules
+
+.env.backup
+docker-compose.override.yml
+
+/.idea/
+
 /vendor/
 node_modules/
 npm-debug.log
@@ -14,8 +21,8 @@ public/hot
 # Laravel 5 & Lumen specific with changed public path
 public_html/storage
 public_html/hot
-
 storage/*.key
+
 .env
 Homestead.yaml
 Homestead.json
