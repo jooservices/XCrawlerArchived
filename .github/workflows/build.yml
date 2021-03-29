@@ -81,5 +81,3 @@ jobs:
           DB_PASSWORD: root
         run:
           mysql -uroot -proot -e "CREATE DATABASE xcrawler_tests;"
-          php artisan migrate:fresh
-
