@@ -1,4 +1,4 @@
-name: Laravel
+name: XCrawler - Build & Test,
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  laravel-tests:
+  build:
 
     runs-on: self-hosted
 
