@@ -46,11 +46,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: PHP CS Fixer
-        uses: StephaneBour/actions-php-cs-fixer@8.0
-        with:
-          dir: './app'
-
       - name: PHP Security Checker
         uses: StephaneBour/actions-php-security-checker@1.1
         with:
