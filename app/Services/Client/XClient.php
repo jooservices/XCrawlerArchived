@@ -130,7 +130,7 @@ class XClient implements Domain\ClientInterface
      * @param array $payload
      * @return ClientResponse
      */
-    public function patch(string $endpoint, array $payload = [])
+    public function patch(string $endpoint, array $payload = []): ClientResponse
     {
         return $this->request($endpoint, $payload, 'PATCH');
     }
@@ -142,7 +142,7 @@ class XClient implements Domain\ClientInterface
      * @param array $payload
      * @return ClientResponse
      */
-    public function delete(string $endpoint, array $payload = [])
+    public function delete(string $endpoint, array $payload = []): ClientResponse
     {
         return $this->request($endpoint, $payload, 'DELETE');
     }
