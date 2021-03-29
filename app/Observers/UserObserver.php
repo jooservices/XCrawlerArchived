@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\UserCreated;
+use App\Events\UserUpdated;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
 
@@ -27,7 +28,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        //
+        Event::dispatch(new UserUpdated($user));
     }
 
     /**
