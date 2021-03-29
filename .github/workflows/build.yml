@@ -31,8 +31,8 @@ jobs:
 
     - name: Create Database
       run: |
-        cd application && mkdir -p database
-        cd application && touch database/database.sqlite
+        mkdir -p application/database
+        touch application/database/database.sqlite
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
