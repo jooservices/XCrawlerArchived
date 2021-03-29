@@ -6,7 +6,7 @@ use App\Core\EventSourcing\RecordedEvent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCreated implements RecordedEvent
+class UserUpdated implements RecordedEvent
 {
     public User $user;
 
