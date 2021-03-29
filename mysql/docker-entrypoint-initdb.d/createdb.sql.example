@@ -1,0 +1,10 @@
+#
+# Copy createdb.sql.example to createdb.sql
+#
+# this sql script will auto run when the mysql container starts and the .data/mysql not found.
+#
+# if your .data/mysql exists and you do not want to delete it, you can run by manual execution:
+#
+#     docker-compose exec mysql bash
+#     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
+#
