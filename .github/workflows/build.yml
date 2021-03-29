@@ -1,4 +1,4 @@
-name: XCrawler - Build & Test,
+name: XCrawler - Build & Tests
 
 on:
   push:
