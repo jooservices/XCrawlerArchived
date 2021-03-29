@@ -17,6 +17,9 @@ jobs:
     - name: Move to application folder
       run: cd ./application
 
+    - name: Check current path
+      run: pwd
+
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
