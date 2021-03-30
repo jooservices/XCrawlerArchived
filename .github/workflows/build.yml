@@ -38,7 +38,9 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: vendor/bin/phpunit
+        run: |
+          php artisan migrate:fresh
+          vendor/bin/phpunit
   deploy_develop:
     needs: [ build ]
     runs-on: [ self-hosted, X64 ]
