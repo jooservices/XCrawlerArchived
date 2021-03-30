@@ -36,6 +36,6 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: root
         run: |
-          mysql -uroot -proot -e "DROP IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
+          sudo mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           php artisan migrate
           composer test
