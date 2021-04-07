@@ -28,11 +28,13 @@ interface ResponseInterface
 
     public function toArray(): array;
 
+    public function loadData();
+
     /**
      * Parsed data from body
-     * @return array
+     * @return mixed
      */
-    public function getData(): array;
+    public function getData(): mixed;
 
     /**
      * Raw body

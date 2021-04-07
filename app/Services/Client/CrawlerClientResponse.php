@@ -3,12 +3,13 @@
 namespace App\Services\Client;
 
 use App\Services\Client\Domain\ResponseInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * General response purpose
  * @package App\Services\Client
  */
-class ClientResponse implements ResponseInterface
+class CrawlerClientResponse implements ResponseInterface
 {
     public bool $responseSuccess = true;
     public int $responseCode;
@@ -16,7 +17,7 @@ class ClientResponse implements ResponseInterface
     public string $endpoint = '';
     public array $request = [];
     public array $headers = [];
-    public array $data = [];
+    public Crawler $data;
     public string $body = '';
 
     /**
@@ -110,10 +111,10 @@ class ClientResponse implements ResponseInterface
     /**
      * Transform from other response
      *
-     * @param ClientResponse $response
+     * @param CrawlerClientResponse $response
      * @return $this
      */
-    public function from(ClientResponse $response): self
+    public function from(CrawlerClientResponse $response): self
     {
         foreach (get_object_vars($response) as $property => $value) {
             $this->{$property} = $value;
@@ -125,11 +126,11 @@ class ClientResponse implements ResponseInterface
     /**
      * Get the Data
      *
-     * @return array
+     * @return mixed
      */
-    public function getData(): array
+    public function getData(): mixed
     {
-        return $this->data;
+        return $this->data ?? null;
     }
 
     /**
@@ -140,5 +141,10 @@ class ClientResponse implements ResponseInterface
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function loadData()
+    {
+        $this->data = new Crawler($this->body);
     }
 }

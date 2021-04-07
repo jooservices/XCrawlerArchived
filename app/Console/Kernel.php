@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('jav:onejav')->everyThirtyMinutes();
         // $schedule->command('inspire')->hourly();
     }
 

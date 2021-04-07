@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App\Services\Client;
 
+use App\Services\Client\Domain\ResponseInterface;
 use Carbon\CarbonImmutable;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
@@ -11,17 +11,13 @@ use GuzzleHttp\MessageFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-/**
- * XClient will be used for general purpose
- * @package App\Services\Client
- */
-class XClient implements Domain\ClientInterface
+abstract class AbstractClient implements Domain\ClientInterface
 {
-    private Logger $logger;
-    private array $headers = [];
-    private string $contentType = 'json';
-    private ClientInterface $client;
-    private ClientResponse $response;
+    protected Logger $logger;
+    protected array $headers = [];
+    protected string $contentType = 'json';
+    protected ClientInterface $client;
+    protected ResponseInterface $response;
 
     public function init(
         string $name = null,
@@ -30,8 +26,7 @@ class XClient implements Domain\ClientInterface
         int $delayInSec = 1,
         int $minErrorCode = 500,
         string $loggingFormat = MessageFormatter::CLF
-    ): XClient
-    {
+    ): Domain\ClientInterface {
         $serviceName = $name ?? 'xclient';
         $this->logger = new Logger($serviceName);
         $logPath = storage_path('logs/' . strtolower($serviceName) . '/' . CarbonImmutable::now()->format('Y-m-d') . '.log');
@@ -52,9 +47,9 @@ class XClient implements Domain\ClientInterface
     /**
      * Get the Response
      *
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function getResponse(): ClientResponse
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
@@ -92,9 +87,9 @@ class XClient implements Domain\ClientInterface
      *
      * @param string $endpoint
      * @param array $payload
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function get(string $endpoint, array $payload = []): ClientResponse
+    public function get(string $endpoint, array $payload = []): ResponseInterface
     {
         return $this->request($endpoint, $payload, 'GET');
     }
@@ -104,9 +99,9 @@ class XClient implements Domain\ClientInterface
      *
      * @param string $endpoint
      * @param array $payload
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function post(string $endpoint, array $payload = []): ClientResponse
+    public function post(string $endpoint, array $payload = []): ResponseInterface
     {
         return $this->request($endpoint, $payload, 'POST');
     }
@@ -116,9 +111,9 @@ class XClient implements Domain\ClientInterface
      *
      * @param string $endpoint
      * @param array $payload
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function put(string $endpoint, array $payload = []): ClientResponse
+    public function put(string $endpoint, array $payload = []): ResponseInterface
     {
         return $this->request($endpoint, $payload, 'PUT');
     }
@@ -128,9 +123,9 @@ class XClient implements Domain\ClientInterface
      *
      * @param string $endpoint
      * @param array $payload
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function patch(string $endpoint, array $payload = []): ClientResponse
+    public function patch(string $endpoint, array $payload = []): ResponseInterface
     {
         return $this->request($endpoint, $payload, 'PATCH');
     }
@@ -140,9 +135,9 @@ class XClient implements Domain\ClientInterface
      *
      * @param string $endpoint
      * @param array $payload
-     * @return ClientResponse
+     * @return ResponseInterface
      */
-    public function delete(string $endpoint, array $payload = []): ClientResponse
+    public function delete(string $endpoint, array $payload = []): ResponseInterface
     {
         return $this->request($endpoint, $payload, 'DELETE');
     }
@@ -153,11 +148,10 @@ class XClient implements Domain\ClientInterface
      * @param string $endpoint
      * @param array $payload
      * @param string $method
-     * @return ClientResponse
+     * @return ResponseInterface
      */
     protected function request(string $endpoint, array $payload = [], string $method = 'GET')
     {
-        $this->response = new ClientResponse();
         $options = [
             'headers' => $this->headers,
         ];
@@ -181,19 +175,20 @@ class XClient implements Domain\ClientInterface
             }
         }
 
+        $this->response = app(ResponseInterface::class);
         $this->response->endpoint = $endpoint;
         $this->response->request = $payload;
 
         try {
             $data = $this->client->request($method, $endpoint, $options)->getBody();
-            $this->response->body = $data;
-            $this->response->data = json_decode((string)$data, true);
+            $this->response->body = (string) $data;
+            $this->response->loadData();
         } catch (GuzzleException | ClientException $e) {
             $this->logger->error($e->getMessage());
             $this->response->responseSuccess = false;
             $this->response->responseCode = $e->getCode();
             $this->response->responseMessage = $e->getMessage();
-            $this->response->data = json_decode($e->getResponse()->getBody(), true) ?? [];
+            $this->response->body = $e->getResponse()->getBody()->getContents();
         } finally {
             return $this->response;
         }
