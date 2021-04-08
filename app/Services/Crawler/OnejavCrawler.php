@@ -7,7 +7,7 @@ use App\Services\Client\XCrawlerClient;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
-class OneJavCrawler
+class OnejavCrawler
 {
     private XCrawlerClient $client;
 
@@ -17,9 +17,9 @@ class OneJavCrawler
         $this->client->init('onejav');
     }
 
-    public function getItems(string $url): ?Collection
+    public function getItems(string $url, array $payload = []): ?Collection
     {
-        $response = $this->client->get($url);
+        $response = $this->client->get($url, $payload);
 
         if (!$response->isSuccessful()) {
             return null;

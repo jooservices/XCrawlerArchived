@@ -2,35 +2,26 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Jobs\OnejavFetch;
+use App\Jobs\OnejavFetchJob;
+use App\Models\Onejav;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
-class OneJav extends Command
+class OnejavNew extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jav:onejav {--page=1}';
+    protected $signature = 'jav:onejav-new {--page=1}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Fetch Onejav - New';
 
     /**
      * Execute the console command.
@@ -43,7 +34,7 @@ class OneJav extends Command
             return $this->option('page');
         });
 
-        OnejavFetch::dispatch(\App\Models\Onejav::NEW_URL . '?page=' . $page);
+        OnejavFetchJob::dispatch(Onejav::NEW_URL, $page);
         Cache::increment('onejav-news-page');
     }
 }
