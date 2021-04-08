@@ -44,7 +44,7 @@ class OnejavNewTest extends TestCase
         unset($data['actresses']);
         unset($data['date']);
 
-        $this->assertDatabaseHas('onejavs', $data);
+        $this->assertDatabaseHas('onejav', $data);
         $this->assertEquals($items->count(), Onejav::all()->count());
 
         // No duplicate

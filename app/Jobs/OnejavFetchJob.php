@@ -24,16 +24,18 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
     public int $uniqueFor = 3600;
     public string $url;
     public int $page;
+    public string $source;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $url, int $page = 1)
+    public function __construct(string $url, int $page = 1, string $source = 'new')
     {
         $this->url = $url;
         $this->page = $page;
+        $this->source = $source;
     }
 
     /**
@@ -67,7 +69,7 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
         $rateLimitedMiddleware = (new RateLimited())
             ->allow(60) // Allow 60 jobs
             ->everyMinute(1) // In 60 seconds
-            ->releaseAfterMinutes(60); // Release back to pool after 60 hours
+            ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
 
         return [$rateLimitedMiddleware];
     }
@@ -83,7 +85,12 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
         $items = $crawler->getItems($this->url, ['page' => $this->page]);
 
         $items->each(function ($item) {
-            Onejav::updateOrCreate(['url' => $item->get('url')], $item->toArray());
+            Onejav::firstOrCreate(
+                [
+                'url' => $item->get('url'),
+            ],
+                $item->toArray() + ['source' => $this->source]
+            );
         });
     }
 }
