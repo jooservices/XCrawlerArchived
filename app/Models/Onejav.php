@@ -27,6 +27,7 @@ class Onejav extends AbstractJavMovie
         'description',
         'actresses',
         'torrent',
+        'source',
     ];
 
     protected $casts = [
@@ -51,6 +52,8 @@ class Onejav extends AbstractJavMovie
     protected $hidden = [
         'deleted_at',
     ];
+
+    protected $table = 'onejav';
 
     public function getDvdId(): string
     {

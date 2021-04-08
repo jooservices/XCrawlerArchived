@@ -30,7 +30,7 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        $page = round(Onejav::count() / 10, 0, PHP_ROUND_HALF_DOWN) + 1;
+        $page = round(Onejav::where(['source' => 'new'])->count() / 10, 0, PHP_ROUND_HALF_DOWN) + 1;
         OnejavFetchJob::dispatch(Onejav::NEW_URL, (int) $page);
     }
 }
