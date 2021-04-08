@@ -6,15 +6,14 @@ use App\Models\Onejav;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
-use App\Services\Crawler\OneJavCrawler;
+use App\Services\Crawler\OnejavCrawler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class OnejavCrawlerTest extends TestCase
 {
-    private OneJavCrawler $crawler;
+    private OnejavCrawler $crawler;
     private MockObject|XCrawlerClient $mocker;
-
 
     public function setUp(): void
     {
@@ -32,7 +31,7 @@ class OnejavCrawlerTest extends TestCase
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OneJavCrawler::class);
+        $this->crawler = app(OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
         $item = $items->first()->toArray();
@@ -64,7 +63,7 @@ class OnejavCrawlerTest extends TestCase
         $this->mocker->method('get')->willReturn($this->getErrorMockedResponse('fake'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OneJavCrawler::class);
+        $this->crawler = app(OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
         $this->assertNull($items);

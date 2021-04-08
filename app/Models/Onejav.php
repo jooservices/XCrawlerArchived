@@ -30,9 +30,15 @@ class Onejav extends AbstractJavMovie
     ];
 
     protected $casts = [
-        'tags' => 'array',
-        'actresses' => 'array',
+        'url' => 'string',
+        'cover' => 'string',
+        'dvd_id'=> 'string',
+        'size' => 'float',
         'date' => 'datetime:Y-m-d',
+        'tags' => 'array',
+        'description' => 'string',
+        'actresses' => 'array',
+        'torrent' => 'string',
         'updated_at' => 'datetime:Y-m-d H:m:s',
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];
@@ -43,8 +49,6 @@ class Onejav extends AbstractJavMovie
      * @var array
      */
     protected $hidden = [
-        'updated_at',
-        'created_at',
         'deleted_at',
     ];
 

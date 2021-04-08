@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Onejav;
-use App\Services\Crawler\OneJavCrawler;
+use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-class OnejavFetch implements ShouldQueue, ShouldBeUnique
+class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,16 +22,18 @@ class OnejavFetch implements ShouldQueue, ShouldBeUnique
      * @var int
      */
     public int $uniqueFor = 3600;
-    private string $url;
+    public string $url;
+    public int $page;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $url)
+    public function __construct(string $url, int $page = 1)
     {
         $this->url = $url;
+        $this->page = $page;
     }
 
     /**
@@ -77,8 +79,8 @@ class OnejavFetch implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $crawler = app(OneJavCrawler::class);
-        $items = $crawler->getItems($this->url);
+        $crawler = app(OnejavCrawler::class);
+        $items = $crawler->getItems($this->url, ['page' => $this->page]);
 
         $items->each(function ($item) {
             Onejav::updateOrCreate(['url' => $item->get('url')], $item->toArray());
