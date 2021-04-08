@@ -30,11 +30,7 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        $page = Cache::rememberForever('onejav-news-page', function () {
-            return $this->option('page');
-        });
-
-        OnejavFetchJob::dispatch(Onejav::NEW_URL, $page);
-        Cache::increment('onejav-news-page');
+        $page = round(Onejav::count() / 10, 0, PHP_ROUND_HALF_DOWN) + 1;
+        OnejavFetchJob::dispatch(Onejav::NEW_URL, (int) $page);
     }
 }

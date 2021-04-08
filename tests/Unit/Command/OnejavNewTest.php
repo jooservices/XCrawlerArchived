@@ -8,13 +8,14 @@ use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 class OnejavNewTest extends TestCase
 {
+    use RefreshDatabase;
     private MockObject|XCrawlerClient $mocker;
 
     public function setUp(): void
@@ -30,7 +31,6 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_new_command()
     {
-        //Queue::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
@@ -39,10 +39,6 @@ class OnejavNewTest extends TestCase
 
         $this->artisan('jav:onejav-new');
 
-//        Queue::assertPushed(function (OnejavFetchJob $job) {
-//            return $job->page === 1 && $job->url === Onejav::NEW_URL;
-//        });
-
         $data = json_decode($this->getFixture('onejav_item.json'), true);
         unset($data['tags']);
         unset($data['actresses']);
@@ -50,7 +46,6 @@ class OnejavNewTest extends TestCase
 
         $this->assertDatabaseHas('onejavs', $data);
         $this->assertEquals($items->count(), Onejav::all()->count());
-        $this->assertEquals(2, Cache::get('onejav-news-page'));
 
         // No duplicate
         $this->artisan('jav:onejav-new');
