@@ -6,6 +6,7 @@ use App\Jobs\OnejavFetchJob;
 use App\Models\Onejav;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class OnejavDaily extends Command
@@ -45,5 +46,17 @@ class OnejavDaily extends Command
                 $item->toArray() + ['source' => 'daily']
             );
         });
+
+        XCrawlerLog::create([
+            'url' => Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format('Y/m/d'),
+            'payload' => array_merge_recursive(
+                ['items' => $items->map(function ($item) {
+                    return $item->get('url');
+                })],
+                ['count' => $items->count()]
+            ),
+            'source' => 'onejav.daily',
+            'succeed' => !$items->isEmpty()
+        ]);
     }
 }
