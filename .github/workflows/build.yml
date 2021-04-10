@@ -41,5 +41,5 @@ jobs:
           composer test
 
       - name: deploy to develop server
-        if: github.event.pull_request.merged == true && success()
+        if: github.event_name == 'push' && success()
         run: ssh workstation '~/deployer.sh -s'
