@@ -4,6 +4,7 @@ namespace App\Services\Crawler;
 
 use App\Models\Onejav;
 use App\Services\Client\XCrawlerClient;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -31,6 +32,40 @@ class OnejavCrawler
         return $items;
     }
 
+    public function daily(): Collection
+    {
+        $items = collect();
+        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format('Y/m/d'));
+
+        return $items;
+    }
+
+    public function popular(): Collection
+    {
+        $items = collect();
+        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/popular');
+
+        return $items;
+    }
+
+    public function search(string $keyword, string $by = 'search')
+    {
+        $items = collect();
+        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/'. $by .'/' . urlencode($keyword));
+
+        return $items;
+    }
+
+    public function tag(string $tag): Collection
+    {
+        return $this->search($tag, strtolower(__FUNCTION__));
+    }
+
+    public function actress(string $name): Collection
+    {
+        return $this->search($name, strtolower(__FUNCTION__));
+    }
+
     public function getItemsRecursive(Collection &$items, string $url, array $payload = []): int
     {
         $response = $this->client->get($url, $payload);
@@ -44,7 +79,7 @@ class OnejavCrawler
             })));
 
             if (empty($payload) || $payload['page'] < $page) {
-                $page = $this->getPageCount($items, $url, ['page' => $page]);
+                $page = $this->getItemsRecursive($items, $url, ['page' => $page]);
             }
 
             return $page;
