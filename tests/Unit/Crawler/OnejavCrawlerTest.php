@@ -66,6 +66,6 @@ class OnejavCrawlerTest extends TestCase
         $this->crawler = app(OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
-        $this->assertNull($items);
+        $this->assertEmpty($items);
     }
 }

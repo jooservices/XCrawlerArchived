@@ -4,8 +4,8 @@ namespace App\Console\Commands\Jav;
 
 use App\Jobs\OnejavFetchJob;
 use App\Models\Onejav;
+use App\Models\XCrawlerLog;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 class OnejavNew extends Command
 {
@@ -30,7 +30,8 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        $page = round(Onejav::where(['source' => 'new'])->count() / 10, 0, PHP_ROUND_HALF_DOWN) + 1;
-        OnejavFetchJob::dispatch(Onejav::NEW_URL, (int) $page);
+        $log = XCrawlerLog::filterSource('onejav.new')->first();
+        $payload = optional($log)->payload;
+        OnejavFetchJob::dispatch(Onejav::NEW_URL, isset($payload['page']) ? $payload['page'] + 1 : 1);
     }
 }

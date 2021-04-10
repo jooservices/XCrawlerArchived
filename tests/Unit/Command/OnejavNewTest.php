@@ -35,7 +35,7 @@ class OnejavNewTest extends TestCase
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $crawler = app(OnejavCrawler::class);
-        $items = $crawler->getItems(Onejav::NEW_URL);
+        $items = $crawler->getItems(Onejav::NEW_URL, ['page' => 7]);
 
         $this->artisan('jav:onejav-new');
 
