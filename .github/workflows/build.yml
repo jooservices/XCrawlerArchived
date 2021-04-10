@@ -40,6 +40,6 @@ jobs:
           php artisan migrate
           composer test
 
-      - name: deploy
+      - name: deploy to develop server
         if: success()
-        run: ssh workstation 'top'
+        run: ssh workstation '~/deployer.sh -s'
