@@ -30,7 +30,7 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        $log = XCrawlerLog::filterSource('onejav.new')->first();
+        $log = XCrawlerLog::filterSource('onejav.new')->latest();
         $payload = optional($log)->payload;
         OnejavFetchJob::dispatch(Onejav::NEW_URL, isset($payload['page']) ? $payload['page'] + 1 : 1);
     }
