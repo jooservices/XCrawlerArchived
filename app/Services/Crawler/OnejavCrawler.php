@@ -17,23 +17,24 @@ class OnejavCrawler
         $this->client->init('onejav');
     }
 
-    public function getItems(string $url, array $payload = []): ?Collection
+    public function getItems(string $url, array $payload = []): Collection
     {
         $response = $this->client->get($url, $payload);
+        $items = collect();
 
-        if (!$response->isSuccessful()) {
-            return null;
+        if ($response->isSuccessful()) {
+            $items = collect($response->getData()->filter('.container .columns')->each(function ($el) {
+                return $this->parse($el);
+            }));
         }
 
-        return collect($response->getData()->filter('.container .columns')->each(function ($el) {
-            return $this->parse($el);
-        }));
+        return $items;
     }
 
     private function parse(Crawler $crawler): Item
     {
         $item = app(Item::class);
-        $item->url = Onejav::HOMEPAGE_URL.trim($crawler->filter('h5.title a')->attr('href'));
+        $item->url = Onejav::HOMEPAGE_URL . trim($crawler->filter('h5.title a')->attr('href'));
 
         if ($crawler->filter('.columns img.image')->count()) {
             $item->cover = trim($crawler->filter('.columns img.image')->attr('src'));
@@ -48,10 +49,10 @@ class OnejavCrawler
             $item->size = trim($crawler->filter('h5 span')->text(null, false));
 
             if (str_contains($item->size, 'MB')) {
-                $item->size = (float) trim(str_replace('MB', '', $item->size));
+                $item->size = (float)trim(str_replace('MB', '', $item->size));
                 $item->size = $item->size / 1024;
             } elseif (str_contains($item->size, 'GB')) {
-                $item->size = (float) trim(str_replace('GB', '', $item->size));
+                $item->size = (float)trim(str_replace('GB', '', $item->size));
             }
         }
 
@@ -76,7 +77,7 @@ class OnejavCrawler
             return null === $value || empty($value);
         })->unique()->toArray();
 
-        $item->torrent = Onejav::HOMEPAGE_URL.trim($crawler->filter('.control.is-expanded a')->attr('href'));
+        $item->torrent = Onejav::HOMEPAGE_URL . trim($crawler->filter('.control.is-expanded a')->attr('href'));
 
         return $item;
     }

@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Events\OnejavFetched;
 use App\Models\Onejav;
+use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -10,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
@@ -82,15 +85,29 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(OnejavCrawler::class);
-        $items = $crawler->getItems($this->url, ['page' => $this->page]);
+        $payload = ['page' => $this->page];
+        $items = $crawler->getItems($this->url, $payload);
 
         $items->each(function ($item) {
             Onejav::firstOrCreate(
                 [
-                'url' => $item->get('url'),
-            ],
+                    'url' => $item->get('url'),
+                ],
                 $item->toArray() + ['source' => $this->source]
             );
         });
+
+        XCrawlerLog::create([
+            'url' => $this->url,
+            'payload' => array_merge_recursive(
+                $payload,
+                ['items' => $items->map(function ($item) {
+                    return $item->get('url');
+                })],
+                ['count' => $items->count()]
+            ),
+            'source' => 'onejav.new',
+            'succeed' => !$items->isEmpty()
+        ]);
     }
 }
