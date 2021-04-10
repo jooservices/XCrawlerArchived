@@ -31,6 +31,28 @@ class OnejavCrawler
         return $items;
     }
 
+    public function getItemsRecursive(Collection &$items, string $url, array $payload = []): int
+    {
+        $response = $this->client->get($url, $payload);
+
+        if ($response->isSuccessful()) {
+            $pageNode = $response->getData()->filter('a.pagination-link')->last();
+            $page = (int)$pageNode->text();
+
+            $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
+                return $this->parse($el);
+            })));
+
+            if (empty($payload) || $payload['page'] < $page) {
+                $page = $this->getPageCount($items, $url, ['page' => $page]);
+            }
+
+            return $page;
+        }
+
+        return 1;
+    }
+
     private function parse(Crawler $crawler): Item
     {
         $item = app(Item::class);

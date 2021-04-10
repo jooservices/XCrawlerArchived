@@ -68,4 +68,30 @@ class OnejavCrawlerTest extends TestCase
         $items = $this->crawler->getItems(Onejav::NEW_URL);
         $this->assertEmpty($items);
     }
+
+    public function test_get_page_count()
+    {
+        $this->mocker
+            ->expects($this->exactly(4))
+            ->method('get')
+            ->withConsecutive(
+                ['onejav_page.html'],
+                ['onejav_page.html',['page' => 4]],
+                ['onejav_page.html', ['page' => 7]],
+                ['onejav_page.html', ['page' => 8]]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $this->getSuccessfulMockedResponse('onejav_page.html'),
+                $this->getSuccessfulMockedResponse('onejav_page_4.html'),
+                $this->getSuccessfulMockedResponse('onejav_page_7.html'),
+                $this->getSuccessfulMockedResponse('onejav_page_8.html')
+            );
+
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->crawler = app(OnejavCrawler::class);
+
+        $items = collect();
+        $this->assertEquals(8, $this->crawler->getItemsRecursive($items, 'onejav_page.html', []));
+        $this->assertEquals(33, $items->count());
+    }
 }
