@@ -39,3 +39,7 @@ jobs:
           mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           php artisan migrate
           composer test
+
+      - name: deploy
+        if: success()
+        run: ssh workstation 'top'
