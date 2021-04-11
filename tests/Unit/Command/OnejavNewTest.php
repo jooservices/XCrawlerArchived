@@ -3,6 +3,7 @@
 namespace Tests\Unit\Command;
 
 use App\Jobs\OnejavFetchJob;
+use App\Models\Movie;
 use App\Models\Onejav;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
@@ -45,11 +46,17 @@ class OnejavNewTest extends TestCase
         unset($data['date']);
 
         $this->assertDatabaseHas('onejav', $data);
-        $this->assertEquals($items->count(), Onejav::all()->count());
+        $this->assertEquals($items->count(), Onejav::count());
+        $this->assertDatabaseHas('movies', [
+            'dvd_id' => $data['dvd_id']
+        ]);
+        $this->assertEquals($items->count(), Movie::count());
 
         // No duplicate
         $this->artisan('jav:onejav-new');
         $this->assertEquals($items->count(), Onejav::all()->count());
+
+
     }
 
     public function test_onejav_new_command_job()
