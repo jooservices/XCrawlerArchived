@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\CreateMovieJob;
 use Illuminate\Database\Eloquent\Model;
 
 class JavMovieObserver
@@ -13,5 +14,6 @@ class JavMovieObserver
      */
     public function created(Model $model)
     {
+        CreateMovieJob::dispatch($model);
     }
 }
