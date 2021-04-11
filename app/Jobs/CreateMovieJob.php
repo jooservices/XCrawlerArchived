@@ -3,7 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\AbstractJavMovie;
+
+use App\Models\Idol;
 use App\Models\Movie;
+
+use App\Models\MovieAttribute;
+use App\Models\Tag;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -56,9 +61,37 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
         /**
          * @var Movie $movie
          */
-        Movie::firstOrCreate(
+        $movie = Movie::firstOrCreate(
             ['dvd_id' => $attributes['dvd_id']],
             $attributes
         );
+
+        if (!$movie) {
+            return;
+        }
+
+        foreach ($this->model->getTags() as $tag) {
+            if (!$tag = Tag::firstOrCreate(['name' => $tag])) {
+                continue;
+            }
+
+            MovieAttribute::firstOrCreate([
+                'movie_id' => $movie->id,
+                'model_type' => Tag::class,
+                'model_id' => $tag->id,
+            ]);
+        }
+
+        foreach ($this->model->getActresses() as $actress) {
+            if (!$idol = Idol::firstOrCreate(['name' => $actress])) {
+                continue;
+            }
+
+            MovieAttribute::firstOrCreate([
+                'movie_id' => $movie->id,
+                'model_type' => Idol::class,
+                'model_id' => $idol->id,
+            ]);
+        }
     }
 }
