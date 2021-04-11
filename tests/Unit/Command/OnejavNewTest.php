@@ -3,13 +3,16 @@
 namespace Tests\Unit\Command;
 
 use App\Jobs\OnejavFetchJob;
+use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\Onejav;
+use App\Models\Tag;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -17,6 +20,7 @@ use Tests\TestCase;
 class OnejavNewTest extends TestCase
 {
     use RefreshDatabase;
+
     private MockObject|XCrawlerClient $mocker;
 
     public function setUp(): void
@@ -41,6 +45,9 @@ class OnejavNewTest extends TestCase
         $this->artisan('jav:onejav-new');
 
         $data = json_decode($this->getFixture('onejav_item.json'), true);
+        $tags = $data['tags'];
+        $actresses = $data['actresses'];
+
         unset($data['tags']);
         unset($data['actresses']);
         unset($data['date']);
@@ -52,11 +59,41 @@ class OnejavNewTest extends TestCase
         ]);
         $this->assertEquals($items->count(), Movie::count());
 
+        foreach ($tags as $tag) {
+            $this->assertDatabaseHas('tags', ['name' => $tag]);
+        }
+
+        foreach ($actresses as $actress) {
+            $this->assertDatabaseHas('idols', ['name' => $actress]);
+        }
+
+        // Movie id
+        $movieId = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->value('id');
+        $this->assertNotNull($movieId);
+        // Get tag ids
+        $ids = DB::table('tags')->whereIn('name', $tags)->pluck('id');
+        $this->assertEquals(count($tags), count($ids));
+        foreach ($ids as $id) {
+            $this->assertDatabaseHas('movie_attributes', [
+                'movie_id' => $movieId,
+                'model_id' => $id,
+                'model_type' => Tag::class
+            ]);
+        }
+        // Get idol ids
+        $ids = DB::table('idols')->whereIn('name', $actresses)->pluck('id');
+        foreach ($ids as $id) {
+            $this->assertDatabaseHas('movie_attributes', [
+                'movie_id' => $movieId,
+                'model_id' => $id,
+                'model_type' => Idol::class
+            ]);
+        }
+        $this->assertEquals(count($actresses), count($ids));
+
         // No duplicate
         $this->artisan('jav:onejav-new');
         $this->assertEquals($items->count(), Onejav::all()->count());
-
-
     }
 
     public function test_onejav_new_command_job()
