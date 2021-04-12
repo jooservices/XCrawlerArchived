@@ -2,10 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Events\OnejavFetched;
-use App\Models\Onejav;
-use App\Models\XCrawlerLog;
-use App\Services\Crawler\OnejavCrawler;
+use App\Models\R18;
+use App\Services\Crawler\R18Crawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
+class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -25,19 +23,15 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
      */
     public int $uniqueFor = 3600;
     public string $url;
-    public int $page;
-    public string $source;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $url, int $page = 1, string $source = 'new')
+    public function __construct(string $url)
     {
         $this->url = $url;
-        $this->page = $page;
-        $this->source = $source;
     }
 
     /**
@@ -69,7 +63,7 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
     public function middleware()
     {
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow(60) // Allow 60 jobs
+            ->allow(6) // Allow 6 jobs
             ->everyMinute() // In 60 seconds
             ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
 
@@ -83,30 +77,13 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $crawler = app(OnejavCrawler::class);
-        $payload = ['page' => $this->page];
-        $items = $crawler->getItems($this->url, $payload);
+        $crawler = app(R18Crawler::class);
+        $item = $crawler->getItem($this->url);
 
-        $items->each(function ($item) {
-            Onejav::firstOrCreate(
-                [
-                    'url' => $item->get('url'),
-                ],
-                $item->toArray() + ['source' => $this->source]
-            );
-        });
+        if (!$item) {
+            throw new \Exception('Can not get R18 item' . $this->url);
+        }
 
-        XCrawlerLog::create([
-            'url' => $this->url,
-            'payload' => array_merge_recursive(
-                $payload,
-                ['items' => $items->map(function ($item) {
-                    return $item->get('url');
-                })],
-                ['count' => $items->count()]
-            ),
-            'source' => 'onejav.new',
-            'succeed' => !$items->isEmpty()
-        ]);
+        R18::firstOrCreate(['url' => $item->get('url'),], $item->toArray());
     }
 }
