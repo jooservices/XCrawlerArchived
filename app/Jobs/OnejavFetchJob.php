@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Events\OnejavFetched;
 use App\Models\Onejav;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
@@ -12,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Event;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 class OnejavFetchJob implements ShouldQueue, ShouldBeUnique

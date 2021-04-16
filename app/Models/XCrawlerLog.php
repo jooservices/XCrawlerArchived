@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
+ * @property boolean $succeed
  * @method static Builder forSource(string $source)
  * @package App\Models
  */
 class XCrawlerLog extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'url',
