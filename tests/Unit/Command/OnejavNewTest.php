@@ -3,16 +3,14 @@
 namespace Tests\Unit\Command;
 
 use App\Jobs\OnejavFetchJob;
-use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\Onejav;
-use App\Models\Tag;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -36,62 +34,49 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_new_command()
     {
+        Notification::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $crawler = app(OnejavCrawler::class);
-        $items = $crawler->getItems(Onejav::NEW_URL, ['page' => 7]);
+        $items = $crawler->getItems(Onejav::NEW_URL);
+        $firstItem = $items->first();
 
         $this->artisan('jav:onejav-new');
 
-        $data = json_decode($this->getFixture('onejav_item.json'), true);
-        $tags = $data['tags'];
-        $actresses = $data['actresses'];
+        $sampleItem = json_decode($this->getFixture('onejav_item.json'), true);
+        $tags = $sampleItem['tags'];
 
-        unset($data['tags']);
-        unset($data['actresses']);
-        unset($data['date']);
+        $actresses = $sampleItem['actresses'];
+        unset($sampleItem['tags']);
+        unset($sampleItem['actresses']);
+        unset($sampleItem['date']);
 
-        $this->assertDatabaseHas('onejav', $data);
+        // Make sure we have created onejav record for this movie
+        $this->assertDatabaseHas('onejav', $sampleItem);
+        // Make sure we have created enough records
         $this->assertEquals($items->count(), Onejav::count());
-        $this->assertDatabaseHas('movies', [
-            'dvd_id' => $data['dvd_id']
-        ]);
+
+        // Make sure we have created movie record for this movie
+        $this->assertDatabaseHas('movies', ['dvd_id' => $sampleItem['dvd_id']]);
+        // Make sure we have created enough records
         $this->assertEquals($items->count(), Movie::count());
 
-        foreach ($tags as $tag) {
-            $this->assertDatabaseHas('tags', ['name' => $tag]);
-        }
-
-        foreach ($actresses as $actress) {
-            $this->assertDatabaseHas('idols', ['name' => $actress]);
-        }
-
         // Movie id
-        $movieId = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->value('id');
-        $this->assertNotNull($movieId);
-        // Get tag ids
-        $ids = DB::table('tags')->whereIn('name', $tags)->pluck('id');
-        $this->assertEquals(count($tags), count($ids));
-        foreach ($ids as $id) {
-            $this->assertDatabaseHas('movie_attributes', [
-                'movie_id' => $movieId,
-                'model_id' => $id,
-                'model_type' => Tag::class
-            ]);
-        }
-        // Get idol ids
-        $ids = DB::table('idols')->whereIn('name', $actresses)->pluck('id');
-        foreach ($ids as $id) {
-            $this->assertDatabaseHas('movie_attributes', [
-                'movie_id' => $movieId,
-                'model_id' => $id,
-                'model_type' => Idol::class
-            ]);
-        }
-        $this->assertEquals(count($actresses), count($ids));
+        $movie = Movie::where(['dvd_id' => $firstItem->get('dvd_id')])->first();
+        $this->assertNotNull($movie->id);
 
-        // No duplicate
+        $this->assertEquals($tags, $movie->tags->pluck('name')->toArray());
+        $this->assertEquals($actresses, $movie->idols->pluck('name')->toArray());
+
+        // Make sure we have notifications
+//        Notification::assertSentTo(
+//            [$movie],
+//            FavoritedMovie::class
+//        );
+
+        // Try to run again it'll not duplicate data
+        $this->artisan('jav:onejav-new');
         $this->artisan('jav:onejav-new');
         $this->assertEquals($items->count(), Onejav::all()->count());
     }

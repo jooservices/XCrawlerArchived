@@ -2,12 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Events\MovieCreated;
 use App\Models\AbstractJavMovie;
-
 use App\Models\Idol;
 use App\Models\Movie;
-
-use App\Models\MovieAttribute;
 use App\Models\Tag;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -15,7 +13,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 
+/**
+ * Create movie from 3rd
+ * @package App\Jobs
+ */
 class CreateMovieJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
@@ -57,6 +60,7 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
 
         $attributes['is_downloadable'] = $this->model->isDownloadable();
         $attributes['dvd_id'] = $this->model->getDvdId();
+        $attributes['name'] = $this->model->getName();
 
         /**
          * @var Movie $movie
@@ -75,11 +79,7 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
                 continue;
             }
 
-            MovieAttribute::firstOrCreate([
-                'movie_id' => $movie->id,
-                'model_type' => Tag::class,
-                'model_id' => $tag->id,
-            ]);
+            $movie->tags()->syncWithoutDetaching([$tag->id]);
         }
 
         foreach ($this->model->getActresses() as $actress) {
@@ -87,11 +87,9 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
                 continue;
             }
 
-            MovieAttribute::firstOrCreate([
-                'movie_id' => $movie->id,
-                'model_type' => Idol::class,
-                'model_id' => $idol->id,
-            ]);
+            $movie->idols()->syncWithoutDetaching([$idol->id]);
         }
+
+        Event::dispatch(new MovieCreated($this->model, $movie));
     }
 }

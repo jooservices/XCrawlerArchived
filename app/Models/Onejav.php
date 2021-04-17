@@ -55,7 +55,7 @@ class Onejav extends AbstractJavMovie
 
     protected $table = 'onejav';
 
-    public function getDvdId(): string
+    public function getDvdId(): ?string
     {
         return $this->dvd_id;
     }

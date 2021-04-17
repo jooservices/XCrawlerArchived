@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
-use App\Models\User;
+use App\Listeners\MovieEventSubscriber;
+use App\Models\MovieAttribute;
 use App\Models\XCrawlerLog;
+use App\Observers\JavMovieAttributeObserver;
+use App\Observers\JavMovieObserver;
 use App\Observers\UserObserver;
 use App\Observers\XCrawlerLogObserver;
 use Illuminate\Auth\Events\Registered;
@@ -27,6 +30,15 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        MovieEventSubscriber::class,
+    ];
+
+    /**
      * Register any events for your application.
      *
      * @return void
@@ -35,7 +47,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::listen(RecordedEvent::class, RecordedEventSubscriber::class);
 
-        User::observe(UserObserver::class);
+        //User::observe(UserObserver::class);
         XCrawlerLog::observe(XCrawlerLogObserver::class);
     }
 }
