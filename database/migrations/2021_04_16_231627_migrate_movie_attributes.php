@@ -19,7 +19,7 @@ class MigrateMovieAttributes extends Migration
         foreach (DB::table('movie_attributes')->cursor() as $tagAttribute) {
             switch ($tagAttribute->model_type) {
                 case Tag::class:
-                    DB::table('movie_tag')->insert([
+                    DB::table('tag_movie')->insert([
                         'tag_id' => $tagAttribute->model_id,
                         'movie_id' => $tagAttribute->movie_id,
                         'created_at' => $now,
@@ -27,7 +27,7 @@ class MigrateMovieAttributes extends Migration
                     ]);
                     break;
                 case Idol::class:
-                    DB::table('movie_idol')->insert([
+                    DB::table('idol_movie')->insert([
                         'idol_id' => $tagAttribute->model_id,
                         'movie_id' => $tagAttribute->movie_id,
                         'created_at' => $now,
