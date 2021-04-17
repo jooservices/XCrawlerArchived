@@ -64,8 +64,8 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
     {
         $rateLimitedMiddleware = (new RateLimited())
             ->allow(6) // Allow 6 jobs
-            ->everyMinute() // In 60 seconds
-            ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
+            ->everySecond()
+            ->releaseAfterSeconds(5); // Release back to pool after 5 seconds
 
         return [$rateLimitedMiddleware];
     }
@@ -74,6 +74,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      * Execute the job.
      *
      * @return void
+     * @throws \Exception
      */
     public function handle()
     {

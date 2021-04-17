@@ -29,7 +29,7 @@ class R18Crawler
         $item->url = $url;
 
         $item->cover = trim($response->getData()->filter('.detail-single-picture img')->attr('src'));
-        $item->name = trim($response->getData()->filter('.product-details-page h1')->text(null, false));
+        $item->title = trim($response->getData()->filter('.product-details-page h1')->text(null, false));
         $item->tags = collect($response->getData()->filter('.product-categories-list a')->each(
             function ($el) {
                 return trim($el->text(null, false));

@@ -39,7 +39,7 @@ class R18Released extends Command
         $links = $crawler->getItemLinks($url);
 
         $links->each(function ($link) {
-            R18FetchItemJob::dispatch($link, 'r18.released')->delay(now()->addMinutes());
+            R18FetchItemJob::dispatch($link, 'r18.released');
         });
 
         XCrawlerLog::create([

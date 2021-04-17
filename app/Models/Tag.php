@@ -14,4 +14,9 @@ class Tag extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function favorite()
+    {
+        return $this->morphOne(Favorite::class, 'model');
+    }
 }

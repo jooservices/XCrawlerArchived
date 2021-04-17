@@ -57,18 +57,28 @@ class R18 extends AbstractJavMovie
         'deleted_at',
     ];
 
-    public function getDvdId(): string
+    public function isDownloadable(): bool
+    {
+        return false;
+    }
+
+    public function getDvdId(): ?string
     {
         return $this->dvd_id;
     }
 
     public function getTags(): array
     {
-        return $this->tags;
+        return $this->tags ?? [];
     }
 
     public function getActresses(): array
     {
-        return $this->actresses;
+        return $this->actresses ?? [];
+    }
+
+    public function getName(): ?string
+    {
+        return $this->title;
     }
 }
