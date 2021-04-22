@@ -67,12 +67,12 @@ class Movie extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'tag_movie');
+        return $this->belongsToMany(Tag::class, 'tag_movie')->withTimestamps();
     }
 
     public function idols()
     {
-        return $this->belongsToMany(Idol::class, 'idol_movie');
+        return $this->belongsToMany(Idol::class, 'idol_movie')->withTimestamps();
     }
 
     /**
