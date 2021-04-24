@@ -39,7 +39,7 @@ jobs:
           php artisan migrate
           composer test
   deploy:
-    runs-on: [ X64 ]
+    runs-on: [ worker-1 ]
 
     steps:
       - name: Deploy
