@@ -31,6 +31,7 @@ return [
     ],
 
     'slack' => [
-        'notifications' => env('SLACK_NOTIFICATIONS')
+        'notifications' => env('SLACK_NOTIFICATIONS'),
+        'exceptions' => env('LOG_SLACK_WEBHOOK_URL'),
     ]
 ];
