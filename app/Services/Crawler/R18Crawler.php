@@ -4,7 +4,6 @@ namespace App\Services\Crawler;
 
 use App\Services\Client\XCrawlerClient;
 use Exception;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class R18Crawler
@@ -57,8 +56,8 @@ class R18Crawler
                             $date = trim($value, '/');
                             $dateTime = null;
 
-                            if (!$dateTime = Carbon::createFromFormat('M. d, Y', $date)) {
-                                if (!$dateTime = Carbon::createFromFormat('M d, Y', $date)) {
+                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date)) {
+                                if (!$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
                                     $dateTime = null;
                                 }
                             }

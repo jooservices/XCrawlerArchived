@@ -49,6 +49,16 @@ class R18CrawlerTest extends TestCase
         }
     }
 
+    public function test_get_item_with_different_release_date_format()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_item_2.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->crawler = app(R18Crawler::class);
+        $item = $this->crawler->getItem($this->faker->url);
+
+        $this->assertInstanceOf(Item::class, $item);
+    }
+
     public function test_get_item_links()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
