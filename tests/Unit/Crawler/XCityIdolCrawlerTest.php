@@ -26,6 +26,14 @@ class XCityIdolCrawlerTest extends TestCase
         $this->fixtures = __DIR__ . '/../../Fixtures/XCity';
     }
 
+    public function test_get_sub_pages()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->crawler = app(XCityIdolCrawler::class);
+        $this->assertEquals(9, $this->crawler->getSubPages()->count());
+    }
+
     public function test_get_item()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('idol.html'));
