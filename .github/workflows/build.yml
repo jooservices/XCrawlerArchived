@@ -8,8 +8,8 @@ on:
 
 jobs:
   build:
+    # Test on Tester-01
     runs-on: [ tester-1 ]
-
     steps:
       - uses: actions/checkout@v2
 
@@ -38,9 +38,10 @@ jobs:
           mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           php artisan migrate
           composer test
+
+  # Deploy on Worker-01
   deploy:
     runs-on: [ worker-1 ]
-
     steps:
       - name: Deploy
         if: github.event_name == 'push' && success()

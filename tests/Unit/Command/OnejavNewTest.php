@@ -54,6 +54,7 @@ class OnejavNewTest extends TestCase
 
         // Make sure we have created onejav record for this movie
         $this->assertDatabaseHas('onejav', $sampleItem);
+
         // Make sure we have created enough records
         $this->assertEquals($items->count(), Onejav::count());
 

@@ -2,6 +2,7 @@
 
 namespace App\Services\Crawler;
 
+use App\Models\XCityIdol;
 use App\Services\Client\XCrawlerClient;
 use DateTime;
 use Illuminate\Support\Collection;
@@ -32,6 +33,21 @@ class XCityIdolCrawler
         'Dec' => '12',
     ];
 
+    public function getSubPages(): Collection
+    {
+        $response = $this->client->get(XCityIdol::HOMEPAGE_URL);
+
+        if (!$response->isSuccessful()) {
+            return collect();
+        }
+
+        $links = $response->getData()->filter('ul.itemStatus li a')->each(function (Crawler $node) {
+            return $node->attr('href');
+        });
+
+        return collect($links);
+    }
+
     public function getItem(string $url, array $payload = []): ?Item
     {
         $response = $this->client->get($url, $payload);
@@ -45,10 +61,7 @@ class XCityIdolCrawler
         $item->name = $response->getData()->filter('.itemBox h1')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn img')->attr('src');
         $fields = collect($response->getData()->filter('#avidolDetails dl.profile dd')->each(
-            function ($node) {
-                /**
-                 * @var Crawler $node
-                 */
+            function (Crawler $node) {
                 $text = $node->text(null, false);
                 if (str_contains($text, '★Favorite')) {
                     return ['favorite' => (int)str_replace('★Favorite', '', $text)];
