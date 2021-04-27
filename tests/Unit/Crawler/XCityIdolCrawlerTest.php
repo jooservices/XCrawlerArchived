@@ -6,13 +6,13 @@ use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\Item;
-use App\Services\Crawler\R18Crawler;
+use App\Services\Crawler\XCityIdolCrawler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
-class R18CrawlerTest extends TestCase
+class XCityIdolCrawlerTest extends TestCase
 {
-    private R18Crawler $crawler;
+    private XCityIdolCrawler $crawler;
     private MockObject|XCrawlerClient $mocker;
 
     public function setUp(): void
@@ -23,23 +23,23 @@ class R18CrawlerTest extends TestCase
         $this->mocker->method('init')->willReturnSelf();
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
-        $this->fixtures = __DIR__ . '/../../Fixtures/R18';
+        $this->fixtures = __DIR__ . '/../../Fixtures/XCity';
     }
 
     public function test_get_item()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_item.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('idol.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(R18Crawler::class);
+        $this->crawler = app(XCityIdolCrawler::class);
         $item = $this->crawler->getItem($this->faker->url);
 
         $this->assertInstanceOf(Item::class, $item);
-        $expectedItem = json_decode($this->getFixture('r18_item.json'));
+        $expectedItem = json_decode($this->getFixture('idol.json'));
 
         foreach ($expectedItem as $key => $value) {
             switch ($key) {
-                case'release_date':
-                    $this->assertEquals('2021-04-09', $item->get('release_date')->format('Y-m-d'));
+                case'birthday':
+                    $this->assertEquals('1988-05-24', $item->get('birthday')->format('Y-m-d'));
                     break;
                 case 'url':
                     break;
@@ -49,21 +49,11 @@ class R18CrawlerTest extends TestCase
         }
     }
 
-    public function test_get_item_with_different_release_date_format()
-    {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_item_2.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(R18Crawler::class);
-        $item = $this->crawler->getItem($this->faker->url);
-
-        $this->assertInstanceOf(Item::class, $item);
-    }
-
     public function test_get_item_links()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(R18Crawler::class);
+        $this->crawler = app(XCityIdolCrawler::class);
         $links = $this->crawler->getItemLinks($this->faker->url);
 
         $this->assertEquals(30, $links->count());
@@ -71,11 +61,11 @@ class R18CrawlerTest extends TestCase
 
     public function test_get_pages_count()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(R18Crawler::class);
+        $this->crawler = app(XCityIdolCrawler::class);
         $pagesCount = $this->crawler->getPages($this->faker->url);
 
-        $this->assertEquals(1667, $pagesCount);
+        $this->assertEquals(110, $pagesCount);
     }
 }
