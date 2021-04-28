@@ -26,6 +26,13 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
     use Queueable;
     use SerializesModels;
 
+    /**
+     * The number of seconds after which the job's unique lock will be released.
+     *
+     * @var int
+     */
+    public $uniqueFor = 1800;
+
     private AbstractJavMovie $model;
 
     public function __construct(AbstractJavMovie $model)

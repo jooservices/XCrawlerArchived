@@ -20,9 +20,6 @@ class MovieEventSubscriber
 
     public function subscribe($events)
     {
-        $events->listen(
-            [MovieCreated::class],
-            self::class .'@movieCreated'
-        );
+        $events->listen([MovieCreated::class], self::class .'@movieCreated');
     }
 }

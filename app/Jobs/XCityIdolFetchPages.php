@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\XCityIdol;
 use App\Models\XCityIdolPage;
 use App\Services\Crawler\XCityIdolCrawler;
 use Illuminate\Bus\Queueable;
@@ -77,13 +78,10 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = 'https://xxx.xcity.jp' . $this->url . '&num=30';
+        $url = 'https://xxx.xcity.jp' . $this->url . '&num=' . XCityIdol::PER_PAGE;
 
         if ($pages = $crawler->getPages($url)) {
-            XCityIdolPage::firstOrCreate([
-                'url' => $this->url,
-                'pages' => $pages
-            ]);
+            XCityIdolPage::firstOrCreate(['url' => $this->url, 'pages' => $pages]);
         }
     }
 }

@@ -14,7 +14,7 @@ class OnejavNew extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:onejav-new {--page=1}';
+    protected $signature = 'jav:onejav-new';
 
     /**
      * The console command description.

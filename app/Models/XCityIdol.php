@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class XCityIdol extends Model
 {
     use HasFactory;
-
-    public const HOMEPAGE_URL = 'https://xxx.xcity.jp/idol/';
+    use SoftDeletes;
+    public const ENDPOINT_URL = 'https://xxx.xcity.jp';
+    public const HOMEPAGE_URL = self::ENDPOINT_URL .'/idol/';
+    public const PER_PAGE = 30;
 
     public const STATE_INIT = 'XCIN';
     public const STATE_PROCESSING = 'XCIP';

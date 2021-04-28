@@ -21,7 +21,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      *
      * @var int
      */
-    public int $uniqueFor = 3600;
+    public int $uniqueFor = 1800;
     public string $url;
 
     /**
