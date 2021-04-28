@@ -58,6 +58,9 @@ class XCityIdolCrawler
 
         $item = app(Item::class);
         $item->url = $url;
+        if ($response->getData()->filter('.itemBox h1')->count() === 0) {
+            return null;
+        }
         $item->name = $response->getData()->filter('.itemBox h1')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn img')->attr('src');
         $fields = collect($response->getData()->filter('#avidolDetails dl.profile dd')->each(
