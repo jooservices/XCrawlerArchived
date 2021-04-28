@@ -14,7 +14,7 @@ class R18Released extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:r18-released {--page=1}';
+    protected $signature = 'jav:r18-released';
 
     /**
      * The console command description.

@@ -16,6 +16,7 @@ class Onejav extends AbstractJavMovie
 
     const HOMEPAGE_URL = 'https://onejav.com';
     const NEW_URL = self::HOMEPAGE_URL.'/new';
+    const DAILY_FORMAT = 'Y/m/d';
 
     protected $fillable = [
         'url',

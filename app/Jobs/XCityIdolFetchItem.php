@@ -78,6 +78,10 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
         // Get detail
         if ($item = $crawler->getItem($url)) {
             $data = $item->toArray();
+            /**
+             * By default url provided without host
+             * We do not update again from item detail because its contained full url
+             */
             unset($data['url']);
             $this->idol->update(array_merge($data, ['state_code' => XCityIdol::STATE_COMPLETED]));
         }

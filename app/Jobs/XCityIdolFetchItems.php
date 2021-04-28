@@ -65,7 +65,7 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
     public function middleware()
     {
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow(3) // Allow36 jobs
+            ->allow(3) // Allow 3 jobs
             ->everySecond()
             ->releaseAfterSeconds(30); // Release back to pool after 30 seconds
 
@@ -75,16 +75,19 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = 'https://xxx.xcity.jp' . $this->page->url . '&num=30&page=' . $this->page->current + 1;
+        $url = XCityIdol::ENDPOINT_URL . $this->page->url . '&num=' . XCityIdol::PER_PAGE . '&page=' . $this->page->current + 1;
 
         // Get detail
         $crawler->getItemLinks($url)->each(function ($link) {
-            XCityIdol::firstOrCreate([
-                'url' => $link
-            ], [
-                'state_code' => XCityIdol::STATE_INIT
-            ]);
+            XCityIdol::firstOrCreate(['url' => $link], ['state_code' => XCityIdol::STATE_INIT]);
         });
+
+        $currentPage = $this->page->current + 1;
+        if ($currentPage > $this->page->pages) {
+            $this->page->update(['current' => 0]);
+
+            return;
+        }
 
         $this->page->increment('current');
     }

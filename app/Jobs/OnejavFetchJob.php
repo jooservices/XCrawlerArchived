@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\Onejav;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
+use App\Services\OnejavService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -83,16 +83,12 @@ class OnejavFetchJob implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(OnejavCrawler::class);
+        $service = app(OnejavService::class);
         $payload = ['page' => $this->page];
         $items = $crawler->getItems($this->url, $payload);
 
-        $items->each(function ($item) {
-            Onejav::firstOrCreate(
-                [
-                    'url' => $item->get('url'),
-                ],
-                $item->toArray() + ['source' => $this->source]
-            );
+        $items->each(function ($item) use ($service) {
+            $service->create($item->get('url'), $item->toArray(), $this->source);
         });
 
         XCrawlerLog::create([
