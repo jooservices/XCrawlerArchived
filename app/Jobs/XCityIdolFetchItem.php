@@ -77,7 +77,9 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
 
         // Get detail
         if ($item = $crawler->getItem($url)) {
-            $this->idol->update(array_merge($item->toArray(), ['state_code' => XCityIdol::STATE_COMPLETED]));
+            $data = $item->toArray();
+            unset($data['url']);
+            $this->idol->update(array_merge($data, ['state_code' => XCityIdol::STATE_COMPLETED]));
         }
     }
 }
