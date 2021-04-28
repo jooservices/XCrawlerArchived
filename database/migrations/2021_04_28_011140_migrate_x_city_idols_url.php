@@ -13,7 +13,11 @@ class MigrateXCityIdolsUrl extends Migration
     public function up()
     {
         foreach (XCityIdol::cursor() as $idol) {
-            $idol->url = str_replace('https://xxx.xcity.jp/idol/', '', $idol->url);
+            $url = str_replace('https://xxx.xcity.jp/idol/', '', $idol->url);
+            if (XCityIdol::where(['url' => $url])->where('id', '<>', $idol->id)->exists()) {
+                $idol->delete();
+            }
+            $idol->url = $url;
             $idol->update();
         }
     }
