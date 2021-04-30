@@ -93,7 +93,7 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
              * XCity have primary data for idol.
              * We are using updateOrCreate cos this reason
              */
-            $idol = Idol::updateOrCreate(['name' => $data['name']], $data);
+            Idol::updateOrCreate(['name' => $data['name']], $data);
             $this->url->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
 
             return;
