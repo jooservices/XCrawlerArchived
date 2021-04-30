@@ -24,4 +24,18 @@ class Idol extends Model
         'cover',
         'favorite',
     ];
+
+    protected $casts = [
+        'name' => 'string',
+        'alias' => 'array',
+        'birthday' => 'datetime:Y-m-d',
+        'blood_type' => 'string',
+        'city' => 'string',
+        'height' => 'integer',
+        'breast' => 'integer',
+        'waist' => 'integer',
+        'hips' => 'integer',
+        'cover' => 'string',
+        'favorite' => 'integer',
+    ];
 }
