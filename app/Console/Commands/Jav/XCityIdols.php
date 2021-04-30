@@ -29,8 +29,8 @@ class XCityIdols extends Command
      */
     public function handle()
     {
-        foreach (XCityIdolPage::cursor() as $xcityIdolPage) {
-            XCityIdolFetchItems::dispatch($xcityIdolPage);
+        foreach (XCityIdolPage::cursor() as $idolPage) {
+            XCityIdolFetchItems::dispatch($idolPage);
         }
     }
 }

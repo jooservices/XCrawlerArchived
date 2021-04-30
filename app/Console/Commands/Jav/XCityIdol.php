@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Jav;
 
 use App\Jobs\XCityIdolFetchItem;
-use App\Models\XCityIdol as XCityIdolModel;
+use App\Services\TemporaryUrlService;
 use Illuminate\Console\Command;
 
 class XCityIdol extends Command
@@ -29,8 +29,9 @@ class XCityIdol extends Command
      */
     public function handle()
     {
-        foreach (XCityIdolModel::forState(XCityIdolModel::STATE_INIT)->cursor() as $idol) {
-            XCityIdolFetchItem::dispatch($idol);
+        $links = app(TemporaryUrlService::class)->getItems('xcity.idol');
+        foreach ($links as $link) {
+            XCityIdolFetchItem::dispatch($link);
         }
     }
 }

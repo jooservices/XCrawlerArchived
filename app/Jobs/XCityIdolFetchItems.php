@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\XCityIdol;
 use App\Models\XCityIdolPage;
 use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\TemporaryUrlService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -75,11 +76,13 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = XCityIdol::ENDPOINT_URL . $this->page->url . '&num=' . XCityIdol::PER_PAGE . '&page=' . $this->page->current + 1;
+        $service = app(TemporaryUrlService::class);
 
-        // Get detail
-        $crawler->getItemLinks($url)->each(function ($link) {
-            XCityIdol::firstOrCreate(['url' => $link], ['state_code' => XCityIdol::STATE_INIT]);
+        $url = 'https://xxx.xcity.jp' . $this->page->url . '&num=30&page=' . $this->page->current + 1;
+
+        // Get links
+        $crawler->getItemLinks($url)->each(function ($link) use ($service) {
+            $service->create(XCityIdol::HOMEPAGE_URL . $link, 'xcity.idol');
         });
 
         $currentPage = $this->page->current + 1;

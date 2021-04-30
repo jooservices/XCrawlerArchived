@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $url
+ * @property string $name
+ * @property string $cover
+ * @property integer $favorite
+ * @property string $birthday
+ * @property string $blood_type
+ * @property string $city
+ * @property integer $height
+ * @property integer $breast
+ * @property integer $waist
+ * @property integer $hips
+ * @property string $state_code
+ * @package App\Models
+ */
 class XCityIdol extends Model
 {
     use HasFactory;
@@ -28,6 +43,7 @@ class XCityIdol extends Model
         'blood_type',
         'city',
         'height',
+        'breast',
         'waist',
         'hips',
         'state_code'
@@ -42,6 +58,7 @@ class XCityIdol extends Model
         'blood_type'=> 'string',
         'city'=> 'string',
         'height'=> 'string',
+        'breast' => 'integer',
         'waist'=> 'integer',
         'hips'=> 'integer',
         'state_code'=> 'string',
