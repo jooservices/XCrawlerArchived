@@ -2,7 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\XCityIdol;
+use App\Models\Idol;
+use App\Models\TemporaryUrl;
 use App\Services\Crawler\XCityIdolCrawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -22,16 +23,16 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
      * @var int
      */
     public int $uniqueFor = 1800;
-    private XCityIdol $idol;
+    private TemporaryUrl $url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(XCityIdol $idol)
+    public function __construct(TemporaryUrl $url)
     {
-        $this->idol = $idol;
+        $this->url = $url;
     }
 
     /**
@@ -41,7 +42,7 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->idol->url;
+        return $this->url->url;
     }
 
     /**
@@ -73,17 +74,30 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = XCityIdol::HOMEPAGE_URL . $this->idol->url;
 
         // Get detail
-        if ($item = $crawler->getItem($url)) {
+        if ($item = $crawler->getItem($this->url->url)) {
+            $name = $item->get('name');
+            $pos = strpos($name, '[');
+
+            if ($pos !== false) {
+                $alias = trim(substr($name, $pos + 1), ']');
+                $name = substr($name, 0, $pos);
+            }
+
             $data = $item->toArray();
+            $data['name'] = trim($name);
+            $data['alias'] = isset($alias) ? explode(',', $alias) : null;
+
             /**
-             * By default url provided without host
-             * We do not update again from item detail because its contained full url
+             * XCity have primary data for idol.
+             * We are using updateOrCreate cos this reason
              */
-            unset($data['url']);
-            $this->idol->update(array_merge($data, ['state_code' => XCityIdol::STATE_COMPLETED]));
+            $idol = Idol::updateOrCreate(['name' => $data['name']], $data);
+            $this->url->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
+
+            return;
         }
+        $this->url->update(['state_code' => TemporaryUrl::STATE_FAILED]);
     }
 }

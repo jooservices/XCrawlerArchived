@@ -2,11 +2,13 @@
 
 namespace Tests\Unit\Command;
 
-use App\Models\XCityIdol;
+use App\Models\TemporaryUrl;
+use App\Models\XCityIdolPage;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\TemporaryUrlService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -45,12 +47,14 @@ class XCityIdolTest extends TestCase
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(XCityIdolCrawler::class);
+        $service = app(TemporaryUrlService::class);
 
         $this->artisan('jav:xcity-idol-pages');
+        $this->assertEquals(9, XCityIdolPage::all()->count());
         $this->artisan('jav:xcity-idols');
 
-        $this->assertEquals(30, XCityIdol::forState(XCityIdol::STATE_INIT)->count());
-        $this->assertDatabaseHas('x_city_idols', ['url' => 'detail/5628/']);
+        $this->assertEquals(30, $service->getItems('xcity.idol', TemporaryUrl::STATE_INIT, 100)->count());
+
     }
 
     public function test_idol_command()
@@ -59,9 +63,10 @@ class XCityIdolTest extends TestCase
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(XCityIdolCrawler::class);
 
-        $idol = XCityIdol::factory()->create([
-            'url' => 'detail/5628/',
-            'state_code' => XCityIdol::STATE_INIT
+        TemporaryUrl::factory()->create([
+            'url' => $this->faker->url,
+            'source' => 'xcity.idol',
+            'state_code' => TemporaryUrl::STATE_INIT
         ]);
 
         $this->artisan('jav:xcity-idol');
@@ -73,7 +78,7 @@ class XCityIdolTest extends TestCase
         unset($sampleItem['breast']);
         unset($sampleItem['waist']);
         unset($sampleItem['hips']);
-        $this->assertDatabaseHas('x_city_idols', $sampleItem);
+        $this->assertDatabaseHas('idols', $sampleItem);
     }
 
 }
