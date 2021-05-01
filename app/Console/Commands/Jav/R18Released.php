@@ -30,6 +30,9 @@ class R18Released extends Command
      */
     public function handle()
     {
+        /**
+         * @TODO Use TemporaryUrls instead
+         */
         $log = XCrawlerLog::filterSource('r18.released')->latest()->first();
         $payload = optional($log)->payload;
         $page = isset($payload['page']) ? $payload['page'] + 1 : 1;
