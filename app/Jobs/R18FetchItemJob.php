@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\R18;
+use App\Models\XCrawlerLog;
 use App\Services\Crawler\R18Crawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -82,7 +83,14 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
         $item = $crawler->getItem($this->url);
 
         if (!$item) {
-            throw new \Exception('Can not get R18 item' . $this->url);
+            XCrawlerLog::create([
+                'url' => $this->url,
+                'payload' => [],
+                'source' => 'r18.item',
+                'succeed' => false
+            ]);
+
+            return;
         }
 
         R18::firstOrCreate(['url' => $item->get('url'),], $item->toArray());
