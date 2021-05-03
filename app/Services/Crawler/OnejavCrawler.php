@@ -32,10 +32,10 @@ class OnejavCrawler
         return $items;
     }
 
-    public function daily(): Collection
+    public function daily(&$page = 1): Collection
     {
         $items = collect();
-        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format('Y/m/d'));
+        $page = $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format('Y/m/d'));
 
         return $items;
     }
@@ -51,7 +51,7 @@ class OnejavCrawler
     public function search(string $keyword, string $by = 'search')
     {
         $items = collect();
-        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/'. $by .'/' . urlencode($keyword));
+        $this->getItemsRecursive($items, Onejav::HOMEPAGE_URL . '/' . $by . '/' . urlencode($keyword));
 
         return $items;
     }
@@ -72,7 +72,11 @@ class OnejavCrawler
 
         if ($response->isSuccessful()) {
             $pageNode = $response->getData()->filter('a.pagination-link')->last();
-            $page = (int)$pageNode->text();
+            if ($pageNode->count() === 0) {
+                $page = 1;
+            } else {
+                $page = (int)$pageNode->text();
+            }
 
             $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
                 return $this->parse($el);

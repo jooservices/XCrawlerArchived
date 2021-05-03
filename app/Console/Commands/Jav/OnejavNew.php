@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Jobs\OnejavFetchJob;
-use App\Models\Onejav;
-use App\Models\XCrawlerLog;
+use App\Services\OnejavService;
 use Illuminate\Console\Command;
 
 class OnejavNew extends Command
@@ -30,8 +28,6 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        $log = XCrawlerLog::filterSource('onejav.new')->latest()->first();
-        $payload = optional($log)->payload;
-        OnejavFetchJob::dispatch(Onejav::NEW_URL, isset($payload['page']) ? $payload['page'] + 1 : 1);
+        app(OnejavService::class)->released();
     }
 }
