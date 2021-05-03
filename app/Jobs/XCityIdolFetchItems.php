@@ -105,10 +105,11 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
         $service = app(TemporaryUrlService::class);
 
         $currentPage = $this->url->data['current_page'];
-        $url = $this->url->url . '&num=30&page=' . $currentPage;
+        $payload = $this->url->data['payload'];
+        $payload['page'] = $currentPage;
 
         // Get links
-        $crawler->getItemLinks($url)->each(function ($link) use ($service) {
+        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service) {
             $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL);
         });
 
