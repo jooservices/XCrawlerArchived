@@ -79,15 +79,20 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = 'https://xxx.xcity.jp' . $this->url . '&num=' . XCityIdol::PER_PAGE;
+        $url = 'https://xxx.xcity.jp' . trim($this->url);
+        $query = parse_url($url, PHP_URL_QUERY);
+        $url = str_replace('?' . $query, '', $url);
+        parse_str($query, $query);
+        $query['num'] = XCityIdol::PER_PAGE;
 
-        if ($pages = $crawler->getPages($url)) {
+        if ($pages = $crawler->getPages($url, $query)) {
             TemporaryUrl::firstOrCreate([
                 'url' => $url,
                 'source' => XCityIdolService::SOURCE,
                 'data' => [
                     'pages' => $pages,
                     'current_page' => 1,
+                    'payload' => $query,
                 ],
                 'state_code' => TemporaryUrl::STATE_INIT
             ]);
