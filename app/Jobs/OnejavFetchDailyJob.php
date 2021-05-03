@@ -75,7 +75,7 @@ class OnejavFetchDailyJob implements ShouldQueue
     public function handle()
     {
         $crawler = app(OnejavCrawler::class);
-        $items = $crawler->daily($page);
+        $items = $crawler->daily();
         $items->each(function ($item) {
             Onejav::firstOrCreate(['url' => $item->get('url')], $item->toArray());
         });
