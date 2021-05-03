@@ -3,7 +3,8 @@
 namespace App\Console\Commands\Jav;
 
 use App\Jobs\XCityIdolFetchItems;
-use App\Models\XCityIdolPage;
+use App\Models\TemporaryUrl;
+use App\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
 class XCityIdols extends Command
@@ -29,7 +30,11 @@ class XCityIdols extends Command
      */
     public function handle()
     {
-        foreach (XCityIdolPage::cursor() as $idolPage) {
+        if (TemporaryUrl::forSource(XCityIdolService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->count() === 0) {
+            app(XCityIdolService::class)->pages();
+        }
+
+        foreach (TemporaryUrl::forSource(XCityIdolService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->cursor() as $idolPage) {
             XCityIdolFetchItems::dispatch($idolPage);
         }
     }

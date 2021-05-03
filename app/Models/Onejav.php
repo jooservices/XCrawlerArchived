@@ -6,8 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property string $url
+ * @property string $cover
+ * @property string $dvd_id
+ * @property float $size
  * @property array $tags
  * @property array $actresses
+ * @property string $description
+ * @property string $torrent
  */
 class Onejav extends AbstractJavMovie
 {
@@ -28,7 +34,6 @@ class Onejav extends AbstractJavMovie
         'description',
         'actresses',
         'torrent',
-        'source',
     ];
 
     protected $casts = [

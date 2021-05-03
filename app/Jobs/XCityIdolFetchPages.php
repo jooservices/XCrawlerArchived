@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\TemporaryUrl;
 use App\Models\XCityIdol;
-use App\Models\XCityIdolPage;
 use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -81,7 +82,15 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
         $url = 'https://xxx.xcity.jp' . $this->url . '&num=' . XCityIdol::PER_PAGE;
 
         if ($pages = $crawler->getPages($url)) {
-            XCityIdolPage::firstOrCreate(['url' => $this->url, 'pages' => $pages]);
+            TemporaryUrl::firstOrCreate([
+                'url' => $url,
+                'source' => XCityIdolService::SOURCE,
+                'data' => [
+                    'pages' => $pages,
+                    'current_page' => 1,
+                ],
+                'state_code' => TemporaryUrl::STATE_INIT
+            ]);
         }
     }
 }

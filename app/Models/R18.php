@@ -11,7 +11,7 @@ class R18 extends AbstractJavMovie
     use SoftDeletes;
 
     const HOMEPAGE_URL = 'https://www.r18.com';
-    const MOVIE_LIST_URL = self::HOMEPAGE_URL . '/videos/vod/movies/list/pagesize=120/price=all/sort=new/type=all';
+    const MOVIE_LIST_URL = self::HOMEPAGE_URL . '/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all';
 
     protected $table = 'r18';
 

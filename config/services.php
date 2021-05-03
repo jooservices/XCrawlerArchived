@@ -33,5 +33,8 @@ return [
     'slack' => [
         'notifications' => env('SLACK_NOTIFICATIONS'),
         'exceptions' => env('LOG_SLACK_WEBHOOK_URL'),
+    ],
+    'onejav' => [
+        'pages_count' => env('ONEJAV_TOTAL_PAGES', 7340)
     ]
 ];

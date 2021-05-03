@@ -4,7 +4,9 @@ namespace App\Jobs;
 
 use App\Models\Idol;
 use App\Models\TemporaryUrl;
+use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
+use Throwable;
 
 class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
 {
@@ -69,6 +72,25 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
             ->releaseAfterSeconds(30); // Release back to pool after 30 seconds
 
         return [$rateLimitedMiddleware];
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param Throwable $exception
+     * @return void
+     */
+    public function failed(Throwable $exception)
+    {
+        XCrawlerLog::create([
+            'url' => $this->url->url,
+            'payload' => [
+                'message' => $exception->getMessage(),
+                'data' => $this->url->data,
+            ],
+            'source' => XCityIdolService::SOURCE_IDOL,
+            'succeed' => false
+        ]);
     }
 
     public function handle()

@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Models\R18;
+use App\Models\Onejav;
 use App\Models\XCrawlerLog;
-use App\Services\Crawler\R18Crawler;
-use App\Services\R18Service;
+use App\Services\Crawler\OnejavCrawler;
+use App\Services\OnejavService;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,37 +15,9 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 use Throwable;
 
-class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
+class OnejavFetchDailyJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 1800;
-    public string $url;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(string $url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * The unique ID of the job.
-     *
-     * @return string
-     */
-    public function uniqueId(): string
-    {
-        return $this->url;
-    }
 
     /**
      * Determine the time at which the job should timeout.
@@ -67,9 +39,9 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(6) // Allow 6 jobs
-                ->everySecond()
-                ->releaseAfterSeconds(5); // Release back to pool after 5 seconds
+                ->allow(60) // Allow 60 jobs
+                ->everyMinute() // In 60 seconds
+                ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
 
             return [$rateLimitedMiddleware];
         }
@@ -86,11 +58,11 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
     public function failed(Throwable $exception)
     {
         XCrawlerLog::create([
-            'url' => $this->url,
+            'url' => Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format(Onejav::DAILY_FORMAT),
             'payload' => [
                 'message' => $exception->getMessage()
             ],
-            'source' => R18Service::SOURCE,
+            'source' => OnejavService::SOURCE,
             'succeed' => false
         ]);
     }
@@ -99,22 +71,13 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      * Execute the job.
      *
      * @return void
-     * @throws \Exception
      */
     public function handle()
     {
-        $crawler = app(R18Crawler::class);
-        if (!$item = $crawler->getItem($this->url)) {
-            XCrawlerLog::create([
-                'url' => $this->url,
-                'payload' => [],
-                'source' => 'r18.item',
-                'succeed' => false
-            ]);
-
-            return;
-        }
-
-        R18::firstOrCreate(['url' => $item->get('url'),], $item->toArray());
+        $crawler = app(OnejavCrawler::class);
+        $items = $crawler->daily($page);
+        $items->each(function ($item) {
+            Onejav::firstOrCreate(['url' => $item->get('url')], $item->toArray());
+        });
     }
 }
