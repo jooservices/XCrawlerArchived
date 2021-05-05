@@ -81,7 +81,8 @@ class OnejavNewTest extends TestCase
 
         // Try to run again it'll not duplicate data
         $this->artisan('jav:onejav-new');
-        $this->assertEquals($items->count(), Onejav::all()->count());
+        $this->assertEquals($items->count(), Onejav::count());
+        $this->assertEquals(Movie::count(), Onejav::count());
 
         // Test when reached end of page
         $temporaryUrl->update(['data' => ['current_page' => config('services.onejav.pages_count')]]);
