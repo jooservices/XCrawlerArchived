@@ -58,12 +58,9 @@ class R18 extends AbstractJavMovie
         'cover' => 'string',
         'title' => 'string',
         'dvd_id' => 'string',
-
         'release_date' => 'datetime:Y-m-d',
         'tags' => 'array',
-
         'actresses' => 'array',
-
         'gallery' => 'array',
         'updated_at' => 'datetime:Y-m-d H:m:s',
         'created_at' => 'datetime:Y-m-d H:m:s',
@@ -78,21 +75,6 @@ class R18 extends AbstractJavMovie
     public function isDownloadable(): bool
     {
         return false;
-    }
-
-    public function getDvdId(): ?string
-    {
-        return $this->dvd_id;
-    }
-
-    public function getTags(): array
-    {
-        return $this->tags ?? [];
-    }
-
-    public function getActresses(): array
-    {
-        return $this->actresses ?? [];
     }
 
     public function getName(): ?string
