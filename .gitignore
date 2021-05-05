@@ -30,3 +30,4 @@ Homestead.json
 .phpunit.result.cache
 /.phpstorm.meta.php
 /_ide_helper.php
+/.env.testing

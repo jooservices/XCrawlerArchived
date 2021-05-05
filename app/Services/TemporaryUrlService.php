@@ -12,9 +12,9 @@ class TemporaryUrlService
         return TemporaryUrl::firstOrCreate([
             'url' => $url,
             'source' => $source,
-            'data' => empty($data) ? null : $data
         ], [
-            'state_code' => TemporaryUrl::STATE_INIT
+            'state_code' => TemporaryUrl::STATE_INIT,
+            'data' => empty($data) ? null : $data
         ]);
     }
 
