@@ -5,6 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $url
+ * @property string $cover
+ * @property string $title
+ * @property string $release_date
+ * @property integer $runtime
+ * @property string $director
+ * @property string $studio
+ * @property string $label
+ * @property string $channel
+ * @property string $content_id
+ * @property string $dvd_id
+ * @property string $series
+ * @property string $languages
+ * @property string $sample
+ * @property array $gallery
+ * @package App\Models
+ */
 class R18 extends AbstractJavMovie
 {
     use HasFactory;
@@ -40,12 +58,9 @@ class R18 extends AbstractJavMovie
         'cover' => 'string',
         'title' => 'string',
         'dvd_id' => 'string',
-
         'release_date' => 'datetime:Y-m-d',
         'tags' => 'array',
-
         'actresses' => 'array',
-
         'gallery' => 'array',
         'updated_at' => 'datetime:Y-m-d H:m:s',
         'created_at' => 'datetime:Y-m-d H:m:s',
@@ -60,21 +75,6 @@ class R18 extends AbstractJavMovie
     public function isDownloadable(): bool
     {
         return false;
-    }
-
-    public function getDvdId(): ?string
-    {
-        return $this->dvd_id;
-    }
-
-    public function getTags(): array
-    {
-        return $this->tags ?? [];
-    }
-
-    public function getActresses(): array
-    {
-        return $this->actresses ?? [];
     }
 
     public function getName(): ?string

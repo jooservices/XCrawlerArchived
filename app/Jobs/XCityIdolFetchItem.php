@@ -25,7 +25,7 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
      *
      * @var int
      */
-    public int $uniqueFor = 1800;
+    public int $uniqueFor = 900;
     private TemporaryUrl $url;
 
     /**

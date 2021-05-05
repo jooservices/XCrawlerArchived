@@ -15,6 +15,11 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 use Throwable;
 
+/**
+ * This job will be dispatched every day at 12:00,
+ * so we won't need unique job check.
+ * @package App\Jobs
+ */
 class OnejavFetchDailyJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;

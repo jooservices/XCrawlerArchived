@@ -5,13 +5,22 @@ namespace Tests;
 use App\Services\Client\Domain\ResponseInterface;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use WithFaker;
+    use WithoutMiddleware;
 
     protected string $fixtures;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware();
+    }
 
     /**
      * Get Successful Mocked External Service Response

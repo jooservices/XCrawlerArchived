@@ -12,7 +12,6 @@ use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
 use App\Services\OnejavService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -36,7 +35,6 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_new_command()
     {
-        Notification::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
@@ -83,7 +81,8 @@ class OnejavNewTest extends TestCase
 
         // Try to run again it'll not duplicate data
         $this->artisan('jav:onejav-new');
-        $this->assertEquals($items->count(), Onejav::all()->count());
+        $this->assertEquals($items->count(), Onejav::count());
+        $this->assertEquals(Movie::count(), Onejav::count());
 
         // Test when reached end of page
         $temporaryUrl->update(['data' => ['current_page' => config('services.onejav.pages_count')]]);
@@ -102,7 +101,6 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_daily_command()
     {
-        Notification::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 

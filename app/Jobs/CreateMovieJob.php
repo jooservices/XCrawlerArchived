@@ -31,7 +31,7 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
      *
      * @var int
      */
-    public $uniqueFor = 1800;
+    public $uniqueFor = 900;
 
     private AbstractJavMovie $model;
 

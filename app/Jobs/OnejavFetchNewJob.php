@@ -7,6 +7,7 @@ use App\Models\TemporaryUrl;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
 use App\Services\OnejavService;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -50,7 +51,7 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->url->url;
+        return md5(serialize([$this->url->url, $this->url->source, $this->url->data, app()->environment('testing') ? Carbon::now() : null]));
     }
 
     /**
@@ -122,6 +123,6 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
         }
 
         $currentPage++;
-        $this->url->updateData(['current_page' =>  $currentPage]);
+        $this->url->updateData(['current_page' => $currentPage]);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Jav;
 
 use App\Jobs\XCityIdolFetchItems;
-use App\Models\TemporaryUrl;
+use App\Services\TemporaryUrlService;
 use App\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
@@ -30,12 +30,18 @@ class XCityIdols extends Command
      */
     public function handle()
     {
-        if (TemporaryUrl::forSource(XCityIdolService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->count() === 0) {
+        /**
+         * @var TemporaryUrlService $service
+         */
+        $service = app(TemporaryUrlService::class);
+
+        // We have around 10 sub pages
+        if ($service->getItems(XCityIdolService::SOURCE)->count() === 0) {
             app(XCityIdolService::class)->pages();
         }
 
-        foreach (TemporaryUrl::forSource(XCityIdolService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->cursor() as $idolPage) {
-            XCityIdolFetchItems::dispatch($idolPage);
-        }
+        $service->getItems(XCityIdolService::SOURCE)->each(function ($page) {
+            XCityIdolFetchItems::dispatch($page);
+        });
     }
 }

@@ -86,5 +86,4 @@ class XCityIdolTest extends TestCase
         unset($sampleItem['hips']);
         $this->assertDatabaseHas('idols', $sampleItem);
     }
-
 }

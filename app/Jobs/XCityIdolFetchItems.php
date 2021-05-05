@@ -26,7 +26,7 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
      *
      * @var int
      */
-    public int $uniqueFor = 1800;
+    public int $uniqueFor = 900;
     private TemporaryUrl $url;
 
 
@@ -106,11 +106,15 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
 
         $currentPage = $this->url->data['current_page'];
         $payload = $this->url->data['payload'];
+        $payload['url'] = $this->url->url;
         $payload['page'] = $currentPage;
 
-        // Get links
-        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service) {
-            $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL);
+        /**
+         * Get idols on page
+         * We have around 30 idols / page
+         */
+        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service, $payload) {
+            $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL, $payload);
         });
 
         if ($currentPage === (int)$this->url->data['pages']) {
