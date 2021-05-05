@@ -7,11 +7,12 @@ use Illuminate\Support\Collection;
 
 class TemporaryUrlService
 {
-    public function create(string $url, string $source): TemporaryUrl
+    public function create(string $url, string $source, array $data = []): TemporaryUrl
     {
         return TemporaryUrl::firstOrCreate([
             'url' => $url,
             'source' => $source,
+            'data' => empty($data) ? null : $data
         ], [
             'state_code' => TemporaryUrl::STATE_INIT
         ]);

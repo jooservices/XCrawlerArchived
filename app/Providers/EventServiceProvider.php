@@ -46,8 +46,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(RecordedEvent::class, RecordedEventSubscriber::class);
-
-        //User::observe(UserObserver::class);
         XCrawlerLog::observe(XCrawlerLogObserver::class);
     }
 }

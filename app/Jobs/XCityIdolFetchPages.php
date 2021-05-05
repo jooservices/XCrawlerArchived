@@ -79,7 +79,7 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
-        $url = 'https://xxx.xcity.jp' . trim($this->url);
+        $url = XCityIdol::ENDPOINT_URL . trim($this->url);
         $query = parse_url($url, PHP_URL_QUERY);
         $url = str_replace('?' . $query, '', $url);
         parse_str($query, $query);

@@ -52,4 +52,9 @@ class Idol extends Model
         'cover' => 'string',
         'favorite' => 'integer',
     ];
+
+    public function favorite()
+    {
+        return $this->morphOne(Favorite::class, 'model');
+    }
 }
