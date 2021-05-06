@@ -31,4 +31,5 @@ Homestead.json
 /.phpstorm.meta.php
 /_ide_helper.php
 /.env.testing
+/.php_cs.cache
 /coverage.xml

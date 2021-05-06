@@ -7,6 +7,10 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Illuminate\Support\Facades\Cache;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\Storage\LaravelCacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use LogicException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -74,6 +78,20 @@ class Factory
         return $this->withMiddleware(
             Middleware::retry($decider, $increasingDelay),
             'retry'
+        );
+    }
+
+    public function enableCache()
+    {
+        return $this->withMiddleware(
+            new CacheMiddleware(
+                new PrivateCacheStrategy(
+                    new LaravelCacheStorage(
+                        Cache::driver()
+                    )
+                )
+            ),
+            'cache'
         );
     }
 
