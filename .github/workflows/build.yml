@@ -44,9 +44,23 @@ jobs:
         run: ~/deployer.sh -s
 
   # Deploy on Worker-01
+  workstation:
+    runs-on: [ X64 ]
+    steps:
+      - uses: actions/checkout@v2
+        if: success()
+
+      - name: Setup PHP with coverage driver
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4.12'
+          coverage: pcov
+
+  # Deploy on Worker-01
   deploy:
     runs-on: [ worker-1 ]
     steps:
       - name: Deploy
         if: github.event_name == 'push' && success()
         run: ~/deployer.sh -s
+
