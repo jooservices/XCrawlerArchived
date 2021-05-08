@@ -19,48 +19,4 @@ class XCrawlerLogObserver
             $XCrawlerLog->notify(new CrawlingFailed());
         }
     }
-
-    /**
-     * Handle the XCrawlerLog "updated" event.
-     *
-     * @param \App\Models\XCrawlerLog $XCrawlerLog
-     * @return void
-     */
-    public function updated(XCrawlerLog $XCrawlerLog)
-    {
-        //
-    }
-
-    /**
-     * Handle the XCrawlerLog "deleted" event.
-     *
-     * @param \App\Models\XCrawlerLog $XCrawlerLog
-     * @return void
-     */
-    public function deleted(XCrawlerLog $XCrawlerLog)
-    {
-        //
-    }
-
-    /**
-     * Handle the XCrawlerLog "restored" event.
-     *
-     * @param \App\Models\XCrawlerLog $XCrawlerLog
-     * @return void
-     */
-    public function restored(XCrawlerLog $XCrawlerLog)
-    {
-        //
-    }
-
-    /**
-     * Handle the XCrawlerLog "force deleted" event.
-     *
-     * @param \App\Models\XCrawlerLog $XCrawlerLog
-     * @return void
-     */
-    public function forceDeleted(XCrawlerLog $XCrawlerLog)
-    {
-        //
-    }
 }
