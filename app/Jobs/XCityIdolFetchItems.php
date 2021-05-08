@@ -9,29 +9,11 @@ use App\Services\Crawler\XCityIdolCrawler;
 use App\Services\TemporaryUrlService;
 use App\Services\XCityIdolService;
 use App\Services\XCityVideoService;
-use Carbon\Carbon;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 use Throwable;
 
-class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
+class XCityIdolFetchItems extends AbstractUniqueUrlJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
-    private TemporaryUrl $url;
-
-
     /**
      * Create a new job instance.
      *
@@ -40,17 +22,6 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
     public function __construct(TemporaryUrl $url)
     {
         $this->url = $url;
-    }
-
-    /**
-     * The unique ID of the job.
-     *
-     * @return string
-     */
-    public function uniqueId(): string
-    {
-        // This URL using payload
-        return md5(serialize([$this->url->url, $this->url->source, $this->url->data, app()->environment('testing') ? Carbon::now() : null]));
     }
 
     /**
