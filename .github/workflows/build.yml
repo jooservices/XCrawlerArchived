@@ -53,8 +53,13 @@ jobs:
       - name: Setup PHP with coverage driver
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4.12'
+          php-version: '8.1'
           coverage: pcov
+
+      - name: setup application
+        if: success()
+        run: |
+          sudo service mysql start
 
   # Deploy on Worker-01
   deploy:
