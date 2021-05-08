@@ -22,7 +22,7 @@ class XCityVideoService extends AbstractJavService
                 'source' => self::SOURCE,
                 'state_code' => TemporaryUrl::STATE_INIT,
                 'data' => [
-                    'from_date' => '20100101',
+                    'from_date' => '20010101',
                     'page' => 1,
                 ]
             ]);
@@ -54,6 +54,17 @@ class XCityVideoService extends AbstractJavService
         $pages = $crawler->getPages('https://xxx.xcity.jp/avod/list/', $payload);
         if ($pages === $temporaryUrl->data['page']) {
             $temporaryUrl->completed();
+
+            // Create for next day
+            TemporaryUrl::create([
+                'url' => 'https://xxx.xcity.jp/avod/list/',
+                'source' => self::SOURCE,
+                'state_code' => TemporaryUrl::STATE_INIT,
+                'data' => [
+                    'from_date' => $fromDate->format('Ymd'),
+                    'page' => 1,
+                ]
+            ]);
 
             return;
         }

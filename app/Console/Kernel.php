@@ -36,6 +36,9 @@ class Kernel extends ConsoleKernel
          */
         $schedule->command('jav:xcity-idols')->hourly();
         $schedule->command('jav:xcity-idol')->everyFiveMinutes();
+
+        $schedule->command('jav:xcity-videos')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-video')->everyFiveMinutes();
         // $schedule->command('inspire')->hourly();
     }
 
