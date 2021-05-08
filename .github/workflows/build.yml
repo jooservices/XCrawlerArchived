@@ -37,7 +37,7 @@ jobs:
         run: |
           mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           php artisan migrate
-          composer test
+          composer test-coverage
 
       - name: Staging
         if: success()

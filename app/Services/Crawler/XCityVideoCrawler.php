@@ -31,9 +31,11 @@ class XCityVideoCrawler
             return $el->attr('src');
         }))->unique()->toArray();
 
-        $item->actresses = collect($response->getData()->filter('.bodyCol ul li.credit-links a')->each(static function ($el) {
-            return trim($el->text());
-        }))->unique()->toArray();
+        $item->actresses = collect(
+            $response->getData()->filter('.bodyCol ul li.credit-links a')->each(static function ($el) {
+                return trim($el->text());
+            })
+        )->unique()->toArray();
 
         // Get all fields
         $fields = collect($response->getData()->filter('.bodyCol ul li')->each(
@@ -149,6 +151,9 @@ class XCityVideoCrawler
             return 1;
         }
 
-        return (int)$response->getData()->filter('ul.pageScrl li.next')->previousAll()->filter('li a')->text(null, false);
+        return (int)$response->getData()
+            ->filter('ul.pageScrl li.next')->previousAll()
+            ->filter('li a')
+            ->text(null, false);
     }
 }
