@@ -40,6 +40,7 @@ abstract class AbstractClient implements Domain\ClientInterface
             ->enableRetries($maxRetries, $delayInSec, $minErrorCode)
             ->enableLogging($loggingFormat)
             ->withOptions($options)
+            ->enableCache()
             ->make();
 
         return $this;
