@@ -28,7 +28,7 @@ class SlackFailedJob extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -39,21 +39,21 @@ class SlackFailedJob extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
@@ -66,13 +66,13 @@ class SlackFailedJob extends Notification
     /**
      * Get the Slack representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return SlackMessage
      */
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-            ->content('A job failed at '.config('app.name'))
+            ->content('A job failed at ' . config('app.name'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields([
                     'Exception message' => $this->event->exception->getMessage(),

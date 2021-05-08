@@ -69,7 +69,7 @@ class Factory
                 && $response->getStatusCode() >= $minErrorCode;
         };
 
-        $increasingDelay = fn ($attempt) => $attempt * $delayInSec * 1000;
+        $increasingDelay = fn($attempt) => $attempt * $delayInSec * 1000;
 
         return $this->withMiddleware(
             Middleware::retry($decider, $increasingDelay),

@@ -61,6 +61,9 @@
         "lint": [
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
+        "test-coverage": [
+            "@php vendor/bin/phpunit --testsuite=Quick,Unit,Feature,Integration --coverage-clover coverage.xml"
+        ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Unit",
             "@php vendor/bin/phpunit --testsuite=Feature"

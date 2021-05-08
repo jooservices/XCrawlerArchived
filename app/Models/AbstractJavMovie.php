@@ -20,12 +20,12 @@ abstract class AbstractJavMovie extends Model implements MovieInterface
 
     public function getDvdId(): ?string
     {
-        return $this->dvd_id;
+        return $this->dvd_id ?? null;
     }
 
     public function getName(): ?string
     {
-        return null;
+        return $this->name ?? null;
     }
 
     public function getTags(): array

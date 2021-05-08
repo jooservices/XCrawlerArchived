@@ -177,13 +177,12 @@ class XCityIdolCrawler
             return 1;
         }
 
-        file_put_contents('test.html', $response->getBody());
         $nodes = $response->getData()->filter('ul.pageScrl li.next');
 
         if (0 === $nodes->count() || 0 === $nodes->previousAll()->filter('li a')->count()) {
             return 1;
         }
 
-        return (int) $response->getData()->filter('ul.pageScrl li.next')->previousAll()->filter('li a')->text(null, false);
+        return (int)$response->getData()->filter('ul.pageScrl li.next')->previousAll()->filter('li a')->text(null, false);
     }
 }
