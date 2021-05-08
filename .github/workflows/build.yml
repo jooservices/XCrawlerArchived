@@ -65,7 +65,6 @@ jobs:
           mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           composer install --no-interaction
           php artisan --env=testing key:generate
-          php artisan passport:keys
           php artisan route:cache
           mkdir -p storage/logs && touch storage/logs/laravel.log
           touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
