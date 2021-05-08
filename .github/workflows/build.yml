@@ -60,6 +60,9 @@ jobs:
         if: success()
         run: |
           sudo service mysql start
+          cp .env.testing.example .env.testing
+          cp .env.testing.example .env # this is necessary to make `composer install` work with autodiscovery
+          mysql -uroot -proot -e "CREATE DATABASE xcrawler_tests;"
 
   # Deploy on Worker-01
   deploy:
