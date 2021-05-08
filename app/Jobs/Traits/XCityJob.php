@@ -24,11 +24,15 @@ trait XCityJob
      */
     public function middleware()
     {
-        $rateLimitedMiddleware = (new RateLimited())
-            ->allow(3) // Allow 3 jobs
-            ->everySecond()
-            ->releaseAfterSeconds(30); // Release back to pool after 30 seconds
+        if (config('app.env') !== 'testing') {
+            $rateLimitedMiddleware = (new RateLimited())
+                ->allow(3) // Allow 3 jobs
+                ->everySecond()
+                ->releaseAfterSeconds(30); // Release back to pool after 30 seconds
 
-        return [$rateLimitedMiddleware];
+            return [$rateLimitedMiddleware];
+        }
+
+        return [];
     }
 }

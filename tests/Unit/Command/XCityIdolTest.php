@@ -47,7 +47,7 @@ class XCityIdolTest extends TestCase
         $this->assertEquals(30, $service->getItems(XCityIdolService::SOURCE_IDOL, TemporaryUrl::STATE_INIT, 100)->count());
 
         // Test whenever we completed 1 page
-        $temporaryUrl = TemporaryUrl::first();
+        $temporaryUrl = TemporaryUrl::where(['source' => XCityIdolService::SOURCE])->first();
         $temporaryUrl->updateData(['current_page' => $temporaryUrl->data['pages']]);
         $this->artisan('jav:xcity-idols');
         $temporaryUrl->refresh();

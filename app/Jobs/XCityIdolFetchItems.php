@@ -51,6 +51,7 @@ class XCityIdolFetchItems extends AbstractUniqueUrlJob
 
         $currentPage = $this->url->data['current_page'];
         $payload = $this->url->data['payload'];
+
         $payload['url'] = $this->url->url;
         $payload['page'] = $currentPage;
 
