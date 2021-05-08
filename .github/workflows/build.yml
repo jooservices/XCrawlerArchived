@@ -39,6 +39,10 @@ jobs:
           php artisan migrate
           composer test
 
+      - name: Staging
+        if: github.event_name == 'push' && success()
+        run: ~/deployer.sh -s
+
   # Deploy on Worker-01
   deploy:
     runs-on: [ worker-1 ]
