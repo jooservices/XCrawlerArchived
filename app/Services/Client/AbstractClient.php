@@ -26,7 +26,8 @@ abstract class AbstractClient implements Domain\ClientInterface
         int $delayInSec = 1,
         int $minErrorCode = 500,
         string $loggingFormat = MessageFormatter::CLF
-    ): Domain\ClientInterface {
+    ): Domain\ClientInterface
+    {
         $serviceName = $name ?? 'xclient';
         $this->logger = new Logger($serviceName);
         $logPath = storage_path('logs/' . strtolower($serviceName) . '/' . CarbonImmutable::now()->format('Y-m-d') . '.log');
@@ -181,7 +182,7 @@ abstract class AbstractClient implements Domain\ClientInterface
 
         try {
             $data = $this->client->request($method, $endpoint, $options)->getBody();
-            $this->response->body = (string) $data;
+            $this->response->body = (string)$data;
             $this->response->loadData();
         } catch (GuzzleException | ClientException $e) {
             $this->logger->error($e->getMessage());

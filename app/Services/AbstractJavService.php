@@ -16,6 +16,7 @@ abstract class AbstractJavService
             ['count' => $items->count()]
         );
     }
+
     protected function log(string $url, array $payload, string $source, bool $succeed = true)
     {
         XCrawlerLog::create([

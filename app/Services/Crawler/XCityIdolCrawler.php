@@ -184,6 +184,6 @@ class XCityIdolCrawler
             return 1;
         }
 
-        return (int) $response->getData()->filter('ul.pageScrl li.next')->previousAll()->filter('li a')->text(null, false);
+        return (int)$response->getData()->filter('ul.pageScrl li.next')->previousAll()->filter('li a')->text(null, false);
     }
 }

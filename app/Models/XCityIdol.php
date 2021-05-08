@@ -26,8 +26,9 @@ class XCityIdol extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     public const ENDPOINT_URL = 'https://xxx.xcity.jp';
-    public const HOMEPAGE_URL = self::ENDPOINT_URL .'/idol/';
+    public const HOMEPAGE_URL = self::ENDPOINT_URL . '/idol/';
     public const PER_PAGE = 30;
 
     public const STATE_INIT = 'XCIN';
@@ -51,17 +52,17 @@ class XCityIdol extends Model
 
     protected $casts = [
         'url' => 'string',
-        'name'=> 'string',
-        'cover'=> 'string',
-        'favorite'=> 'integer',
+        'name' => 'string',
+        'cover' => 'string',
+        'favorite' => 'integer',
         'birthday' => 'datetime:Y-m-d',
-        'blood_type'=> 'string',
-        'city'=> 'string',
-        'height'=> 'string',
+        'blood_type' => 'string',
+        'city' => 'string',
+        'height' => 'string',
         'breast' => 'integer',
-        'waist'=> 'integer',
-        'hips'=> 'integer',
-        'state_code'=> 'string',
+        'waist' => 'integer',
+        'hips' => 'integer',
+        'state_code' => 'string',
     ];
 
     public function scopeForState(Builder $builder, string $state)

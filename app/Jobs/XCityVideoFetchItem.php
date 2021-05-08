@@ -2,11 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Models\Idol;
 use App\Models\TemporaryUrl;
+use App\Models\XCityVideo;
 use App\Models\XCrawlerLog;
-use App\Services\Crawler\XCityIdolCrawler;
-use App\Services\XCityIdolService;
+use App\Services\Crawler\XCityVideoCrawler;
+use App\Services\XCityVideoService;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -17,7 +17,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 use Throwable;
 
-class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
+class XCityVideoFetchItem implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -46,7 +46,6 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        // This URL using payload
         return md5(serialize([$this->url->url, $this->url->source, $this->url->data, app()->environment('testing') ? Carbon::now() : null]));
     }
 
@@ -90,35 +89,22 @@ class XCityIdolFetchItem implements ShouldQueue, ShouldBeUnique
                 'message' => $exception->getMessage(),
                 'data' => $this->url->data,
             ],
-            'source' => XCityIdolService::SOURCE_IDOL,
+            'source' => XCityVideoService::SOURCE_VIDEO,
             'succeed' => false
         ]);
     }
 
     public function handle()
     {
-        $crawler = app(XCityIdolCrawler::class);
+        $crawler = app(XCityVideoCrawler::class);
 
         // Get detail
-        if ($item = $crawler->getItem($this->url->url)) {
-            $name = $item->get('name');
-            $pos = strpos($name, '[');
+        if ($item = $crawler->getItem($this->url->url, $this->url->data['payload'])) {
+            XCityVideo::firstOrCreate([
+                'item_number' => $item->get('item_number')
+            ], $item->toArray());
 
-            if ($pos !== false) {
-                $alias = trim(substr($name, $pos + 1), ']');
-                $name = substr($name, 0, $pos);
-            }
-
-            $data = $item->toArray();
-            $data['name'] = trim($name);
-            $data['alias'] = isset($alias) ? explode(',', $alias) : null;
-
-            /**
-             * XCity have primary data for idol.
-             * We are using updateOrCreate cos this reason
-             */
-            Idol::updateOrCreate(['name' => $data['name']], $data);
-            $this->url->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
+            $this->url->completed();
 
             return;
         }

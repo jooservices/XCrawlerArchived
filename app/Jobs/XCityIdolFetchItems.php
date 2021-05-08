@@ -8,6 +8,8 @@ use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityIdolCrawler;
 use App\Services\TemporaryUrlService;
 use App\Services\XCityIdolService;
+use App\Services\XCityVideoService;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,7 +49,8 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->url->url;
+        // This URL using payload
+        return md5(serialize([$this->url->url, $this->url->source, $this->url->data, app()->environment('testing') ? Carbon::now() : null]));
     }
 
     /**
@@ -94,7 +97,7 @@ class XCityIdolFetchItems implements ShouldQueue, ShouldBeUnique
                 'message' => $exception->getMessage(),
                 'data' => $this->url->data,
             ],
-            'source' => XCityIdolService::SOURCE,
+            'source' => XCityVideoService::SOURCE,
             'succeed' => false
         ]);
     }

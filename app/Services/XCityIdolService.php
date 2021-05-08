@@ -12,8 +12,7 @@ class XCityIdolService
 
     public function pages()
     {
-        $crawler = app(XCityIdolCrawler::class);
-        $crawler->getSubPages()->each(function ($link) {
+        app(XCityIdolCrawler::class)->getSubPages()->each(function ($link) {
             XCityIdolFetchPages::dispatch($link);
         });
     }
