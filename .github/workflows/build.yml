@@ -40,7 +40,7 @@ jobs:
           composer test
 
       - name: Staging
-        if: github.event_name == 'push' && success()
+        if: success()
         run: ~/deployer.sh -s
 
   # Deploy on Worker-01
