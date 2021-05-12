@@ -36,5 +36,10 @@ return [
     ],
     'onejav' => [
         'pages_count' => env('ONEJAV_TOTAL_PAGES', 7340)
-    ]
+    ],
+
+    'flickr' => [
+        'client_id' => env('FLICKR_CLIENT_ID'),
+        'client_secret' => env('FLICKR_CLIENT_SECRET'),
+    ],
 ];
