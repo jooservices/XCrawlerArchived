@@ -1,0 +1,15 @@
+name: XCrawler - Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  # Deploy on Worker-01
+  production:
+    runs-on: [ worker-1 ]
+    steps:
+      - name: Deploy
+        if: github.event_name == 'push' && success()
+        run: ~/deployer.sh -s
+
