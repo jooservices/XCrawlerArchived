@@ -104,4 +104,44 @@ class FlickrService
     {
         return $this->client->photos()->getSizes($photoId);
     }
+
+    public function getAlbumInfo(string $albumId, string $nsid)
+    {
+        return $this->client->photosets()->getInfo($albumId, $nsid);
+    }
+
+    public function getAlbumPhotos(string $albumId): Collection
+    {
+        if (empty($albumId)) {
+            return collect();
+        }
+
+        $photos = $this->client->photosets()->getPhotos(
+            $albumId,
+            null,
+            null,
+            500
+        );
+
+        $photos = collect()->add($photos);
+        $pages = $photos->first()['pages'];
+
+        if (1 === $pages) {
+            return $photos;
+        }
+
+        for ($page = 2; $page <= $pages; ++$page) {
+            $pagePhotos = $this->client->photosets()->getPhotos(
+                $albumId,
+                null,
+                null,
+                500,
+                $page,
+                $photos->add($pagePhotos)
+            );
+
+        }
+
+        return $photos;
+    }
 }
