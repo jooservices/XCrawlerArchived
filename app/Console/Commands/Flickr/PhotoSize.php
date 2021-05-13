@@ -24,7 +24,7 @@ class PhotoSize extends Command
 
     public function handle()
     {
-        $photos = FlickrPhoto::whereNull('sizes')->limit(50)->get();
+        $photos = FlickrPhoto::whereNull('sizes')->limit(40)->get();
         foreach ($photos as $photo) {
             PhotoSizeJob::dispatch($photo);
         }
