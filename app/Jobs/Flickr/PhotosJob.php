@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class PhotosJob implements ShouldQueue, ShouldBeUnique
 {
@@ -24,6 +25,41 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
     public function __construct(FlickrContact $contact)
     {
         $this->contact = $contact;
+        $this->contact->update([
+            'state_code' => FlickrContact::STATE_PHOTOS_PROCESSING
+        ]);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param Throwable $exception
+     * @return void
+     */
+    public function failed(Throwable $exception)
+    {
+        $this->contact->update([
+            'state_code' => FlickrContact::STATE_PHOTOS_FAILED
+        ]);
+    }
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addHours(12);
+    }
+
+    /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId(): string
+    {
+        return $this->contact->nsid;
     }
 
     public function handle()
@@ -40,7 +76,7 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
         });
 
         $this->contact->update([
-            'state_code' => FlickrContact::STATE_PHOTOS
+            'state_code' => FlickrContact::STATE_PHOTOS_COMPLETED
         ]);
     }
 }
