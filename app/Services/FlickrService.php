@@ -80,7 +80,7 @@ class FlickrService
             return $photos;
         }
 
-        for ($page = 2; $pages; ++$page) {
+        for ($page = 2; $page <= $pages; ++$page) {
             $pagePhotos = $this->client->people()->getPhotos(
                 $nsid,
                 null,
