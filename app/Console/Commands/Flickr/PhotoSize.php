@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Flickr;
 
+use App\Jobs\Flickr\PhotoSizeJob;
 use App\Models\FlickrPhoto;
-use App\Services\FlickrService;
 use Illuminate\Console\Command;
 
 class PhotoSize extends Command
@@ -25,11 +25,8 @@ class PhotoSize extends Command
     public function handle()
     {
         $photos = FlickrPhoto::whereNull('sizes')->limit(50)->get();
-        $service = app(FlickrService::class);
         foreach ($photos as $photo) {
-            $photo->update([
-                'sizes' => $service->getPhotoSize($photo->id)
-            ]);
+            PhotoSizeJob::dispatch($photo);
         }
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands\Flickr;
 
+use App\Jobs\Flickr\PhotosJob;
 use App\Models\FlickrContact;
-use App\Models\FlickrPhoto;
-use App\Services\FlickrService;
 use Illuminate\Console\Command;
 
 class Photos extends Command
@@ -29,16 +28,7 @@ class Photos extends Command
             return;
         }
 
-        $service = app(FlickrService::class);
-        $photos = $service->getAllPhotos($contact->nsid);
-        $photos->each(function ($photos) {
-            foreach ($photos['photo'] as $photo) {
-                FlickrPhoto::updateOrCreate([
-                    'id' => $photo['id'],
-                    'owner' => $photo['owner'],
-                ], $photo);
-            }
-        });
+        PhotosJob::dispatch($contact);
     }
 }
 

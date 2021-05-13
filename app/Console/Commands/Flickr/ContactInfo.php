@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Flickr;
 
+use App\Jobs\Flickr\ContactInfoJob;
 use App\Models\FlickrContact;
-use App\Services\FlickrService;
 use Illuminate\Console\Command;
 
 class ContactInfo extends Command
@@ -28,13 +28,6 @@ class ContactInfo extends Command
             return;
         }
 
-        $service = app(FlickrService::class);
-        $contactInfo = $service->getPeopleInfo($contact->nsid);
-
-        if (!$contactInfo) {
-            return;
-        }
-
-        $contact->update(array_merge($contactInfo['person'], ['state_code' => FlickrContact::STATE_PEOPLE_INFO]));
+        ContactInfoJob::dispatch($contact);
     }
 }
