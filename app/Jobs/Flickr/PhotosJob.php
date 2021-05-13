@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Jobs\Flickr;
-
 
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
@@ -40,5 +38,9 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
                 ], $photo);
             }
         });
+
+        $this->contact->update([
+            'state_code' => FlickrContact::STATE_PHOTOS
+        ]);
     }
 }
