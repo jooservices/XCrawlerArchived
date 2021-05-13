@@ -10,4 +10,12 @@ trait HasState
     {
         return $builder->where(['state_code' => $state]);
     }
+
+    public function updateState(string $state): self
+    {
+        $this->state_code = $state;
+        $this->save();
+
+        return $this;
+    }
 }

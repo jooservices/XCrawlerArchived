@@ -38,6 +38,7 @@ class AlbumPhotosJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
+        $this->album->updateState(FlickrAlbum::STATE_PHOTOS_PROCESSING);
         $photos = app(FlickrService::class)->getAlbumPhotos($this->album->id);
         $photos->each(function ($photos) {
             foreach ($photos['photo'] as $photo) {
@@ -49,5 +50,7 @@ class AlbumPhotosJob implements ShouldQueue, ShouldBeUnique
                 $this->album->photos()->syncWithoutDetaching([$photo->id]);
             }
         });
+
+        $this->album->updateState(FlickrAlbum::STATE_PHOTOS_COMPLETED);
     }
 }

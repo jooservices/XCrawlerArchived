@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-
 use App\Models\Integration;
 use Illuminate\Support\Collection;
 use Jooservices\PhpFlickr\PhpFlickr;
 use OAuth\Common\Storage\Memory;
 use OAuth\OAuth1\Token\StdOAuth1Token;
-
 
 class FlickrService
 {
