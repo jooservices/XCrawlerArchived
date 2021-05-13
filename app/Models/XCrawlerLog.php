@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,13 +11,14 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property boolean $succeed
- * @method static Builder forSource(string $source)
+ * @method static Builder|XCrawlerLog bySource (string $source)
  * @package App\Models
  */
 class XCrawlerLog extends Model
 {
     use HasFactory, Notifiable;
     use SoftDeletes;
+    use HasSource;
 
     protected $fillable = [
         'url',
@@ -31,9 +33,4 @@ class XCrawlerLog extends Model
         'source' => 'string',
         'succeed' => 'boolean'
     ];
-
-    public function scopeFilterSource(Builder $query, string $source)
-    {
-        return $query->where(['source' => $source]);
-    }
 }

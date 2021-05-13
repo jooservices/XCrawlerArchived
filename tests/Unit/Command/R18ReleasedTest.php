@@ -80,7 +80,7 @@ class R18ReleasedTest extends TestCase
 
         // Call again will create new TemporaryUrl
         $this->artisan('jav:r18-released');
-        $temporaryUrl = TemporaryUrl::forSource(R18Service::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first();
+        $temporaryUrl = TemporaryUrl::bySource(R18Service::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first();
         $this->assertEquals(2, $temporaryUrl->data['current_page']);
     }
 }

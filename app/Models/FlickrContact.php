@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlickrContact extends Model
 {
     use HasFactory;
+    use HasState;
 
     public const STATE_INIT = 'FCIN';
     public const STATE_PEOPLE_INFO = 'FCPF';
@@ -99,9 +100,4 @@ class FlickrContact extends Model
         'photos_count' => 'integer',
         'state_code' => 'string',
     ];
-
-    public function scopeByState(Builder $builder, string $state)
-    {
-        return $builder->where(['state_code' => $state]);
-    }
 }

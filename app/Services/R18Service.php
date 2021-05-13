@@ -14,7 +14,7 @@ class R18Service
     public function released()
     {
         $crawler = app(R18Crawler::class);
-        if (!$temporary = TemporaryUrl::forSource(self::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first()) {
+        if (!$temporary = TemporaryUrl::bySource(self::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first()) {
             $temporary = TemporaryUrl::create([
                 'url' => R18::MOVIE_LIST_URL,
                 'source' => self::SOURCE, // For R18 we only save 1 temporary

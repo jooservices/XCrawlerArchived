@@ -20,6 +20,6 @@ class TemporaryUrlService
 
     public function getItems(string $source, string $state = TemporaryUrl::STATE_INIT, int $limit = 10): Collection
     {
-        return TemporaryUrl::forSource($source)->forState($state)->limit($limit)->get();
+        return TemporaryUrl::bySource($source)->byState($state)->limit($limit)->get();
     }
 }
