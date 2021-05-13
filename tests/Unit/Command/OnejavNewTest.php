@@ -45,7 +45,7 @@ class OnejavNewTest extends TestCase
             'source' => OnejavService::SOURCE,
         ]);
 
-        $temporaryUrl = TemporaryUrl::forSource(OnejavService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first();
+        $temporaryUrl = TemporaryUrl::bySource(OnejavService::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first();
         $this->assertEquals(2, $temporaryUrl->data['current_page']);
 
         // We dont need assert queue because we will check queue result
