@@ -17,6 +17,7 @@ class FlickrContact extends Model
 
     public const STATE_INIT = 'FCIN';
     public const STATE_PEOPLE_INFO = 'FCPF';
+    public const STATE_PHOTOS = 'FCPS';
 
     /**
      * The primary key for the model.
