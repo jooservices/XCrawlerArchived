@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Console\Commands\Flickr\Album;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -52,4 +53,9 @@ class FlickrPhoto extends Model
         'isprimary' => 'integer',
         'sizes' => 'array',
     ];
+
+    public function albums()
+    {
+        $this->belongsToMany(Album::class, 'album_photo');
+    }
 }

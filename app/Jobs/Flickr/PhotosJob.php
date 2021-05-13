@@ -25,9 +25,6 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
     public function __construct(FlickrContact $contact)
     {
         $this->contact = $contact;
-        $this->contact->update([
-            'state_code' => FlickrContact::STATE_PHOTOS_PROCESSING
-        ]);
     }
 
     /**
@@ -64,6 +61,7 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
+        $this->contact->updateState(FlickrContact::STATE_PHOTOS_PROCESSING);
         $service = app(FlickrService::class);
         $photos = $service->getAllPhotos($this->contact->nsid);
         $photos->each(function ($photos) {
@@ -75,8 +73,6 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
             }
         });
 
-        $this->contact->update([
-            'state_code' => FlickrContact::STATE_PHOTOS_COMPLETED
-        ]);
+        $this->contact->updateState(FlickrContact::STATE_PHOTOS_COMPLETED);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Jobs\Flickr;
-
 
 use App\Models\FlickrContact;
 use App\Services\FlickrService;
