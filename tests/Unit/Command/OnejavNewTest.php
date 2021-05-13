@@ -95,7 +95,7 @@ class OnejavNewTest extends TestCase
 
         // Call again will create new TemporaryUrl
         $this->artisan('jav:onejav-new');
-        $temporaryUrl = TemporaryUrl::forSource(OnejavService::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first();
+        $temporaryUrl = TemporaryUrl::bySource(OnejavService::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first();
         $this->assertEquals(2, $temporaryUrl->data['current_page']);
     }
 
