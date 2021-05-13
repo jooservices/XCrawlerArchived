@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasState;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,12 +21,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer $waist
  * @property integer $hips
  * @property string $state_code
+ * @method static Builder|XCityIdol byState (string $state)
  * @package App\Models
  */
 class XCityIdol extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasState;
 
     public const ENDPOINT_URL = 'https://xxx.xcity.jp';
     public const HOMEPAGE_URL = self::ENDPOINT_URL . '/idol/';
@@ -64,9 +67,4 @@ class XCityIdol extends Model
         'hips' => 'integer',
         'state_code' => 'string',
     ];
-
-    public function scopeForState(Builder $builder, string $state)
-    {
-        return $builder->where(['state_code' => $state]);
-    }
 }

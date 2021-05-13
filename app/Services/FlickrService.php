@@ -35,12 +35,11 @@ class FlickrService
         }
 
         $contacts = collect()->add($contacts['contacts']);
+        $pages = $contacts->first()['pages'];
 
-        if (1 === $contacts->first()['pages']) {
+        if (1 === $pages) {
             return $contacts;
         }
-
-        $pages = $contacts->first()['pages'];
 
         for ($page = 2; $page <= $pages; ++$page) {
             $pageContacts = $this->client->contacts()->getList(null, $page);
@@ -57,5 +56,52 @@ class FlickrService
         }
 
         return $info;
+    }
+
+    public function getAllPhotos(string $nsid, array $options = []): Collection
+    {
+        $photos = $this->client->people()->getPhotos(
+            $nsid,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            500
+        );
+
+        $photos = collect()->add($photos);
+        $pages = $photos->first()['pages'];
+
+        if (1 === $pages) {
+            return $photos;
+        }
+
+        for ($page = 2; $pages; ++$page) {
+            $pagePhotos = $this->client->people()->getPhotos(
+                $nsid,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                500,
+                $page
+            );
+            $photos->add($pagePhotos);
+        }
+
+        return $photos;
+    }
+
+    public function getPhotoSize(string $photoId)
+    {
+        return $this->client->photos()->getSizes($photoId);
     }
 }

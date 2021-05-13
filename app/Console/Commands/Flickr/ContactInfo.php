@@ -24,13 +24,11 @@ class ContactInfo extends Command
 
     public function handle()
     {
-        $service = app(FlickrService::class);
-        $contact = FlickrContact::byState(FlickrContact::STATE_INIT)->first();
-
-        if (!$contact) {
+        if (!$contact = FlickrContact::byState(FlickrContact::STATE_INIT)->first()) {
             return;
         }
 
+        $service = app(FlickrService::class);
         $contactInfo = $service->getPeopleInfo($contact->nsid);
 
         if (!$contactInfo) {

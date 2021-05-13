@@ -13,7 +13,7 @@ class XCityVideoService extends AbstractJavService
 
     public function released()
     {
-        $temporaryUrl = TemporaryUrl::forSource(self::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first();
+        $temporaryUrl = TemporaryUrl::bySource(self::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first();
         $crawler = app(XCityVideoCrawler::class);
 
         if (!$temporaryUrl) {

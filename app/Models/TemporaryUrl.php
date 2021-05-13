@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\HasSource;
+use App\Models\Traits\HasState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,8 @@ class TemporaryUrl extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasState;
+    use HasSource;
 
     public const STATE_INIT = 'TUIN';
     public const STATE_COMPLETED = 'TUCE';
@@ -36,16 +39,6 @@ class TemporaryUrl extends Model
         'data' => 'array',
         'state_code' => 'string'
     ];
-
-    public function scopeForState(Builder $builder, string $state)
-    {
-        return $builder->where(['state_code' => $state]);
-    }
-
-    public function scopeForSource(Builder $builder, string $source)
-    {
-        return $builder->where(['source' => $source]);
-    }
 
     public function completed()
     {

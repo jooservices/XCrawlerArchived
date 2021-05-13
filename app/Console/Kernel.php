@@ -41,7 +41,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-video')->everyFiveMinutes();
 
         $schedule->command('flickr:contacts')->monthly();
-        $schedule->command('flickr:contact-info')->everyThirtyMinutes();
+        $schedule->command('flickr:contact-info')->everyFifteenMinutes();
+        $schedule->command('flickr:photos')->everyTenMinutes();
+        $schedule->command('flickr:photo-size')->everyFiveMinutes();
         // $schedule->command('inspire')->hourly();
     }
 

@@ -18,7 +18,7 @@ class OnejavService extends AbstractJavService
 
     public function released()
     {
-        if (!$temporary = TemporaryUrl::forSource(self::SOURCE)->forState(TemporaryUrl::STATE_INIT)->first()) {
+        if (!$temporary = TemporaryUrl::bySource(self::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first()) {
             $temporary = TemporaryUrl::create([
                 'url' => Onejav::NEW_URL,
                 'source' => self::SOURCE, // For Onejav we only save 1 temporary

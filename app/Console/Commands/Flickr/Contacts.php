@@ -13,7 +13,7 @@ class Contacts extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:contacts {--url=}';
+    protected $signature = 'flickr:contacts';
 
     /**
      * The console command description.
