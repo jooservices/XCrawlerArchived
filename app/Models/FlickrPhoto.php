@@ -52,22 +52,4 @@ class FlickrPhoto extends Model
         'isprimary' => 'integer',
         'sizes' => 'array',
     ];
-
-    public function hasSizes(): bool
-    {
-        return null !== $this->sizes;
-    }
-
-    public function getLargestSize(): array
-    {
-        $sizes = $this->sizes['size'];
-
-        return end($sizes);
-    }
-
-    public function downloadItem()
-    {
-        return $this->belongsTo(DownloadItem::class, 'id', 'model_id')
-            ->where('model_type', FlickrPhoto::class);
-    }
 }
