@@ -21,6 +21,8 @@ class FlickrContact extends Model
     public const STATE_PHOTOS_PROCESSING = 'FCPP';
     public const STATE_PHOTOS_COMPLETED = 'FCPC';
     public const STATE_PHOTOS_FAILED = 'FCPF';
+    public const STATE_ALBUM_PROCESSING = 'FCAP';
+    public const STATE_ALBUM_COMPLETED = 'FCAC';
 
     /**
      * The primary key for the model.
