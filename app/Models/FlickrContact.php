@@ -17,6 +17,7 @@ class FlickrContact extends Model
 
     public const STATE_INIT = 'FCIN';
     public const STATE_INFO_COMPLETED = 'FCIC';
+    public const STATE_INFO_FAILED = 'FCIF';
     public const STATE_PHOTOS_PROCESSING = 'FCPP';
     public const STATE_PHOTOS_COMPLETED = 'FCPC';
     public const STATE_PHOTOS_FAILED = 'FCPF';
