@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Jooservices\PhpFlickr\FlickrException;
 
 /**
  * Get contact detail information
@@ -58,7 +59,12 @@ class ContactInfoJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        if (!$contactInfo  = app(FlickrService::class)->getPeopleInfo($this->contact->nsid)) {
+        try {
+            if (!$contactInfo = app(FlickrService::class)->getPeopleInfo($this->contact->nsid)) {
+                return;
+            }
+        } catch (FlickrException $exception) {
+            $this->contact->updateState(FlickrContact::STATE_INFO_FAILED);
             return;
         }
 
