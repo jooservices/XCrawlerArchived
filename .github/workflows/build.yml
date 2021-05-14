@@ -74,11 +74,13 @@ jobs:
         run: |
           ./skip-tests || composer lint
 
+
   # Deploy on Worker-01
   deploy:
     runs-on: [ worker-1 ]
     steps:
       - name: Deploy
         if: github.event_name == 'push' && success()
-        run: ~/deployer.sh -s
-
+        run: |
+          php artisan snapshot
+          ~/deployer.sh -s

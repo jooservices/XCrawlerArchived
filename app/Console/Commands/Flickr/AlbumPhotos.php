@@ -20,12 +20,11 @@ class AlbumPhotos extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch Flickr Album';
+    protected $description = 'Fetch Album photos';
 
     public function handle()
     {
-        $album = FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->first();
-        if (!$album) {
+        if (!$album = FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->first()) {
             return;
         }
         AlbumPhotosJob::dispatch($album);

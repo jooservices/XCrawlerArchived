@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Flickr;
 
+use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
-use App\Models\FlickrPhoto;
 use App\Services\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -11,13 +11,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Throwable;
 
 /**
- * Get photos of contact
+ * Get albums of contact
  * @package App\Jobs\Flickr
  */
-class PhotosJob implements ShouldQueue, ShouldBeUnique
+class ContactAlbumbsJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -38,16 +37,6 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
         $this->contact = $contact;
     }
 
-    /**
-     * Handle a job failure.
-     *
-     * @param Throwable $exception
-     * @return void
-     */
-    public function failed(Throwable $exception)
-    {
-        $this->contact->updateState(FlickrContact::STATE_PHOTOS_FAILED);
-    }
     /**
      * Determine the time at which the job should timeout.
      *
@@ -70,18 +59,16 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        $this->contact->updateState(FlickrContact::STATE_PHOTOS_PROCESSING);
         $service = app(FlickrService::class);
-        $photos = $service->getAllPhotos($this->contact->nsid);
-        $photos->each(function ($photos) {
-            foreach ($photos['photo'] as $photo) {
-                FlickrPhoto::updateOrCreate([
-                    'id' => $photo['id'],
-                    'owner' => $photo['owner'],
-                ], $photo);
+        $albums = $service->getContactAlbums($this->contact->nsid);
+
+        $albums->each(function ($albums) {
+            foreach ($albums['photoset'] as $album) {
+                FlickrAlbum::updateOrCreate([
+                    'id' => $album['id'],
+                    'owner' => $album['owner'],
+                ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
             }
         });
-
-        $this->contact->updateState(FlickrContact::STATE_PHOTOS_COMPLETED);
     }
 }

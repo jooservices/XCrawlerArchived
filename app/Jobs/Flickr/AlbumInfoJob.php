@@ -11,7 +11,11 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class AlbumInfo implements ShouldQueue, ShouldBeUnique
+/**
+ * Get album information
+ * @package App\Jobs\Flickr
+ */
+class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -29,9 +33,7 @@ class AlbumInfo implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        $service = app(FlickrService::class);
-
-        $album = $service->getAlbumInfo($this->albumId, $this->nsid);
+        $album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid);
 
         FlickrAlbum::updateOrCreate([
             'id' => $album['id'],

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Flickr;
 
-use App\Jobs\Flickr\AlbumInfo;
+use App\Jobs\Flickr\AlbumInfoJob;
 use Illuminate\Console\Command;
 
 class Album extends Command
@@ -19,10 +19,10 @@ class Album extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch Flickr Album';
+    protected $description = 'Get specific album';
 
     public function handle()
     {
-        AlbumInfo::dispatch($this->option('albumid'), $this->option('nsid'));
+        AlbumInfoJob::dispatch($this->option('albumid'), $this->option('nsid'));
     }
 }

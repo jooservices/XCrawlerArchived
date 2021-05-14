@@ -16,7 +16,7 @@ class FlickrContact extends Model
     use HasState;
 
     public const STATE_INIT = 'FCIN';
-    public const STATE_PEOPLE_INFO = 'FCPI';
+    public const STATE_INFO_COMPLETED = 'FCIC';
     public const STATE_PHOTOS_PROCESSING = 'FCPP';
     public const STATE_PHOTOS_COMPLETED = 'FCPC';
     public const STATE_PHOTOS_FAILED = 'FCPF';
@@ -103,4 +103,13 @@ class FlickrContact extends Model
         'photos_count' => 'integer',
         'state_code' => 'string',
     ];
+
+    /**
+     * @param string $nsid
+     * @return self
+     */
+    public static function findByNsid(string $nsid): self
+    {
+        return self::where('nsid', $nsid)->first();
+    }
 }

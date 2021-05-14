@@ -142,4 +142,26 @@ class FlickrService
 
         return $photos;
     }
+
+    public function getContactAlbums(string $nsid): Collection
+    {
+        $albums = $this->client->photosets()->getList($nsid, null, 500);
+        $albums = collect()->add($albums);
+        $pages = $albums->first()['pages'];
+
+        if (1 === $pages) {
+            return $albums;
+        }
+
+        for ($page = 2; $page <= $pages; ++$page) {
+            $pageAlbums = $this->client->photosets()->getList(
+                $nsid,
+                $page,
+                500
+            );
+            $albums->add($pageAlbums);
+        }
+
+        return $albums;
+    }
 }

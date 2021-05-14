@@ -20,11 +20,13 @@ class ContactInfo extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch contact detail information';
+    protected $description = 'Get contact detail information';
 
     public function handle()
     {
         if (!$contact = FlickrContact::byState(FlickrContact::STATE_INIT)->first()) {
+            // Everything done than reset it for another loop
+            FlickrContact::where(['state_code' => FlickrContact::STATE_PHOTOS_COMPLETED])->update(['state_code' => FlickrContact::STATE_INIT]);
             return;
         }
 

@@ -49,7 +49,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('flickr:contacts')->monthly();
         $schedule->command('flickr:contact-info')->everyTenMinutes();
         $schedule->command('flickr:photos')->everyFiveMinutes();
-        $schedule->command('flickr:photo-size')->everyMinute();
+        $schedule->command('flickr:photo-sizes')->everyMinute();
+        $schedule->command('flickr:albums')->everyTenMinutes();
+        $schedule->command('flickr:album-photos')->everyFifteenMinutes();
         // $schedule->command('inspire')->hourly();
     }
 
