@@ -11,18 +11,49 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class PhotoSizeJob implements ShouldQueue, ShouldBeUnique
+/**
+ * Get photo sizes
+ * @package App\Jobs\Flickr
+ */
+class PhotoSizesJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
 
+    /**
+     * The number of seconds after which the job's unique lock will be released.
+     *
+     * @var int
+     */
+    public int $uniqueFor = 900;
+
     private FlickrPhoto $photo;
 
     public function __construct(FlickrPhoto $photo)
     {
         $this->photo = $photo;
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addHours(6);
+    }
+
+    /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId(): string
+    {
+        return $this->photo->id;
     }
 
     public function handle()
@@ -32,8 +63,6 @@ class PhotoSizeJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        $this->photo->update([
-            'sizes' => $sizes
-        ]);
+        $this->photo->update(['sizes' => $sizes]);
     }
 }

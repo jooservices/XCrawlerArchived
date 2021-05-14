@@ -3,12 +3,14 @@
 namespace Tests;
 
 use App\Services\Client\Domain\ResponseInterface;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 abstract class TestCase extends BaseTestCase
 {
+    use RefreshDatabase;
     use CreatesApplication;
     use WithFaker;
     use WithoutMiddleware;

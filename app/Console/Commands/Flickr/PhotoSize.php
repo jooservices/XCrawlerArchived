@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Flickr;
 
-use App\Jobs\Flickr\PhotoSizeJob;
+use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;
 use Illuminate\Console\Command;
 
@@ -13,7 +13,7 @@ class PhotoSize extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:photo-size';
+    protected $signature = 'flickr:photo-sizes';
 
     /**
      * The console command description.
@@ -26,7 +26,7 @@ class PhotoSize extends Command
     {
         $photos = FlickrPhoto::whereNull('sizes')->limit(40)->get();
         foreach ($photos as $photo) {
-            PhotoSizeJob::dispatch($photo);
+            PhotoSizesJob::dispatch($photo);
         }
     }
 }

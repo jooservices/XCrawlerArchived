@@ -1,19 +1,20 @@
 <?php
 
-
 namespace App\Jobs\Flickr;
-
 
 use App\Models\FlickrContact;
 use App\Services\FlickrService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ContactsJob implements ShouldQueue, ShouldBeUnique
+/**
+ * Get all contacts of authorized user
+ * @package App\Jobs\Flickr
+ */
+class ContactsJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -22,9 +23,7 @@ class ContactsJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        $service = app(FlickrService::class);
-        $contacts = $service->getAllContacts();
-
+        $contacts = app(FlickrService::class)->getAllContacts();
         if ($contacts->isEmpty()) {
             return;
         }

@@ -19,7 +19,7 @@ class Contacts extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch Flickr ALL contacts of authorized user';
+    protected $description = 'Get contacts of authorized user';
 
     public function handle()
     {
