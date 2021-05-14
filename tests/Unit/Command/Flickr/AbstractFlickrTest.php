@@ -23,8 +23,18 @@ abstract class AbstractFlickrTest  extends TestCase
 
         $this->mocker = $this->getMockBuilder(FlickrService::class)->getMock();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Flickr';
-        $this->mocker->method('getAllPhotos')
-            ->willReturn(collect(json_decode($this->getFixture('photos.json'), true)));
+        $mocks = [
+            'getAllContacts' => 'contacts.json',
+            'getPeopleInfo' => 'contact.json',
+            'getAllPhotos' => 'photos.json',
+        ];
+
+        foreach ($mocks as $method => $file)
+        {
+            $this->mocker->method($method)
+                ->willReturn(collect(json_decode($this->getFixture($file), true)));
+        }
+
         app()->instance(FlickrService::class, $this->mocker);
     }
 }

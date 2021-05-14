@@ -103,4 +103,13 @@ class FlickrContact extends Model
         'photos_count' => 'integer',
         'state_code' => 'string',
     ];
+
+    /**
+     * @param string $nsid
+     * @return self
+     */
+    public static function findByNsid(string $nsid): self
+    {
+        return self::where('nsid', $nsid)->first();
+    }
 }
