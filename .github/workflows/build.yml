@@ -82,5 +82,5 @@ jobs:
       - name: Deploy
         if: github.event_name == 'push' && success()
         run: |
-        php artisan snapshot
-        ~/deployer.sh -s
+          php artisan snapshot
+          ~/deployer.sh -s
