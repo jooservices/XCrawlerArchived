@@ -22,6 +22,13 @@ class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
     use Queueable;
     use SerializesModels;
 
+    /**
+     * The number of seconds after which the job's unique lock will be released.
+     *
+     * @var int
+     */
+    public int $uniqueFor = 900;
+
     private string $albumId;
     private string $nsid;
 
@@ -29,6 +36,16 @@ class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
     {
         $this->albumId = $albumId;
         $this->nsid = $nsid;
+    }
+
+    /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId(): string
+    {
+        return $this->albumId . $this->nsid;
     }
 
     public function handle()
