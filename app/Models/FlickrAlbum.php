@@ -29,6 +29,14 @@ class FlickrAlbum extends Model
     public const STATE_PHOTOS_COMPLETED = 'FAPC';
     public const STATE_PHOTOS_FAILED = 'FAPF';
 
+    public const STATES = [
+        STATE_INIT,
+        STATE_INFO_FAILED,
+        STATE_PHOTOS_PROCESSING,
+        STATE_PHOTOS_COMPLETED,
+        STATE_PHOTOS_FAILED
+    ];
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *
