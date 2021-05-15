@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Integration;
+use App\Models\XCrawlerLog;
 use Illuminate\Support\Collection;
+use Jooservices\PhpFlickr\FlickrException;
 use Jooservices\PhpFlickr\PhpFlickr;
 use OAuth\Common\Storage\Memory;
 use OAuth\OAuth1\Token\StdOAuth1Token;
@@ -100,7 +102,21 @@ class FlickrService
 
     public function getPhotoSize(string $photoId)
     {
-        return $this->client->photos()->getSizes($photoId);
+        try {
+            return $this->client->photos()->getSizes($photoId);
+        } catch (FlickrException $exception) {
+            XCrawlerLog::create([
+                'url' => 'https://flickr.com',
+                'payload' => [
+                    'photo_id' => $photoId,
+                    'method' => __FUNCTION__,
+                    'exception' => $exception->getMessage()
+                ],
+                'source' => 'Flickr',
+                'succeed' => false,
+            ]);
+            return null;
+        }
     }
 
     public function getAlbumInfo(string $albumId, string $nsid)
