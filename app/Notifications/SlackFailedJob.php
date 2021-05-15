@@ -75,6 +75,7 @@ class SlackFailedJob extends Notification
             ->content('A job failed at ' . config('app.name'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields([
+                    'Job' => $this->event->job->getName(),
                     'Exception message' => $this->event->exception->getMessage(),
                     'Job class' => $this->event->job->resolveName(),
                     'Job body' => $this->event->job->getRawBody(),
