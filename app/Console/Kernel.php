@@ -47,11 +47,11 @@ class Kernel extends ConsoleKernel
          * Photo size 1 photo / time
          */
         $schedule->command('flickr:contacts')->monthly();
-        $schedule->command('flickr:contact-info')->everyTenMinutes();
-        $schedule->command('flickr:photos')->everyFiveMinutes();
-        $schedule->command('flickr:photo-sizes')->everyMinute();
+        $schedule->command('flickr:contact-info')->everyFifteenMinutes();
+        $schedule->command('flickr:photos')->everyTenMinutes();
+        $schedule->command('flickr:photo-sizes')->everyFiveMinutes();
         $schedule->command('flickr:albums')->everyTenMinutes();
-        $schedule->command('flickr:album-photos')->everyFifteenMinutes();
+        $schedule->command('flickr:album-photos')->everyTenMinutes();
         // $schedule->command('inspire')->hourly();
     }
 
