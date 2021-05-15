@@ -111,7 +111,9 @@ class FlickrService
                     'photo_id' => $photoId,
                     'method' => __FUNCTION__,
                     'exception' => $exception->getMessage()
-                ]
+                ],
+                'source' => 'Flickr',
+                'succeed' => false,
             ]);
             return null;
         }
