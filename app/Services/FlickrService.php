@@ -135,9 +135,9 @@ class FlickrService
                 null,
                 500,
                 $page,
-                $photos->add($pagePhotos)
             );
 
+            $photos->add($pagePhotos);
         }
 
         return $photos;
