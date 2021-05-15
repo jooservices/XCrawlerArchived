@@ -30,11 +30,11 @@ class FlickrAlbum extends Model
     public const STATE_PHOTOS_FAILED = 'FAPF';
 
     public const STATES = [
-        STATE_INIT,
-        STATE_INFO_FAILED,
-        STATE_PHOTOS_PROCESSING,
-        STATE_PHOTOS_COMPLETED,
-        STATE_PHOTOS_FAILED
+        self::STATE_INIT,
+        self::STATE_INFO_FAILED,
+        self::STATE_PHOTOS_PROCESSING,
+        self::STATE_PHOTOS_COMPLETED,
+        self::STATE_PHOTOS_FAILED
     ];
 
     /**
