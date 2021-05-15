@@ -60,9 +60,10 @@ class PhotoSizesJob implements ShouldQueue, ShouldBeUnique
     {
         $service = app(FlickrService::class);
         if (!$sizes = $service->getPhotoSize($this->photo->id)) {
+            $this->photo->updateState(FlickrPhoto::STATE_SIZE_FAILED);
             return;
         }
 
-        $this->photo->update(['sizes' => $sizes]);
+        $this->photo->update(['sizes' => $sizes, 'state_code' => FlickrPhoto::STATE_SIZE_COMPLETED]);
     }
 }

@@ -48,6 +48,7 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
     {
         $this->contact->updateState(FlickrContact::STATE_PHOTOS_FAILED);
     }
+
     /**
      * Determine the time at which the job should timeout.
      *
@@ -78,7 +79,7 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
                 FlickrPhoto::updateOrCreate([
                     'id' => $photo['id'],
                     'owner' => $photo['owner'],
-                ], $photo);
+                ], array_merge($photo, ['state_code' => FlickrPhoto::STATE_INIT]));
             }
         });
 

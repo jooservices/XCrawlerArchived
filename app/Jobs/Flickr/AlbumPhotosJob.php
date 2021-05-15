@@ -56,7 +56,7 @@ class AlbumPhotosJob implements ShouldQueue, ShouldBeUnique
                 $photo = FlickrPhoto::firstOrCreate([
                     'id' => $photo['id'],
                     'owner' => $photos['owner']
-                ]);
+                ], ['state_code' => FlickrPhoto::STATE_INIT]);
 
                 $this->album->photos()->syncWithoutDetaching([$photo->id]);
             }

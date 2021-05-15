@@ -3,17 +3,22 @@
 namespace App\Models;
 
 use App\Console\Commands\Flickr\Album;
+use App\Models\Traits\HasState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property array  $sizes
+ * @property array $sizes
  */
 class FlickrPhoto extends Model
 {
     use HasFactory;
+    use HasState;
 
+    public const STATE_INIT = 'FPIN';
+    public const STATE_SIZE_FAILED = 'FPSF';
+    public const STATE_SIZE_COMPLETED = 'FPSC';
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -38,6 +43,7 @@ class FlickrPhoto extends Model
         'isfriend',
         'isfamily',
         'sizes',
+        'state_code',
         'isprimary',
     ];
 
@@ -52,6 +58,7 @@ class FlickrPhoto extends Model
         'isfamily' => 'integer',
         'isprimary' => 'integer',
         'sizes' => 'array',
+        'state_code' => 'string',
     ];
 
     public function albums()
