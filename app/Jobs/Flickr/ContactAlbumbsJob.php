@@ -60,8 +60,7 @@ class ContactAlbumbsJob implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $this->contact->updateState(FlickrContact::STATE_ALBUM_PROCESSING);
-        $service = app(FlickrService::class);
-        $albums = $service->getContactAlbums($this->contact->nsid);
+        $albums = app(FlickrService::class)->getContactAlbums($this->contact->nsid);
         $albums->each(function ($albums) {
             foreach ($albums['photoset'] as $album) {
                 FlickrAlbum::updateOrCreate([

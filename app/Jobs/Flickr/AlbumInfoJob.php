@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Jooservices\PhpFlickr\FlickrException;
 
 /**
  * Get album information
@@ -50,11 +51,16 @@ class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        $album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid);
+        try {
+            $album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid);
+            FlickrAlbum::updateOrCreate([
+                'id' => $album['id'],
+                'owner' => $album['owner']
+            ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
+        } catch (FlickrException $exception) {
+            FlickrAlbum::where(['id' => $this->albumId, 'owner' => $this->nsid])
+                ->update(['state_code' => FlickrAlbum::STATE_INFO_FAILED]);
+        }
 
-        FlickrAlbum::updateOrCreate([
-            'id' => $album['id'],
-            'owner' => $album['owner']
-        ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
     }
 }

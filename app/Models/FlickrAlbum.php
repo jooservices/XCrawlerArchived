@@ -24,8 +24,10 @@ class FlickrAlbum extends Model
     use HasState;
 
     public const STATE_INIT = 'FAIN';
+    public const STATE_INFO_FAILED = 'FAIF';
     public const STATE_PHOTOS_PROCESSING = 'FAPP';
     public const STATE_PHOTOS_COMPLETED = 'FAPC';
+    public const STATE_PHOTOS_FAILED = 'FAPF';
 
     /**
      * Indicates if the IDs are auto-incrementing.

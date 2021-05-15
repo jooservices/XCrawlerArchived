@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Jooservices\PhpFlickr\FlickrException;
 
 /**
  * Get photos of album
@@ -50,18 +51,22 @@ class AlbumPhotosJob implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         $this->album->updateState(FlickrAlbum::STATE_PHOTOS_PROCESSING);
-        $photos = app(FlickrService::class)->getAlbumPhotos($this->album->id);
-        $photos->each(function ($photos) {
-            foreach ($photos['photo'] as $photo) {
-                $photo = FlickrPhoto::firstOrCreate([
-                    'id' => $photo['id'],
-                    'owner' => $photos['owner']
-                ], ['state_code' => FlickrPhoto::STATE_INIT]);
+        try {
+            $photos = app(FlickrService::class)->getAlbumPhotos($this->album->id);
+            $photos->each(function ($photos) {
+                foreach ($photos['photo'] as $photo) {
+                    $photo = FlickrPhoto::firstOrCreate([
+                        'id' => $photo['id'],
+                        'owner' => $photos['owner']
+                    ], ['state_code' => FlickrPhoto::STATE_INIT]);
 
-                $this->album->photos()->syncWithoutDetaching([$photo->id]);
-            }
-        });
-
-        $this->album->updateState(FlickrAlbum::STATE_PHOTOS_COMPLETED);
+                    $this->album->photos()->syncWithoutDetaching([$photo->id]);
+                }
+            });
+            $this->album->updateState(FlickrAlbum::STATE_PHOTOS_COMPLETED);
+        }catch (FlickrException $exception)
+        {
+            $this->album->updateState(FlickrAlbum::STATE_PHOTOS_FAILED);
+        }
     }
 }

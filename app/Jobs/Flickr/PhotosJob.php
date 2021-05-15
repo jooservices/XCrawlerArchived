@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Jooservices\PhpFlickr\FlickrException;
 use Throwable;
 
 /**
@@ -46,7 +47,7 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
      */
     public function failed(Throwable $exception)
     {
-        $this->contact->updateState(FlickrContact::STATE_PHOTOS_FAILED);
+
     }
 
     /**
@@ -73,16 +74,22 @@ class PhotosJob implements ShouldQueue, ShouldBeUnique
     {
         $this->contact->updateState(FlickrContact::STATE_PHOTOS_PROCESSING);
         $service = app(FlickrService::class);
-        $photos = $service->getAllPhotos($this->contact->nsid);
-        $photos->each(function ($photos) {
-            foreach ($photos['photo'] as $photo) {
-                FlickrPhoto::updateOrCreate([
-                    'id' => $photo['id'],
-                    'owner' => $photo['owner'],
-                ], array_merge($photo, ['state_code' => FlickrPhoto::STATE_INIT]));
-            }
-        });
+        try {
+            $photos = $service->getAllPhotos($this->contact->nsid);
+            $photos->each(function ($photos) {
+                foreach ($photos['photo'] as $photo) {
+                    FlickrPhoto::updateOrCreate([
+                        'id' => $photo['id'],
+                        'owner' => $photo['owner'],
+                    ], array_merge($photo, ['state_code' => FlickrPhoto::STATE_INIT]));
+                }
+            });
 
-        $this->contact->updateState(FlickrContact::STATE_PHOTOS_COMPLETED);
+            $this->contact->updateState(FlickrContact::STATE_PHOTOS_COMPLETED);
+        }catch (FlickrException $exception)
+        {
+            $this->contact->updateState(FlickrContact::STATE_PHOTOS_FAILED);
+            return;
+        }
     }
 }
