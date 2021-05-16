@@ -27,6 +27,7 @@ class PhotoSizesTest extends AbstractFlickrTest
 
     public function test_cant_get_photo_sizes()
     {
+        $this->mockFailed();
         $contact = $this->factoryContact();
         $photo = FlickrPhoto::factory()->create([
             'id' => '9472222272',
