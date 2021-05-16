@@ -39,7 +39,7 @@ jobs:
           php artisan migrate
           composer test-coverage
 
-      - name: Staging
+      - name: Deploy on Staging
         if: success()
         run: ~/deployer.sh -s
 
@@ -47,7 +47,7 @@ jobs:
   deploy:
     runs-on: [ worker-1 ]
     steps:
-      - name: Deploy
+      - name: Deploy on Prod
         if: github.event_name == 'push' && success()
         run: |
           ~/deployer.sh -s
