@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Models\R18;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\R18Crawler;
-use App\Services\R18Service;
+use App\Services\Jav\R18Service;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

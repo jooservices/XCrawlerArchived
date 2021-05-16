@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Services\OnejavService;
+use App\Services\Jav\OnejavService;
 use Illuminate\Console\Command;
 
 class OnejavDaily extends Command

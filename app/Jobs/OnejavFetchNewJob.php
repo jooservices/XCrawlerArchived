@@ -6,7 +6,7 @@ use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
-use App\Services\OnejavService;
+use App\Services\Jav\OnejavService;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Foundation\Application;

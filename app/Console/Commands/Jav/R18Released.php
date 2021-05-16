@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Services\R18Service;
+use App\Services\Jav\R18Service;
 use Illuminate\Console\Command;
 
 class R18Released extends Command

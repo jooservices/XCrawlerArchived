@@ -6,7 +6,7 @@ use App\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
 use App\Models\XCityIdol;
 use App\Services\Crawler\XCityIdolCrawler;
-use App\Services\XCityIdolService;
+use App\Services\Jav\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

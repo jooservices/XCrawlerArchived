@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
 use App\Jobs\R18FetchItemJob;
 use App\Models\R18;

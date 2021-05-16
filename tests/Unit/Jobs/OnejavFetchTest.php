@@ -9,7 +9,7 @@ use App\Models\TemporaryUrl;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
-use App\Services\OnejavService;
+use App\Services\Jav\OnejavService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property integer $model_id
+ * @property string $model_type
+ * @property string $category
+ * @property string $event
+ * @property array $data
+ * @property boolean $is_reverted
+ * @package App\Models
+ */
 class Event extends Model
 {
     use HasFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
 use App\Jobs\OnejavFetchDailyJob;
 use App\Jobs\OnejavFetchNewJob;

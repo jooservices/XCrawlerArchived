@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
 use App\Models\XCrawlerLog;
 use Illuminate\Support\Collection;
@@ -23,7 +23,7 @@ abstract class AbstractJavService
             'url' => $url,
             'payload' => $payload,
             'source' => $source,
-            'succeed' => true
+            'succeed' => $succeed
         ]);
     }
 

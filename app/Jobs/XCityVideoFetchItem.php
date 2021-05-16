@@ -7,7 +7,7 @@ use App\Models\TemporaryUrl;
 use App\Models\XCityVideo;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityVideoCrawler;
-use App\Services\XCityVideoService;
+use App\Services\Jav\XCityVideoService;
 use Throwable;
 
 class XCityVideoFetchItem extends AbstractUniqueUrlJob

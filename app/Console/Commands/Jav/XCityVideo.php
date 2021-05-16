@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Jav;
 
 use App\Jobs\XCityVideoFetchItem;
+use App\Services\Jav\XCityVideoService;
 use App\Services\TemporaryUrlService;
-use App\Services\XCityVideoService;
 use Illuminate\Console\Command;
 
 class XCityVideo extends Command

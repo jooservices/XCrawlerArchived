@@ -7,7 +7,7 @@ use App\Models\Idol;
 use App\Models\TemporaryUrl;
 use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityIdolCrawler;
-use App\Services\XCityIdolService;
+use App\Services\Jav\XCityIdolService;
 use Throwable;
 
 class XCityIdolFetchItem extends AbstractUniqueUrlJob
