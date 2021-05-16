@@ -2,9 +2,10 @@
 
 namespace App\Jobs\Flickr;
 
+use App\Jobs\Traits\HasUnique;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
-use App\Services\FlickrService;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,13 +23,7 @@ class ContactAlbumbsJob implements ShouldQueue, ShouldBeUnique
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
+    use HasUnique;
 
     private FlickrContact $contact;
 
@@ -54,13 +49,19 @@ class ContactAlbumbsJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->contact->nsid;
+        return $this->getUnique([$this->contact->nsid]);
     }
 
     public function handle()
     {
         $this->contact->updateState(FlickrContact::STATE_ALBUM_PROCESSING);
         $albums = app(FlickrService::class)->getContactAlbums($this->contact->nsid);
+
+        if ($albums->isEmpty()) {
+            $this->contact->updateState(FlickrContact::STATE_ALBUM_FAILED);
+            return;
+        }
+
         $albums->each(function ($albums) {
             foreach ($albums['photoset'] as $album) {
                 FlickrAlbum::updateOrCreate([

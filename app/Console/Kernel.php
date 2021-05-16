@@ -41,10 +41,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-video')->everyFiveMinutes();
 
         /**
-         * Contacts process monthly. It may take more than one depends on how many pages
-         * Contact info process 1/ time
-         * Photos process 1 contact / time . And it mauy take more than API to get photos depends on how many page
-         * Photo size 1 photo / time
+         * Contacts : 1 request / time
+         * Contact info : 1 request / time
+         * Photos process : 1 request / time
+         * Photo sizes : 40 requests / time
+         * Album : 1 request / time
+         * Album photos : 1 request / time
          */
         $schedule->command('flickr:contacts')->monthly();
         $schedule->command('flickr:contact-info')->everyFifteenMinutes();

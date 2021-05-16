@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Flickr;
 
+use App\Jobs\Traits\HasUnique;
 use App\Models\FlickrAlbum;
-use App\Services\FlickrService;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Jooservices\PhpFlickr\FlickrException;
 
 /**
  * Get album information
@@ -22,13 +22,7 @@ class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
+    use HasUnique;
 
     private string $albumId;
     private string $nsid;
@@ -46,21 +40,21 @@ class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->albumId . $this->nsid;
+        return $this->getUnique([$this->albumId, $this->nsid]);
     }
 
     public function handle()
     {
-        try {
-            $album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid);
-            FlickrAlbum::updateOrCreate([
-                'id' => $album['id'],
-                'owner' => $album['owner']
-            ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
-        } catch (FlickrException $exception) {
+        if (!$album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid)) {
             FlickrAlbum::where(['id' => $this->albumId, 'owner' => $this->nsid])
                 ->update(['state_code' => FlickrAlbum::STATE_INFO_FAILED]);
+
+            return;
         }
 
+        FlickrAlbum::updateOrCreate([
+            'id' => $album['id'],
+            'owner' => $album['owner']
+        ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
     }
 }

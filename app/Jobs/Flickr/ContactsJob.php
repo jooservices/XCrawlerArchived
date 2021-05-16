@@ -3,7 +3,7 @@
 namespace App\Jobs\Flickr;
 
 use App\Models\FlickrContact;
-use App\Services\FlickrService;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,12 +23,7 @@ class ContactsJob implements ShouldQueue
 
     public function handle()
     {
-        $contacts = app(FlickrService::class)->getAllContacts();
-        if ($contacts->isEmpty()) {
-            return;
-        }
-
-        $contacts->each(function ($page) {
+        app(FlickrService::class)->getAllContacts()->each(function ($page) {
             foreach ($page['contact'] as $contact) {
                 FlickrContact::updateOrCreate(
                     ['nsid' => $contact['nsid']],

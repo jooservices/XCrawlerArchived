@@ -20,10 +20,13 @@ class Albums extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch Flickr Albums of user';
+    protected $description = 'Get Albums of user';
 
     public function handle()
     {
+        /**
+         * We will process albums whenever we got all phtos
+         */
         if (!$contact = FlickrContact::byState(FlickrContact::STATE_PHOTOS_COMPLETED)->first()) {
             return;
         }

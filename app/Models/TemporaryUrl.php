@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\HasSource;
-use App\Models\Traits\HasState;
+use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +19,7 @@ class TemporaryUrl extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use HasState;
+    use HasStates;
     use HasSource;
 
     public const STATE_INIT = 'TUIN';
@@ -40,9 +40,10 @@ class TemporaryUrl extends Model
         'state_code' => 'string'
     ];
 
-    public function completed()
+    public function completed(): bool
     {
-        $this->update(['state_code' => self::STATE_COMPLETED]);
+        $this->updateState(self::STATE_COMPLETED);
+        return true;
     }
 
     public function updateData(array $data)

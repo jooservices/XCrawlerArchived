@@ -2,8 +2,9 @@
 
 namespace App\Jobs\Flickr;
 
+use App\Jobs\Traits\HasUnique;
 use App\Models\FlickrPhoto;
-use App\Services\FlickrService;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,13 +22,7 @@ class PhotoSizesJob implements ShouldQueue, ShouldBeUnique
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
+    use HasUnique;
 
     private FlickrPhoto $photo;
 
@@ -53,13 +48,12 @@ class PhotoSizesJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->photo->id;
+        return $this->getUnique([$this->photo->id]);
     }
 
     public function handle()
     {
-        $service = app(FlickrService::class);
-        if (!$sizes = $service->getPhotoSize($this->photo->id)) {
+        if (!$sizes = app(FlickrService::class)->getPhotoSize($this->photo->id)) {
             $this->photo->updateState(FlickrPhoto::STATE_SIZE_FAILED);
             return;
         }
