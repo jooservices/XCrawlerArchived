@@ -119,7 +119,8 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
         // Onejav we can't get latest page without recursive
         $currentPage = (int)$this->url->data['current_page'];
         if ($currentPage === config('services.onejav.pages_count')) {
-            return $this->url->completed();
+            $this->url->completed();
+            return;
         }
 
         $currentPage++;

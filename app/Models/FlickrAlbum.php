@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\HasSlackNotifications;
-use App\Models\Traits\HasState;
+use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlickrAlbum extends Model
 {
     use HasFactory;
-    use HasState;
+    use HasStates;
 
     public const STATE_INIT = 'FAIN';
     public const STATE_INFO_FAILED = 'FAIF';

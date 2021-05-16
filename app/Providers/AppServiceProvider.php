@@ -32,7 +32,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Queue::failing(function (JobFailed $event) {
-            Notification::route('slack', config('services.slack.exceptions'))->notify(new SlackFailedJob($event));
+            if (!$this->app->isLocal()) {
+                Notification::route('slack', config('services.slack.exceptions'))->notify(new SlackFailedJob($event));
+            }
         });
     }
 }

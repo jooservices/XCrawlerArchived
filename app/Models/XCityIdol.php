@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasState;
+use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ class XCityIdol extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use HasState;
+    use HasStates;
 
     public const ENDPOINT_URL = 'https://xxx.xcity.jp';
     public const HOMEPAGE_URL = self::ENDPOINT_URL . '/idol/';

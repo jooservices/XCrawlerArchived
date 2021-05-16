@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Console\Commands\Flickr\Album;
-use App\Models\Traits\HasState;
+use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlickrPhoto extends Model
 {
     use HasFactory;
-    use HasState;
+    use HasStates;
 
     public const STATE_INIT = 'FPIN';
     public const STATE_SIZE_FAILED = 'FPSF';

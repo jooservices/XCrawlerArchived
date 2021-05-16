@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasState;
+use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class FlickrContact extends Model
 {
     use HasFactory;
-    use HasState;
+    use HasStates;
 
     public const STATE_INIT = 'FCIN';
     public const STATE_INFO_COMPLETED = 'FCIC';
@@ -23,6 +23,7 @@ class FlickrContact extends Model
     public const STATE_PHOTOS_FAILED = 'FCPF';
     public const STATE_ALBUM_PROCESSING = 'FCAP';
     public const STATE_ALBUM_COMPLETED = 'FCAC';
+    public const STATE_ALBUM_FAILED = 'FCAF';
 
     /**
      * The primary key for the model.

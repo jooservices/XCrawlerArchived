@@ -2,9 +2,10 @@
 
 namespace App\Models\Traits;
 
+use App\Models\State;
 use Illuminate\Database\Eloquent\Builder;
 
-trait HasState
+trait HasStates
 {
     public function scopeByState(Builder $builder, string $state)
     {
@@ -17,5 +18,10 @@ trait HasState
         $this->save();
 
         return $this;
+    }
+
+    public function states()
+    {
+        return State::where(['entity' => get_class($this)])->get();
     }
 }
