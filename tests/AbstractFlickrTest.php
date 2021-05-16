@@ -41,6 +41,25 @@ abstract class AbstractFlickrTest extends TestCase
         app()->instance(FlickrService::class, $this->mocker);
     }
 
+    protected function mockFailed()
+    {
+        $this->mocker = $this->getMockBuilder(FlickrService::class)->getMock();
+        $this->fixtures = __DIR__ . '/Fixtures/Flickr';
+        $mocks = [
+            'getAllContacts' => collect(),
+            'getPeopleInfo' => null,
+            'getAllPhotos' => collect(),
+            'getPhotoSize' => null,
+        ];
+
+        foreach ($mocks as $method => $response) {
+            $this->mocker->method($method)
+                ->willReturn($response);
+        }
+
+        app()->instance(FlickrService::class, $this->mocker);
+    }
+
     protected function factoryContact()
     {
         return FlickrContact::factory()->create(

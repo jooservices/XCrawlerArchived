@@ -21,6 +21,7 @@ class PhotosJobTest  extends AbstractFlickrTest
 
     public function test_cant_get_photos()
     {
+        $this->mockFailed();
         $contact = $this->factoryContact();
 
         PhotosJob::dispatch($contact);

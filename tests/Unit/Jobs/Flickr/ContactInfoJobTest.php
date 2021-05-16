@@ -20,6 +20,7 @@ class ContactInfoJobTest extends AbstractFlickrTest
 
     public function test_cant_get_info()
     {
+        $this->mockFailed();
         $contact = $this->factoryContact();
 
         ContactInfoJob::dispatch($contact);

@@ -18,6 +18,7 @@ class ContactsJobTest extends AbstractFlickrTest
 
     public function test_cant_get_contacts()
     {
+        $this->mockFailed();
         ContactsJob::dispatch();
         $this->assertDatabaseCount('flickr_contacts', 0);
     }
