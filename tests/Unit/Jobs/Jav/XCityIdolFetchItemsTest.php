@@ -25,11 +25,12 @@ class XCityIdolFetchItemsTest extends TestCase
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../../Fixtures/XCity';
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
     }
 
     public function test_xcity_idol_fetch_items_job_with_one_page()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
+
         $this->url = TemporaryUrl::factory()->create([
             'url' => $this->faker->url, 'source' => $this->faker->uuid, 'state_code' => $this->faker->uuid,
             'data' => [
@@ -54,7 +55,6 @@ class XCityIdolFetchItemsTest extends TestCase
 
     public function test_xcity_idol_fetch_items_job_with_multi_pages()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         $this->url = TemporaryUrl::factory()->create([
             'url' => $this->faker->url, 'source' => $this->faker->uuid, 'state_code' => $this->faker->uuid,
             'data' => [

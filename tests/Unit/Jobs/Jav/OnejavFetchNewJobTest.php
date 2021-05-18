@@ -15,6 +15,7 @@ use Tests\TestCase;
 class OnejavFetchNewJobTest extends TestCase
 {
     private MockObject|XCrawlerClient $mocker;
+    private TemporaryUrl $url;
 
     public function setUp(): void
     {
@@ -25,42 +26,36 @@ class OnejavFetchNewJobTest extends TestCase
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
+        $this->url = TemporaryUrl::factory()->create([
+            'url' => Onejav::NEW_URL,
+            'source' => OnejavService::SOURCE,
+            'data' => ['current_page' => 1],
+            'state_code' => TemporaryUrl::STATE_INIT
+        ]);
     }
 
     public function test_fetch_new_job()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $temporaryUrl = TemporaryUrl::factory()->create([
-            'url' => Onejav::NEW_URL,
-            'source' => OnejavService::SOURCE,
-            'data' => ['current_page' => 1],
-            'state_code' => TemporaryUrl::STATE_INIT
-        ]);
 
-        OnejavFetchNewJob::dispatch($temporaryUrl);
+        OnejavFetchNewJob::dispatch($this->url);
         $this->assertDatabaseCount('onejav', 10);
-        $temporaryUrl->refresh();
+        $this->url->refresh();
 
-        $this->assertEquals(2, $temporaryUrl->data['current_page']);
+        $this->assertEquals(2, $this->url->data['current_page']);
     }
 
     public function test_fetch_new_job_with_last_page()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $temporaryUrl = TemporaryUrl::factory()->create([
-            'url' => Onejav::NEW_URL,
-            'source' => OnejavService::SOURCE,
-            'data' => ['current_page' => 1],
-            'state_code' => TemporaryUrl::STATE_INIT
-        ]);
 
-        OnejavFetchNewJob::dispatch($temporaryUrl);
+        OnejavFetchNewJob::dispatch($this->url);
         $this->assertDatabaseCount('onejav', 10);
-        $temporaryUrl->refresh();
+        $this->url->refresh();
 
-        $this->assertEquals(2, $temporaryUrl->data['current_page']);
+        $this->assertEquals(2, $this->url->data['current_page']);
     }
 
     public function test_fetch_new_job_with_empty_data()
