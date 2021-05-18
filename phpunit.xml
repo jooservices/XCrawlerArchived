@@ -23,6 +23,9 @@
             <directory suffix=".php">./app</directory>
         </include>
     </coverage>
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
     <php>
         <ini name="memory_limit" value="-1"/>
         <server name="APP_ENV" value="testing" force="true"/>

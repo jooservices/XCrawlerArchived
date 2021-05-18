@@ -18,7 +18,9 @@ jobs:
         run: composer lint
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
 
       - name: Generate key
         run: php artisan key:generate
@@ -36,6 +38,13 @@ jobs:
           mysql -uroot -proot -e "DROP DATABASE IF EXISTS xcrawler_tests; CREATE DATABASE xcrawler_tests;"
           php artisan migrate
           composer test-coverage
+
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: coverage
+          path: coverage.xml
 
       - name: Deploy on Staging
         if: success()
