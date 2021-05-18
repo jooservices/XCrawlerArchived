@@ -45,7 +45,3 @@ jobs:
         with:
           name: coverage
           path: coverage.xml
-
-      - name: Deploy on Staging
-        if: success()
-        run: ~/deployer.sh -s
