@@ -3,16 +3,20 @@
 namespace App\Services\Client;
 
 use App\Services\Client\Domain\ResponseInterface;
+use Faker\Factory;
+use Faker\Generator;
 use GuzzleHttp\MessageFormatter;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class XCrawlerClient extends AbstractClient
 {
-    use WithFaker;
+    protected Generator $faker;
 
     public function init(string $name = null, array $options = [], int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500, string $loggingFormat = MessageFormatter::CLF): Domain\ClientInterface
     {
-        $this->setUpFaker();
+        $locale = $locale ?? config('app.faker_locale', Factory::DEFAULT_LOCALE);
+        app()->make(Generator::class, ['locale' => $locale]);
+        $this->faker = Factory::create($locale);
+
         app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
         $this->contentType = 'application/x-www-form-urlencoded';
         $this->setHeaders(['User-Agent' => str_replace('Mobile ', '', $this->faker->userAgent())]);
