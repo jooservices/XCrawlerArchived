@@ -4,27 +4,15 @@ namespace Tests\Unit\Jobs\Jav;
 
 use App\Jobs\Jav\XCityIdolFetchItems;
 use App\Models\TemporaryUrl;
-use App\Services\Client\CrawlerClientResponse;
-use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
 
-class XCityIdolFetchItemsTest extends TestCase
+class XCityIdolFetchItemsTest extends AbstractXCityTest
 {
-    private MockObject|XCrawlerClient $mocker;
-
     private TemporaryUrl $url;
 
     public function setUp(): void
     {
         parent::setUp();
-        app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
-        $this->mocker = $this->getMockBuilder(XCrawlerClient::class)->getMock();
-        $this->mocker->method('init')->willReturnSelf();
-        $this->mocker->method('setHeaders')->willReturnSelf();
-        $this->mocker->method('setContentType')->willReturnSelf();
-        $this->fixtures = __DIR__ . '/../../../Fixtures/XCity';
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
     }
 
