@@ -21,6 +21,9 @@ class OnejavNewTest extends TestCase
     use RefreshDatabase;
 
     private MockObject|XCrawlerClient $mocker;
+    private array $sampleItem;
+    private array $tags;
+    private array $actresses;
 
     public function setUp(): void
     {
@@ -31,13 +34,19 @@ class OnejavNewTest extends TestCase
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+
+        $this->sampleItem = json_decode($this->getFixture('item.json'), true);
+        $this->tags = $this->sampleItem['tags'];
+        $this->actresses = $this->sampleItem['actresses'];
+        unset($this->sampleItem['tags']);
+        unset($this->sampleItem['actresses']);
+        unset($this->sampleItem['date']);
     }
 
     public function test_onejav_new_command()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
-
         $this->artisan('jav:onejav-new');
 
         $this->assertDatabaseHas('temporary_urls', [
@@ -50,16 +59,8 @@ class OnejavNewTest extends TestCase
 
         // We dont need assert queue because we will check queue result
 
-        $sampleItem = json_decode($this->getFixture('item.json'), true);
-        $tags = $sampleItem['tags'];
-
-        $actresses = $sampleItem['actresses'];
-        unset($sampleItem['tags']);
-        unset($sampleItem['actresses']);
-        unset($sampleItem['date']);
-
         // Make sure we have created onejav record for this movie
-        $this->assertDatabaseHas('onejav', $sampleItem);
+        $this->assertDatabaseHas('onejav', $this->sampleItem);
 
         // Try to crawl directly to get items for comparing
         $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
@@ -68,7 +69,7 @@ class OnejavNewTest extends TestCase
         $this->assertEquals($items->count(), Onejav::count());
 
         // Make sure we have created movie record for this movie
-        $this->assertDatabaseHas('movies', ['dvd_id' => $sampleItem['dvd_id']]);
+        $this->assertDatabaseHas('movies', ['dvd_id' => $this->sampleItem['dvd_id']]);
         // Make sure we have created enough records
         $this->assertEquals($items->count(), Movie::count());
 
@@ -76,8 +77,8 @@ class OnejavNewTest extends TestCase
         $movie = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->first();
         $this->assertNotNull($movie->id);
 
-        $this->assertEquals($tags, $movie->tags->pluck('name')->toArray());
-        $this->assertEquals($actresses, $movie->idols->pluck('name')->toArray());
+        $this->assertEquals($this->tags, $movie->tags->pluck('name')->toArray());
+        $this->assertEquals($this->actresses, $movie->idols->pluck('name')->toArray());
 
         // Try to run again it'll not duplicate data
         $this->artisan('jav:onejav-new');
@@ -101,9 +102,6 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_daily_command()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
-
         $this->artisan('jav:onejav-daily');
 
         $this->assertDatabaseMissing('temporary_urls', [
@@ -113,16 +111,8 @@ class OnejavNewTest extends TestCase
 
         // We dont need assert queue because we will check queue result
 
-        $sampleItem = json_decode($this->getFixture('item.json'), true);
-        $tags = $sampleItem['tags'];
-
-        $actresses = $sampleItem['actresses'];
-        unset($sampleItem['tags']);
-        unset($sampleItem['actresses']);
-        unset($sampleItem['date']);
-
         // Make sure we have created onejav record for this movie
-        $this->assertDatabaseHas('onejav', $sampleItem);
+        $this->assertDatabaseHas('onejav', $this->sampleItem);
 
         // Try to crawl directly to get items for comparing
         $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
@@ -131,7 +121,7 @@ class OnejavNewTest extends TestCase
         $this->assertEquals($items->count(), Onejav::count());
 
         // Make sure we have created movie record for this movie
-        $this->assertDatabaseHas('movies', ['dvd_id' => $sampleItem['dvd_id']]);
+        $this->assertDatabaseHas('movies', ['dvd_id' => $this->sampleItem['dvd_id']]);
         // Make sure we have created enough records
         $this->assertEquals($items->count(), Movie::count());
 
@@ -139,8 +129,8 @@ class OnejavNewTest extends TestCase
         $movie = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->first();
         $this->assertNotNull($movie->id);
 
-        $this->assertEquals($tags, $movie->tags->pluck('name')->toArray());
-        $this->assertEquals($actresses, $movie->idols->pluck('name')->toArray());
+        $this->assertEquals($this->tags, $movie->tags->pluck('name')->toArray());
+        $this->assertEquals($this->actresses, $movie->idols->pluck('name')->toArray());
 
         // Try to run again it'll not duplicate data
         $this->artisan('jav:onejav-daily');
@@ -151,9 +141,6 @@ class OnejavNewTest extends TestCase
     public function test_onejav_new_command_job()
     {
         Queue::fake();
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
-
-        app()->instance(XCrawlerClient::class, $this->mocker);
 
         $this->artisan('jav:onejav-new');
 
