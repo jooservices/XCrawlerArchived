@@ -2,25 +2,23 @@
 
 namespace Tests\Unit\Command\Jav;
 
+use App\Jobs\Jav\OnejavFetchDailyJob;
 use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Models\Movie;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
-use App\Services\Client\CrawlerClientResponse;
-use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
 use App\Services\Jav\OnejavService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
+use Tests\AbstractCrawlingTest;
 
-class OnejavNewTest extends TestCase
+class OnejavNewTest extends AbstractCrawlingTest
 {
     use RefreshDatabase;
 
-    private MockObject|XCrawlerClient $mocker;
     private array $sampleItem;
     private array $tags;
     private array $actresses;
@@ -28,11 +26,7 @@ class OnejavNewTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
-        $this->mocker = $this->getMockBuilder(XCrawlerClient::class)->getMock();
-        $this->mocker->method('init')->willReturnSelf();
-        $this->mocker->method('setHeaders')->willReturnSelf();
-        $this->mocker->method('setContentType')->willReturnSelf();
+
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
@@ -57,7 +51,26 @@ class OnejavNewTest extends TestCase
         $temporaryUrl = TemporaryUrl::bySource(OnejavService::SOURCE)->byState(TemporaryUrl::STATE_INIT)->first();
         $this->assertEquals(2, $temporaryUrl->data['current_page']);
 
-        $items = $this->testSampleItem();
+        // Make sure we have created onejav record for this movie
+        $this->assertDatabaseHas('onejav', $this->sampleItem);
+
+        // Try to crawl directly to get items for comparing
+        $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
+
+        // Make sure we have created enough records
+        $this->assertEquals($items->count(), Onejav::count());
+
+        // Make sure we have created movie record for this movie
+        $this->assertDatabaseHas('movies', ['dvd_id' => $this->sampleItem['dvd_id']]);
+        // Make sure we have created enough records
+        $this->assertEquals($items->count(), Movie::count());
+
+        // Movie id
+        $movie = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->first();
+        $this->assertNotNull($movie->id);
+
+        $this->assertEquals($this->tags, $movie->tags->pluck('name')->toArray());
+        $this->assertEquals($this->actresses, $movie->idols->pluck('name')->toArray());
 
         // Try to run again it'll not duplicate data
         $this->artisan('jav:onejav-new');
@@ -81,19 +94,10 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_daily_command()
     {
+        Bus::fake();
         $this->artisan('jav:onejav-daily');
 
-        $this->assertDatabaseMissing('temporary_urls', [
-            'url' => Onejav::NEW_URL,
-            'source' => OnejavService::SOURCE,
-        ]);
-
-        $items = $this->testSampleItem();
-
-        // Try to run again it'll not duplicate data
-        $this->artisan('jav:onejav-daily');
-        $this->artisan('jav:onejav-daily');
-        $this->assertEquals($items->count(), Onejav::all()->count());
+        Bus::assertDispatched(OnejavFetchDailyJob::class);
     }
 
     public function test_onejav_new_command_job()
@@ -105,31 +109,5 @@ class OnejavNewTest extends TestCase
         Queue::assertPushed(function (OnejavFetchNewJob $job) {
             return $job->url instanceof TemporaryUrl && $job->url->url === Onejav::NEW_URL;
         });
-    }
-
-    private function testSampleItem()
-    {
-        // Make sure we have created onejav record for this movie
-        $this->assertDatabaseHas('onejav', $this->sampleItem);
-
-        // Try to crawl directly to get items for comparing
-        $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
-
-        // Make sure we have created enough records
-        $this->assertEquals($items->count(), Onejav::count());
-
-        // Make sure we have created movie record for this movie
-        $this->assertDatabaseHas('movies', ['dvd_id' => $this->sampleItem['dvd_id']]);
-        // Make sure we have created enough records
-        $this->assertEquals($items->count(), Movie::count());
-
-        // Movie id
-        $movie = Movie::where(['dvd_id' => $items->first()->get('dvd_id')])->first();
-        $this->assertNotNull($movie->id);
-
-        $this->assertEquals($this->tags, $movie->tags->pluck('name')->toArray());
-        $this->assertEquals($this->actresses, $movie->idols->pluck('name')->toArray());
-
-        return $items;
     }
 }

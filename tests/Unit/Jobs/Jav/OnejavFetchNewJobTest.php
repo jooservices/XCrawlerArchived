@@ -17,30 +17,18 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
     {
         parent::setUp();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
-        $this->url = TemporaryUrl::factory()->create([
-            'url' => Onejav::NEW_URL,
-            'source' => OnejavService::SOURCE,
-            'data' => ['current_page' => 1],
-            'state_code' => TemporaryUrl::STATE_INIT
-        ]);
     }
 
     public function test_fetch_new_job()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-
-        OnejavFetchNewJob::dispatch($this->url);
-        $this->assertDatabaseCount('onejav', 10);
-        $this->url->refresh();
-
-        $this->assertEquals(2, $this->url->data['current_page']);
-    }
-
-    public function test_fetch_new_job_with_last_page()
-    {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->url = TemporaryUrl::factory()->create([
+            'url' => Onejav::NEW_URL,
+            'source' => OnejavService::SOURCE,
+            'data' => ['current_page' => 1],
+            'state_code' => TemporaryUrl::STATE_INIT
+        ]);
 
         OnejavFetchNewJob::dispatch($this->url);
         $this->assertDatabaseCount('onejav', 10);
@@ -50,6 +38,24 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
     }
 
     public function test_fetch_new_job_with_empty_data()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->url = TemporaryUrl::factory()->create([
+            'url' => Onejav::NEW_URL,
+            'source' => OnejavService::SOURCE,
+            'data' => [],
+            'state_code' => TemporaryUrl::STATE_INIT
+        ]);
+
+        OnejavFetchNewJob::dispatch($this->url);
+        $this->assertDatabaseCount('onejav', 10);
+        $this->url->refresh();
+
+        $this->assertEquals(2, $this->url->data['current_page']);
+    }
+
+    public function test_fetch_new_job_with_last_page()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);

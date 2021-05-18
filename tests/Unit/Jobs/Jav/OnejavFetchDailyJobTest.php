@@ -3,7 +3,9 @@
 namespace Tests\Unit\Jobs\Jav;
 
 use App\Jobs\Jav\OnejavFetchDailyJob;
+use App\Models\Onejav;
 use App\Services\Client\XCrawlerClient;
+use App\Services\Crawler\OnejavCrawler;
 use Tests\AbstractCrawlingTest;
 
 class OnejavFetchDailyJobTest extends AbstractCrawlingTest
@@ -28,6 +30,16 @@ class OnejavFetchDailyJobTest extends AbstractCrawlingTest
         app()->instance(XCrawlerClient::class, $this->mocker);
         OnejavFetchDailyJob::dispatch();
         $this->assertDatabaseCount('onejav', 0);
+    }
+
+    public function test_fetch_daily_job_no_duplicate()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        OnejavFetchDailyJob::dispatch();
+        OnejavFetchDailyJob::dispatch();
+        $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
+        $this->assertEquals($items->count(), Onejav::all()->count());
     }
 
     /**
