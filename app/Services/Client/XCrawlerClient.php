@@ -12,6 +12,7 @@ class XCrawlerClient extends AbstractClient
 
     public function init(string $name = null, array $options = [], int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500, string $loggingFormat = MessageFormatter::CLF): Domain\ClientInterface
     {
+        $this->setUpFaker();
         app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
         $this->contentType = 'application/x-www-form-urlencoded';
         $this->setHeaders(['User-Agent' => str_replace('Mobile ', '', $this->faker->userAgent())]);
