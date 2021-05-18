@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Jobs\XCityIdolFetchItems;
+use App\Jobs\Jav\XCityIdolFetchItems;
 use App\Services\Jav\XCityIdolService;
 use App\Services\TemporaryUrlService;
 use Illuminate\Console\Command;

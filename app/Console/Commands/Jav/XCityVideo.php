@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Jobs\XCityVideoFetchItem;
+use App\Jobs\Jav\XCityVideoFetchItem;
 use App\Services\Jav\XCityVideoService;
 use App\Services\TemporaryUrlService;
 use Illuminate\Console\Command;

@@ -1,23 +1,27 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Jav;
 
 use App\Jobs\Traits\HasUnique;
 use App\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
-use App\Models\XCityVideo;
-use App\Services\Crawler\XCityVideoCrawler;
+use App\Models\XCityIdol;
+use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\Jav\XCityIdolService;
+use App\Services\TemporaryUrlService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class XCityVideoFetchItem  implements ShouldQueue
+class XCityIdolFetchItems implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
     use HasUnique;
+
+    private TemporaryUrl $url;
 
     /**
      * Create a new job instance.
@@ -51,18 +55,30 @@ class XCityVideoFetchItem  implements ShouldQueue
 
     public function handle()
     {
-        $crawler = app(XCityVideoCrawler::class);
+        $crawler = app(XCityIdolCrawler::class);
+        $service = app(TemporaryUrlService::class);
 
-        // Get detail
-        if ($item = $crawler->getItem($this->url->url, $this->url->data['payload'])) {
-            XCityVideo::firstOrCreate([
-                'item_number' => $item->get('item_number')
-            ], $item->toArray());
+        $currentPage = $this->url->data['current_page'] ?? 1;
+        $payload = $this->url->data['payload'];
+        $payload['url'] = $this->url->url;
+        $payload['page'] = $currentPage;
 
+
+        /**
+         * Get idols on page
+         * We have around 30 idols / page
+         */
+        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service, $payload) {;
+            $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL, $payload);
+        });
+
+        if ($currentPage === (int)$this->url->data['pages']) {
             $this->url->completed();
 
             return;
         }
-        $this->url->update(['state_code' => TemporaryUrl::STATE_FAILED]);
+
+        $currentPage++;
+        $this->url->updateData(['current_page' => $currentPage]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Jav;
 
 use App\Jobs\Traits\HasUnique;
 use App\Jobs\Traits\XCityJob;
