@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +25,7 @@ class Idol extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasName;
 
     protected $fillable = [
         'name',

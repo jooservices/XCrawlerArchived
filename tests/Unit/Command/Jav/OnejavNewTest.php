@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Command;
+namespace Tests\Unit\Command\Jav;
 
-use App\Jobs\OnejavFetchNewJob;
+use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Models\Movie;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
@@ -30,12 +30,12 @@ class OnejavNewTest extends TestCase
         $this->mocker->method('init')->willReturnSelf();
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
-        $this->fixtures = __DIR__ . '/../../Fixtures/Onejav';
+        $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
     }
 
     public function test_onejav_new_command()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
         $this->artisan('jav:onejav-new');
@@ -50,7 +50,7 @@ class OnejavNewTest extends TestCase
 
         // We dont need assert queue because we will check queue result
 
-        $sampleItem = json_decode($this->getFixture('onejav_item.json'), true);
+        $sampleItem = json_decode($this->getFixture('item.json'), true);
         $tags = $sampleItem['tags'];
 
         $actresses = $sampleItem['actresses'];
@@ -101,7 +101,7 @@ class OnejavNewTest extends TestCase
 
     public function test_onejav_daily_command()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
         $this->artisan('jav:onejav-daily');
@@ -113,7 +113,7 @@ class OnejavNewTest extends TestCase
 
         // We dont need assert queue because we will check queue result
 
-        $sampleItem = json_decode($this->getFixture('onejav_item.json'), true);
+        $sampleItem = json_decode($this->getFixture('item.json'), true);
         $tags = $sampleItem['tags'];
 
         $actresses = $sampleItem['actresses'];
@@ -151,7 +151,7 @@ class OnejavNewTest extends TestCase
     public function test_onejav_new_command_job()
     {
         Queue::fake();
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
 

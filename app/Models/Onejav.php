@@ -65,4 +65,9 @@ class Onejav extends AbstractJavMovie
     {
         return true;
     }
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class, 'dvd_id', 'dvd_id');
+    }
 }

@@ -28,7 +28,7 @@ class OnejavCrawlerTest extends TestCase
 
     public function test_get_items_on_news()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(OnejavCrawler::class);
@@ -47,7 +47,7 @@ class OnejavCrawlerTest extends TestCase
         $this->assertArrayHasKey('actresses', $item);
         $this->assertArrayHasKey('torrent', $item);
 
-        $item = json_decode($this->getFixture('onejav_item.json'));
+        $item = json_decode($this->getFixture('item.json'));
 
         foreach ($item as $key => $value) {
             if ($key === 'date') {
@@ -75,23 +75,23 @@ class OnejavCrawlerTest extends TestCase
             ->expects($this->exactly(4))
             ->method('get')
             ->withConsecutive(
-                ['onejav_page.html'],
-                ['onejav_page.html',['page' => 4]],
-                ['onejav_page.html', ['page' => 7]],
-                ['onejav_page.html', ['page' => 8]]
+                ['page.html'],
+                ['page.html',['page' => 4]],
+                ['page.html', ['page' => 7]],
+                ['page.html', ['page' => 8]]
             )
             ->willReturnOnConsecutiveCalls(
-                $this->getSuccessfulMockedResponse('onejav_page.html'),
-                $this->getSuccessfulMockedResponse('onejav_page_4.html'),
-                $this->getSuccessfulMockedResponse('onejav_page_7.html'),
-                $this->getSuccessfulMockedResponse('onejav_page_8.html')
+                $this->getSuccessfulMockedResponse('page.html'),
+                $this->getSuccessfulMockedResponse('page_4.html'),
+                $this->getSuccessfulMockedResponse('page_7.html'),
+                $this->getSuccessfulMockedResponse('page_8.html')
             );
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(OnejavCrawler::class);
 
         $items = collect();
-        $this->assertEquals(8, $this->crawler->getItemsRecursive($items, 'onejav_page.html', []));
+        $this->assertEquals(8, $this->crawler->getItemsRecursive($items, 'page.html', []));
         $this->assertEquals(33, $items->count());
     }
 }

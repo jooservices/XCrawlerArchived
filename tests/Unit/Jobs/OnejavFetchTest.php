@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Jobs\OnejavFetchDailyJob;
-use App\Jobs\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Client\CrawlerClientResponse;

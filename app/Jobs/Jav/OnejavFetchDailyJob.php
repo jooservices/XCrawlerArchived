@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Jav;
 
 use App\Models\Onejav;
-use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
-use App\Services\Jav\OnejavService;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
-use Throwable;
 
 /**
  * This job will be dispatched every day at 12:00,
@@ -31,7 +27,7 @@ class OnejavFetchDailyJob implements ShouldQueue
      */
     public function retryUntil()
     {
-        return now()->addHours(12);
+        return now()->addHours(6);
     }
 
     /**
@@ -44,32 +40,14 @@ class OnejavFetchDailyJob implements ShouldQueue
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(60) // Allow 60 jobs
-                ->everyMinute() // In 60 seconds
-                ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
+                ->allow(2) // Allow 2 jobs
+                ->everySecond() // In second
+                ->releaseAfterMinutes(30); // Release back to pool after 60 minutes
 
             return [$rateLimitedMiddleware];
         }
 
         return [];
-    }
-
-    /**
-     * Handle a job failure.
-     *
-     * @param Throwable $exception
-     * @return void
-     */
-    public function failed(Throwable $exception)
-    {
-        XCrawlerLog::create([
-            'url' => Onejav::HOMEPAGE_URL . '/' . Carbon::now()->format(Onejav::DAILY_FORMAT),
-            'payload' => [
-                'message' => $exception->getMessage()
-            ],
-            'source' => OnejavService::SOURCE,
-            'succeed' => false
-        ]);
     }
 
     /**

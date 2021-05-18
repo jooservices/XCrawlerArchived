@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e15de3e6035f5403e3746029c6e9340",
+    "content-hash": "9472ea47ca470274a1aadd37fee1625a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -117,55 +117,6 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
-        },
-        {
-            "name": "campo/random-user-agent",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joecampo/random-user-agent.git",
-                "reference": "4a88bd90f66ca398b050b19848e3c6ea143ce8a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joecampo/random-user-agent/zipball/4a88bd90f66ca398b050b19848e3c6ea143ce8a0",
-                "reference": "4a88bd90f66ca398b050b19848e3c6ea143ce8a0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Campo\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joe Campo",
-                    "email": "jcampo@gmail.com"
-                }
-            ],
-            "description": "Generate real random user-agents.",
-            "keywords": [
-                "spoofing user",
-                "user agent",
-                "user agents",
-                "user-agent"
-            ],
-            "support": {
-                "issues": "https://github.com/joecampo/random-user-agent/issues",
-                "source": "https://github.com/joecampo/random-user-agent/tree/master"
-            },
-            "time": "2018-06-13T14:26:21+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -5832,12 +5783,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "5456cf81971b897ee82f75e82d2bcc3ad0bc6b84"
+                "reference": "5bf614a7625c40db6330d42863a2a61d7aadb5b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/5456cf81971b897ee82f75e82d2bcc3ad0bc6b84",
-                "reference": "5456cf81971b897ee82f75e82d2bcc3ad0bc6b84",
+                "url": "https://api.github.com/repos/composer/composer/zipball/5bf614a7625c40db6330d42863a2a61d7aadb5b6",
+                "reference": "5bf614a7625c40db6330d42863a2a61d7aadb5b6",
                 "shasum": ""
             },
             "require": {
@@ -5923,7 +5874,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T13:19:52+00:00"
+            "time": "2021-05-17T20:35:56+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -6293,16 +6244,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.13.0",
+            "version": "1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "03cb2123a67d4be806554fe670d0adc298199808"
+                "reference": "e6e7b7d5b45a2f2abc5460cc6396480b2b1d321f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/03cb2123a67d4be806554fe670d0adc298199808",
-                "reference": "03cb2123a67d4be806554fe670d0adc298199808",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/e6e7b7d5b45a2f2abc5460cc6396480b2b1d321f",
+                "reference": "e6e7b7d5b45a2f2abc5460cc6396480b2b1d321f",
                 "shasum": ""
             },
             "require": {
@@ -6315,7 +6266,7 @@
                 "doctrine/cache": "^1.11 || ^2.0",
                 "doctrine/coding-standard": "^6.0 || ^8.1",
                 "phpstan/phpstan": "^0.12.20",
-                "phpunit/phpunit": "^7.5 || ^9.1.5",
+                "phpunit/phpunit": "^7.5 || ^8.0 || ^9.1.5",
                 "symfony/cache": "^4.4 || ^5.2"
             },
             "type": "library",
@@ -6359,9 +6310,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.13.0"
+                "source": "https://github.com/doctrine/annotations/tree/1.13.1"
             },
-            "time": "2021-04-29T07:39:39+00:00"
+            "time": "2021-05-16T18:07:53+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -7984,16 +7935,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.87",
+            "version": "0.12.88",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d464e00776afb711f419faffa96826dc02e4d145"
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d464e00776afb711f419faffa96826dc02e4d145",
-                "reference": "d464e00776afb711f419faffa96826dc02e4d145",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/464d1a81af49409c41074aa6640ed0c4cbd9bb68",
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68",
                 "shasum": ""
             },
             "require": {
@@ -8024,7 +7975,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.87"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.88"
             },
             "funding": [
                 {
@@ -8040,7 +7991,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T15:17:52+00:00"
+            "time": "2021-05-17T12:24:49+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
