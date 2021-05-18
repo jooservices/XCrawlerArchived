@@ -13,7 +13,7 @@ trait XCityJob
      */
     public function retryUntil()
     {
-        return now()->addDay();
+        return now()->addHours(6);
     }
 
     /**
@@ -28,7 +28,7 @@ trait XCityJob
             $rateLimitedMiddleware = (new RateLimited())
                 ->allow(3) // Allow 3 jobs
                 ->everySecond()
-                ->releaseAfterSeconds(30); // Release back to pool after 30 seconds
+                ->releaseAfterMinutes(1); // Release back to pool after 60 seconds
 
             return [$rateLimitedMiddleware];
         }

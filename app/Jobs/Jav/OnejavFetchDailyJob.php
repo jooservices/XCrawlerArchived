@@ -40,9 +40,9 @@ class OnejavFetchDailyJob implements ShouldQueue
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(2) // Allow 2 jobs
+                ->allow(4) // Allow 2 jobs
                 ->everySecond() // In second
-                ->releaseAfterMinutes(30); // Release back to pool after 60 minutes
+                ->releaseAfterMinutes(30); // Release back to pool after 30 minutes
 
             return [$rateLimitedMiddleware];
         }

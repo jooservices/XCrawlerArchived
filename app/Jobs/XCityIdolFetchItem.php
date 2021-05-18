@@ -2,17 +2,24 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Traits\HasUnique;
 use App\Jobs\Traits\XCityJob;
 use App\Models\Idol;
 use App\Models\TemporaryUrl;
-use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityIdolCrawler;
-use App\Services\Jav\XCityIdolService;
-use Throwable;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class XCityIdolFetchItem extends AbstractUniqueUrlJob
+class XCityIdolFetchItem implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
+    use HasUnique;
+
+    private TemporaryUrl $url;
 
     /**
      * Create a new job instance.
@@ -25,22 +32,23 @@ class XCityIdolFetchItem extends AbstractUniqueUrlJob
     }
 
     /**
-     * Handle a job failure.
+     * The unique ID of the job.
      *
-     * @param Throwable $exception
-     * @return void
+     * @return string
      */
-    public function failed(Throwable $exception)
+    public function uniqueId(): string
     {
-        XCrawlerLog::create([
-            'url' => $this->url->url,
-            'payload' => [
-                'message' => $exception->getMessage(),
-                'data' => $this->url->data,
-            ],
-            'source' => XCityIdolService::SOURCE_IDOL,
-            'succeed' => false
-        ]);
+        return $this->getUnique([$this->url->url]);
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addHours(6);
     }
 
     public function handle()

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Jav;
 
+use App\Jobs\Traits\HasUnique;
 use App\Models\R18;
-use App\Models\XCrawlerLog;
 use App\Services\Crawler\R18Crawler;
-use App\Services\Jav\R18Service;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,18 +12,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
-use Throwable;
 
 class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use HasUnique;
 
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
     public string $url;
 
     /**
@@ -44,7 +37,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->url;
+        return $this->getUnique([$this->url]);
     }
 
     /**
@@ -54,7 +47,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      */
     public function retryUntil()
     {
-        return now()->addHours(12);
+        return now()->addHours(6);
     }
 
     /**
@@ -67,32 +60,14 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(6) // Allow 6 jobs
+                ->allow(4) // Allow 4 jobs
                 ->everySecond()
-                ->releaseAfterSeconds(5); // Release back to pool after 5 seconds
+                ->releaseAfterMinutes(30); // Release back to pool after 30 minutes
 
             return [$rateLimitedMiddleware];
         }
 
         return [];
-    }
-
-    /**
-     * Handle a job failure.
-     *
-     * @param Throwable $exception
-     * @return void
-     */
-    public function failed(Throwable $exception)
-    {
-        XCrawlerLog::create([
-            'url' => $this->url,
-            'payload' => [
-                'message' => $exception->getMessage()
-            ],
-            'source' => R18Service::SOURCE,
-            'succeed' => false
-        ]);
     }
 
     /**
@@ -103,15 +78,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $crawler = app(R18Crawler::class);
-        if (!$item = $crawler->getItem($this->url)) {
-            XCrawlerLog::create([
-                'url' => $this->url,
-                'payload' => [],
-                'source' => 'r18.item',
-                'succeed' => false
-            ]);
-
+        if (!$item = app(R18Crawler::class)->getItem($this->url)) {
             return;
         }
 

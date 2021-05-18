@@ -28,13 +28,13 @@ class R18CrawlerTest extends TestCase
 
     public function test_get_item()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_item.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('item.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(R18Crawler::class);
         $item = $this->crawler->getItem($this->faker->url);
 
         $this->assertInstanceOf(Item::class, $item);
-        $expectedItem = json_decode($this->getFixture('r18_item.json'));
+        $expectedItem = json_decode($this->getFixture('item.json'));
 
         foreach ($expectedItem as $key => $value) {
             switch ($key) {
@@ -51,7 +51,7 @@ class R18CrawlerTest extends TestCase
 
     public function test_get_item_with_different_release_date_format()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_item_2.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('item_2.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(R18Crawler::class);
         $item = $this->crawler->getItem($this->faker->url);
@@ -61,7 +61,7 @@ class R18CrawlerTest extends TestCase
 
     public function test_get_item_links()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(R18Crawler::class);
         $links = $this->crawler->getItemLinks($this->faker->url);
@@ -71,7 +71,7 @@ class R18CrawlerTest extends TestCase
 
     public function test_get_pages_count()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(R18Crawler::class);
         $pagesCount = $this->crawler->getPages($this->faker->url);

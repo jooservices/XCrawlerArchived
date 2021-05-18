@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Traits\HasUnique;
 use App\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
 use App\Models\XCityIdol;
@@ -18,13 +19,8 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
+    use HasUnique;
 
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
     public string $url;
 
     /**
@@ -44,7 +40,7 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return $this->url;
+        return $this->getUnique([$this->url]);
     }
 
     public function handle()

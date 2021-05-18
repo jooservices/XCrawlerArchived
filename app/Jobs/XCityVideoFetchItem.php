@@ -2,17 +2,22 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Traits\HasUnique;
 use App\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
 use App\Models\XCityVideo;
-use App\Models\XCrawlerLog;
 use App\Services\Crawler\XCityVideoCrawler;
-use App\Services\Jav\XCityVideoService;
-use Throwable;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class XCityVideoFetchItem extends AbstractUniqueUrlJob
+class XCityVideoFetchItem  implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
+    use HasUnique;
 
     /**
      * Create a new job instance.
@@ -25,22 +30,23 @@ class XCityVideoFetchItem extends AbstractUniqueUrlJob
     }
 
     /**
-     * Handle a job failure.
+     * The unique ID of the job.
      *
-     * @param Throwable $exception
-     * @return void
+     * @return string
      */
-    public function failed(Throwable $exception)
+    public function uniqueId(): string
     {
-        XCrawlerLog::create([
-            'url' => $this->url->url,
-            'payload' => [
-                'message' => $exception->getMessage(),
-                'data' => $this->url->data,
-            ],
-            'source' => XCityVideoService::SOURCE_VIDEO,
-            'succeed' => false
-        ]);
+        return $this->getUnique([$this->url->url]);
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addHours(6);
     }
 
     public function handle()
