@@ -17,8 +17,9 @@ class StateMigrate extends Migration
     {
         $now = Carbon::now();
         foreach ($this->states as $state) {
-            DB::table('states')->insert([
+            DB::table('states')->updateOrInsert([
                 'reference_code' => $state['reference_code'],
+            ], [
                 'entity' => $state['entity'],
                 'state' => $state['state'],
                 'created_at' => $now,
@@ -26,8 +27,7 @@ class StateMigrate extends Migration
             ]);
         }
 
-        if ($this->foreignKey)
-        {
+        if ($this->foreignKey) {
             Schema::table($this->foreignKey, function (Blueprint $table) {
                 $table->foreign('state_code')->references('reference_code')->on('states');
             });
