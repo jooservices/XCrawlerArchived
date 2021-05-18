@@ -4,7 +4,7 @@ namespace Tests\Unit\Crawler;
 
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\XCityVideoCrawler;
-use Tests\Unit\AbstractXCityTest;
+use Tests\AbstractXCityTest;
 
 class XCityVideoCrawlerTest extends AbstractXCityTest
 {

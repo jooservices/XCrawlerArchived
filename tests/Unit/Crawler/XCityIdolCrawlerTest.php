@@ -5,7 +5,7 @@ namespace Tests\Unit\Crawler;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\Item;
 use App\Services\Crawler\XCityIdolCrawler;
-use Tests\Unit\AbstractXCityTest;
+use Tests\AbstractXCityTest;
 
 class XCityIdolCrawlerTest extends AbstractXCityTest
 {

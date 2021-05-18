@@ -3,26 +3,17 @@
 namespace Tests\Unit\Crawler;
 
 use App\Models\Onejav;
-use App\Services\Client\CrawlerClientResponse;
-use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
+use Tests\AbstractCrawlingTest;
 
-class OnejavCrawlerTest extends TestCase
+class OnejavCrawlerTest extends AbstractCrawlingTest
 {
     private OnejavCrawler $crawler;
-    private MockObject|XCrawlerClient $mocker;
 
     public function setUp(): void
     {
         parent::setUp();
-        app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
-        $this->mocker = $this->getMockBuilder(XCrawlerClient::class)->getMock();
-        $this->mocker->method('init')->willReturnSelf();
-        $this->mocker->method('setHeaders')->willReturnSelf();
-        $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../Fixtures/Onejav';
     }
 
@@ -76,7 +67,7 @@ class OnejavCrawlerTest extends TestCase
             ->method('get')
             ->withConsecutive(
                 ['page.html'],
-                ['page.html',['page' => 4]],
+                ['page.html', ['page' => 4]],
                 ['page.html', ['page' => 7]],
                 ['page.html', ['page' => 8]]
             )

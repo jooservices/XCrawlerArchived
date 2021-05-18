@@ -5,26 +5,17 @@ namespace Tests\Unit\Jobs\Jav;
 use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
-use App\Services\Client\CrawlerClientResponse;
-use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Jav\OnejavService;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
+use Tests\AbstractCrawlingTest;
 
-class OnejavFetchNewJobTest extends TestCase
+class OnejavFetchNewJobTest extends AbstractCrawlingTest
 {
-    private MockObject|XCrawlerClient $mocker;
     private TemporaryUrl $url;
 
     public function setUp(): void
     {
         parent::setUp();
-        app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
-        $this->mocker = $this->getMockBuilder(XCrawlerClient::class)->getMock();
-        $this->mocker->method('init')->willReturnSelf();
-        $this->mocker->method('setHeaders')->willReturnSelf();
-        $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
         $this->url = TemporaryUrl::factory()->create([
             'url' => Onejav::NEW_URL,
