@@ -17,11 +17,11 @@ jobs:
       - name: Setup application
         if: success()
         run: |
-        composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-        php -r "file_exists('.env') || copy('.env.example', '.env');"
-        touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
-        php artisan key:generate
-        chmod -R 777 storage bootstrap/cache
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
