@@ -6,6 +6,7 @@ use App\Jobs\Jav\XCityIdolFetchItem;
 use App\Models\Idol;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;
+use Tests\Unit\AbstractXCityTest;
 
 class XCityIdolFetchItemTest extends AbstractXCityTest
 {

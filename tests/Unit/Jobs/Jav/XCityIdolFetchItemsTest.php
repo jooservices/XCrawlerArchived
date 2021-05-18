@@ -5,6 +5,7 @@ namespace Tests\Unit\Jobs\Jav;
 use App\Jobs\Jav\XCityIdolFetchItems;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;
+use Tests\Unit\AbstractXCityTest;
 
 class XCityIdolFetchItemsTest extends AbstractXCityTest
 {
