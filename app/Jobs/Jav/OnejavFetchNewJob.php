@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Jav;
 
+use App\Jobs\Traits\HasUnique;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
-use App\Models\XCrawlerLog;
 use App\Services\Crawler\OnejavCrawler;
-use App\Services\OnejavService;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -16,18 +14,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
-use Throwable;
+
 
 class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use HasUnique;
 
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public int $uniqueFor = 900;
     public TemporaryUrl $url;
     /**
      * @var OnejavCrawler|Application|mixed
@@ -51,26 +44,7 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId(): string
     {
-        return md5(serialize([$this->url->url, $this->url->source, $this->url->data, app()->environment('testing') ? Carbon::now() : null]));
-    }
-
-    /**
-     * Handle a job failure.
-     *
-     * @param Throwable $exception
-     * @return void
-     */
-    public function failed(Throwable $exception)
-    {
-        XCrawlerLog::create([
-            'url' => $this->url->url,
-            'payload' => [
-                'message' => $exception->getMessage(),
-                'data' => $this->url->data,
-            ],
-            'source' => OnejavService::SOURCE,
-            'succeed' => false
-        ]);
+        return $this->getUnique([$this->url->url]);
     }
 
     /**
@@ -80,7 +54,7 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
      */
     public function retryUntil()
     {
-        return now()->addHours(12);
+        return now()->addHours(6);
     }
 
     /**
@@ -93,9 +67,9 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(60) // Allow 60 jobs
-                ->everyMinute() // In 60 seconds
-                ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
+                ->allow(4) // Allow 2 jobs
+                ->everySecond() // In second
+                ->releaseAfterMinutes(30); // Release back to pool after 30 minutes
 
             return [$rateLimitedMiddleware];
         }
@@ -117,7 +91,7 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
         });
 
         // Onejav we can't get latest page without recursive
-        $currentPage = (int)$this->url->data['current_page'];
+        $currentPage = $this->url->data['current_page'] ?? 1;
         if ($currentPage === config('services.onejav.pages_count')) {
             $this->url->completed();
             return;

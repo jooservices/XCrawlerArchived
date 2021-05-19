@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Jobs\XCityIdolFetchItem;
+use App\Jobs\Jav\XCityIdolFetchItem;
+use App\Services\Jav\XCityIdolService;
 use App\Services\TemporaryUrlService;
-use App\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
 class XCityIdol extends Command

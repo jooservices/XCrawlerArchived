@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
 use App\Models\Movie;
-use App\Models\MovieAttribute;
 use App\Models\Tag;
 
 class MovieService

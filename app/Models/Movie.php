@@ -52,8 +52,14 @@ class Movie extends Model
         'description' => 'string',
         'label' => 'string',
         'channel' => 'string',
+        'gallery'=> 'array',
         'is_downloadable' => 'boolean',
     ];
+
+    public static function findByDvdId(string $dvdId)
+    {
+        return self::where('dvd_id', $dvdId)->first();
+    }
 
     public function getFields(): array
     {

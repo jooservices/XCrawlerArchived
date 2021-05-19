@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\Command;
+namespace Tests\Unit\Command\Jav;
 
-use App\Jobs\R18FetchItemJob;
+use App\Jobs\Jav\R18FetchItemJob;
 use App\Models\R18;
 use App\Models\TemporaryUrl;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\R18Crawler;
-use App\Services\R18Service;
+use App\Services\Jav\R18Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,7 +29,7 @@ class R18ReleasedTest extends TestCase
         $this->mocker->method('init')->willReturnSelf();
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
-        $this->fixtures = __DIR__ . '/../../Fixtures/R18';
+        $this->fixtures = __DIR__ . '/../../../Fixtures/R18';
     }
 
     public function test_r18_released_command_job()
@@ -39,10 +39,9 @@ class R18ReleasedTest extends TestCase
          * Job will be testes in job test later
          */
         Queue::fake();
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-
-        $links = app(R18Crawler::class)->getItemLinks('r18_items.html');
+        $links = app(R18Crawler::class)->getItemLinks('items.html');
         $this->artisan('jav:r18-released');
 
         Queue::assertPushed(R18FetchItemJob::class, function ($job) use ($links) {
@@ -53,7 +52,7 @@ class R18ReleasedTest extends TestCase
     public function test_r18_released_command_job_end_of_pages()
     {
         Queue::fake();
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('r18_items.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $crawler = app(R18Crawler::class);
 

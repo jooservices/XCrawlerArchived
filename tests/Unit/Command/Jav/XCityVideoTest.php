@@ -1,46 +1,19 @@
 <?php
 
-namespace Tests\Unit\Command;
+namespace Tests\Unit\Command\Jav;
 
 use App\Models\TemporaryUrl;
-use App\Services\Client\CrawlerClientResponse;
-use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
-use App\Services\Crawler\XCityIdolCrawler;
-use App\Services\Crawler\XCityVideoCrawler;
+use App\Services\Jav\XCityVideoService;
 use App\Services\TemporaryUrlService;
-use App\Services\XCityVideoService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\MockObject\MockObject;
-use Tests\TestCase;
+use Tests\AbstractXCityTest;
 
-class XCityVideoTest extends TestCase
+class XCityVideoTest extends AbstractXCityTest
 {
-    use RefreshDatabase;
-
-    private MockObject|XCrawlerClient $mocker;
-    /**
-     * @var XCityVideoCrawler|Application|mixed
-     */
-    private mixed $crawler;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
-        $this->mocker = $this->getMockBuilder(XCrawlerClient::class)->getMock();
-        $this->mocker->method('init')->willReturnSelf();
-        $this->mocker->method('setHeaders')->willReturnSelf();
-        $this->mocker->method('setContentType')->willReturnSelf();
-        $this->fixtures = __DIR__ . '/../../Fixtures/XCity';
-    }
-
     public function test_videos_command()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('videos.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(XCityVideoCrawler::class);
         $service = app(TemporaryUrlService::class);
 
         $this->artisan('jav:xcity-videos');
@@ -62,7 +35,6 @@ class XCityVideoTest extends TestCase
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('video.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(XCityIdolCrawler::class);
 
         $temporary = TemporaryUrl::factory()->create([
             'url' => $this->faker->url,

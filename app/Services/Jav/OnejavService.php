@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
-use App\Jobs\OnejavFetchDailyJob;
-use App\Jobs\OnejavFetchNewJob;
+use App\Jobs\Jav\OnejavFetchDailyJob;
+use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 

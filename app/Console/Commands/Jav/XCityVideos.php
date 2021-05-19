@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Jav;
 
-use App\Services\XCityVideoService;
+use App\Services\Jav\XCityVideoService;
 use Illuminate\Console\Command;
 
 class XCityVideos extends Command

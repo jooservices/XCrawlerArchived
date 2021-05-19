@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Jav;
 
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\XCityVideoCrawler;

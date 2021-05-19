@@ -29,7 +29,6 @@ class SeedForeginKeyStates extends StateMigrate
                 'entity' => FlickrAlbum::class,
                 'state' => 'photo-failed',
             ],
-
         ];
 
     /**

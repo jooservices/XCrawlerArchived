@@ -48,12 +48,12 @@ class Kernel extends ConsoleKernel
          * Album : 1 request / time
          * Album photos : 1 request / time
          */
-        $schedule->command('flickr:contacts')->monthly();
-        $schedule->command('flickr:contact-info')->everyFifteenMinutes();
-        $schedule->command('flickr:photos')->everyTenMinutes();
-        $schedule->command('flickr:photo-sizes')->everyFiveMinutes();
-        $schedule->command('flickr:albums')->everyTenMinutes();
-        $schedule->command('flickr:album-photos')->everyTenMinutes();
+        //$schedule->command('flickr:contacts')->monthly();
+        //$schedule->command('flickr:contact-info')->everyFifteenMinutes();
+        //$schedule->command('flickr:photos')->everyTenMinutes();
+        //$schedule->command('flickr:photo-sizes')->everyFiveMinutes();
+        //$schedule->command('flickr:albums')->everyTenMinutes();
+        //$schedule->command('flickr:album-photos')->everyTenMinutes();
         // $schedule->command('inspire')->hourly();
     }
 
