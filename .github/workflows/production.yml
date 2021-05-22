@@ -1,0 +1,13 @@
+name: XCrawler - PROD
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    # Deploy to PROD
+    runs-on: [ worker-1 ]
+    steps:
+      - name: Deploy on PROD
+        run: ~/deployer.sh -s
