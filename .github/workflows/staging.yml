@@ -1,0 +1,13 @@
+name: XCrawler - Staging
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    # Test on Tester-01
+    runs-on: [ tester-1 ]
+    steps:
+      - name: Deploy on Tester-01
+        run: ~/deployer.sh -s
