@@ -40,6 +40,3 @@ jobs:
         with:
           name: coverage
           path: coverage.xml
-
-      - name: Deploy on Tester-01
-        run: ~/deployer.sh -s
