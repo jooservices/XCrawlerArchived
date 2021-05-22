@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Jav;
 
+use App\Events\Jav\OnejavDailyCompletedEvent;
 use App\Models\Onejav;
 use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Bus\Queueable;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 /**
@@ -62,5 +64,7 @@ class OnejavFetchDailyJob implements ShouldQueue
         $items->each(function ($item) {
             Onejav::firstOrCreate(['url' => $item->get('url')], $item->toArray());
         });
+
+        Event::dispatch(new OnejavDailyCompletedEvent($items));
     }
 }

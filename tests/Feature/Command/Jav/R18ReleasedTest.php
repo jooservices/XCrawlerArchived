@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Command\Jav;
+namespace Tests\Feature\Command\Jav;
 
 use App\Jobs\Jav\R18FetchItemJob;
 use App\Models\R18;

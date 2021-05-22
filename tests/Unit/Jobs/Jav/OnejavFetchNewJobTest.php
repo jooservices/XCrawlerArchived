@@ -2,11 +2,13 @@
 
 namespace Tests\Unit\Jobs\Jav;
 
+use App\Events\OnejavNewCompletedEvent;
 use App\Jobs\Jav\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Jav\OnejavService;
+use Illuminate\Support\Facades\Event;
 use Tests\AbstractCrawlingTest;
 
 class OnejavFetchNewJobTest extends AbstractCrawlingTest
@@ -21,6 +23,7 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
 
     public function test_fetch_new_job()
     {
+        Event::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->url = TemporaryUrl::factory()->create([
@@ -35,6 +38,8 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
         $this->url->refresh();
 
         $this->assertEquals(2, $this->url->data['current_page']);
+
+        Event::assertDispatched(OnejavNewCompletedEvent::class);
     }
 
     public function test_fetch_new_job_with_empty_data()

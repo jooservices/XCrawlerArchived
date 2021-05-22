@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Jobs\Jav;
 
+use App\Events\Jav\OnejavDailyCompletedEvent;
 use App\Jobs\Jav\OnejavFetchDailyJob;
 use App\Models\Onejav;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
+use Illuminate\Support\Facades\Event;
 use Tests\AbstractCrawlingTest;
 
 class OnejavFetchDailyJobTest extends AbstractCrawlingTest
@@ -18,10 +20,13 @@ class OnejavFetchDailyJobTest extends AbstractCrawlingTest
 
     public function test_fetch_new_job()
     {
+        Event::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         OnejavFetchDailyJob::dispatch();
         $this->assertDatabaseCount('onejav', 10);
+
+        Event::assertDispatched(OnejavDailyCompletedEvent::class);
     }
 
     public function test_cant_fetch_new_job()

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\Events\JobFailed;
 
-class SlackFailedJob extends Notification
+class FailedJobNotification extends Notification
 {
     use Queueable;
 

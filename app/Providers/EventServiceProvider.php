@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
+use App\Listeners\CrawlingEventSubscriber;
 use App\Listeners\ExceptionEventSubscriber;
 use App\Listeners\MovieEventSubscriber;
 use App\Models\XCrawlerLog;
@@ -33,7 +34,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         MovieEventSubscriber::class,
-        ExceptionEventSubscriber::class
+        ExceptionEventSubscriber::class,
+        CrawlingEventSubscriber::class
     ];
 
     /**

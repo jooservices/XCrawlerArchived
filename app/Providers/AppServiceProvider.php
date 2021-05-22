@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Notifications\SlackFailedJob;
+use App\Notifications\FailedJobNotification;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\Facades\Notification;
@@ -32,8 +32,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Queue::failing(function (JobFailed $event) {
-            if (!$this->app->isLocal()) {
-                Notification::route('slack', config('services.slack.exceptions'))->notify(new SlackFailedJob($event));
+            // Not send for testing
+            if (!app()->environment('testing')) {
+                Notification::route('slack', config('services.slack.exceptions'))->notify(new FailedJobNotification($event));
             }
         });
     }
