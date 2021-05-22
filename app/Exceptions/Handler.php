@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Events\ExceptionEvent;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Event;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,6 +28,13 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function report(Throwable $e)
+    {
+        parent::report($e);
+
+        Event::dispatch(new ExceptionEvent($e));
+    }
 
     /**
      * Register the exception handling callbacks for the application.

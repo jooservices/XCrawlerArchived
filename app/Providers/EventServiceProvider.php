@@ -4,12 +4,9 @@ namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
+use App\Listeners\ExceptionEventSubscriber;
 use App\Listeners\MovieEventSubscriber;
-use App\Models\MovieAttribute;
 use App\Models\XCrawlerLog;
-use App\Observers\JavMovieAttributeObserver;
-use App\Observers\JavMovieObserver;
-use App\Observers\UserObserver;
 use App\Observers\XCrawlerLogObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -36,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         MovieEventSubscriber::class,
+        ExceptionEventSubscriber::class
     ];
 
     /**
