@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Command\Flickr;
+namespace Tests\Feature\Command\Flickr;
 
 use App\Models\FlickrContact;
 use Tests\AbstractFlickrTest;

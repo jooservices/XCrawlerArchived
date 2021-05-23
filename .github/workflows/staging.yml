@@ -9,5 +9,5 @@ jobs:
     # Test on Tester-01
     runs-on: [ tester-1 ]
     steps:
-      - name: Deploy on Tester-01
+      - name: Deploy on STAG
         run: ~/deployer.sh -s

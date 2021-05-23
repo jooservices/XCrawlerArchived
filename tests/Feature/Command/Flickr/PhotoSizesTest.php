@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Command\Flickr;
+namespace Tests\Feature\Command\Flickr;
 
 use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;

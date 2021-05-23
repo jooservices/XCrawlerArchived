@@ -83,9 +83,9 @@ class ExceptionNotifcation extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-        if (!app()->environment('production')) {
+        if (!app()->environment('testing')) {
             return (new SlackMessage)
-                ->from(config('app.name'))
+                ->from(config('app.name') )
                 ->content($this->exception->getMessage())
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment->fields([

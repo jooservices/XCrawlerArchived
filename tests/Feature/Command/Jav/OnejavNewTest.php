@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Command\Jav;
+namespace Tests\Feature\Command\Jav;
 
 use App\Jobs\Jav\OnejavFetchDailyJob;
 use App\Jobs\Jav\OnejavFetchNewJob;
@@ -10,15 +10,12 @@ use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;
 use App\Services\Crawler\OnejavCrawler;
 use App\Services\Jav\OnejavService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use Tests\AbstractCrawlingTest;
 
 class OnejavNewTest extends AbstractCrawlingTest
 {
-    use RefreshDatabase;
-
     private array $sampleItem;
     private array $tags;
     private array $actresses;

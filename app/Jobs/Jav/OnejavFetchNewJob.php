@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Jav;
 
+use App\Events\OnejavNewCompletedEvent;
 use App\Jobs\Traits\HasUnique;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 
@@ -94,10 +96,11 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
         $currentPage = $this->url->data['current_page'] ?? 1;
         if ($currentPage === config('services.onejav.pages_count')) {
             $this->url->completed();
-            return;
+        } else {
+            $currentPage++;
+            $this->url->updateData(['current_page' => $currentPage]);
         }
 
-        $currentPage++;
-        $this->url->updateData(['current_page' => $currentPage]);
+        Event::dispatch(new OnejavNewCompletedEvent($this->url->refresh(), $items));
     }
 }
