@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\MovieCreated;
+use App\Jobs\Email\WordPress;
 use App\Notifications\FavoritedMovie;
 
 class MovieEventSubscriber
@@ -23,6 +24,8 @@ class MovieEventSubscriber
                 break;
             }
         }
+
+        WordPress::dispatch($event->movie);
     }
 
     public function subscribe($events)
