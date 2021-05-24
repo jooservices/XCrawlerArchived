@@ -19,7 +19,9 @@ class XCrawlerClient extends AbstractClient
 
         app()->bind(ResponseInterface::class, CrawlerClientResponse::class);
         $this->contentType = 'application/x-www-form-urlencoded';
-        $this->setHeaders(['User-Agent' => str_replace('Mobile ', '', $this->faker->userAgent())]);
+        $userAgent = str_replace('Mobile ', '', $this->faker->userAgent());
+        $userAgent = str_replace('MSIE ', '', $userAgent);
+        $this->setHeaders(['User-Agent' => $userAgent]);
 
         return parent::init($name ?? 'xcrawler', $options, $maxRetries, $delayInSec, $minErrorCode, $loggingFormat);
     }

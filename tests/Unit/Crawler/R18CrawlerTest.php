@@ -40,6 +40,17 @@ class R18CrawlerTest extends AbstractCrawlingTest
         }
     }
 
+    public function test_get_item_3()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('item_3.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->crawler = app(R18Crawler::class);
+        $item = $this->crawler->getItem($this->faker->url);
+
+        $this->assertInstanceOf(Item::class, $item);
+        $this->assertEquals('DOVR-111', $item->get('dvd_id'));
+    }
+
     public function test_get_item_with_different_release_date_format()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('item_2.html'));

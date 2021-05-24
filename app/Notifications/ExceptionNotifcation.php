@@ -22,7 +22,7 @@ class ExceptionNotifcation extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct( Throwable $exception)
+    public function __construct(Throwable $exception)
     {
         $this->exception = $exception;
     }
@@ -86,12 +86,13 @@ class ExceptionNotifcation extends Notification implements ShouldQueue
     {
         if (app()->environment('production')) {
             return (new SlackMessage)
-                ->from(config('app.name') )
+                ->from(config('app.name'))
                 ->content($this->exception->getMessage())
                 ->attachment(function (SlackAttachment $attachment) {
                     $attachment->fields([
                         'File' => $this->exception->getFile(),
                         'Line' => $this->exception->getLine(),
+                        'Trace' => $this->exception->getTraceAsString()
                     ]);
                 });
         }
