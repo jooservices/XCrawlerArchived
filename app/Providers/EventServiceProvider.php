@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
 use App\Listeners\CrawlingEventSubscriber;
-use App\Listeners\ExceptionEventSubscriber;
 use App\Listeners\MovieEventSubscriber;
 use App\Models\XCrawlerLog;
 use App\Observers\XCrawlerLogObserver;
