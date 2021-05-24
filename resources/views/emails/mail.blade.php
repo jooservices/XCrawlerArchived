@@ -4,7 +4,7 @@
 [publicize off]
 [excerpt]{{ $description }}[/excerpt]
 [status draft]
-<p><img src="{{ $cover }}" rel="nofollow"/></p>
+<p><img src="{{ $cover }}" rel="nofollow" alt="{{$title}}"/></p>
 <quote>{{ $description }}</quote>
 <p>
     <strong>Idols:</strong> {{ $idols }}
