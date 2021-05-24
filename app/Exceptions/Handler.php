@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use App\Events\ExceptionEvent;
+use App\Notifications\ExceptionNotifcation;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Notification;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,7 +33,9 @@ class Handler extends ExceptionHandler
     {
         parent::report($e);
 
-        //Notification::route('slack', config('services.slack.exceptions'))->notify(new ExceptionNotifcation($e));
+        if (app()->environment('production')) {
+            Notification::route('slack', config('services.slack.exceptions'))->notify(new ExceptionNotifcation($e));
+        }
     }
 
     /**
