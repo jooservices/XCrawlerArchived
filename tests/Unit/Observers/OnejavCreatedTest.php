@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Observers;
 
+use App\Mail\WordPressPost;
 use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\Onejav;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class OnejavCreatedTest extends TestCase
@@ -53,5 +55,7 @@ class OnejavCreatedTest extends TestCase
                 'idol_id' => $idol->id
             ]);
         }
+
+        Mail::assertSent(WordPressPost::class);
     }
 }

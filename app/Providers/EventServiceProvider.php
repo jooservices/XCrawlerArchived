@@ -34,7 +34,6 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         MovieEventSubscriber::class,
-        ExceptionEventSubscriber::class,
         CrawlingEventSubscriber::class
     ];
 

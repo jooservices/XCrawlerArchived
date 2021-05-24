@@ -4,6 +4,7 @@ namespace App\Jobs\Email;
 
 use App\Jobs\Traits\HasUnique;
 use App\Models\Movie;
+use App\Models\WordPressPost;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Spatie\RateLimitedMiddleware\RateLimited;
 
 class WordPress implements ShouldQueue, ShouldBeUnique
 {
@@ -35,6 +37,26 @@ class WordPress implements ShouldQueue, ShouldBeUnique
     }
 
     /**
+     * Attempt 1: Release after 60 seconds
+     * Attempt 2: Release after 180 seconds
+     * Attempt 3: Release after 420 seconds
+     * Attempt 4: Release after 900 seconds
+     */
+    public function middleware()
+    {
+        if (config('app.env') !== 'testing') {
+            $rateLimitedMiddleware = (new RateLimited())
+                ->allow(4) // Allow 4 jobs
+                ->everySecond() // In second
+                ->releaseAfterMinutes(15); // Release back to pool after 30 minutes
+
+            return [$rateLimitedMiddleware];
+        }
+
+        return [];
+    }
+
+    /**
      * Determine the time at which the job should timeout.
      *
      * @return \DateTime
@@ -46,19 +68,10 @@ class WordPress implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        $tags = $this->movie->tags()->get()->keyBy('name')->keys();
-        $tags->merge($this->movie->idols()->get()->keyBy('name')->keys());
-        Mail::send(
-            'emails.mail',
-            [
-                'title' => $this->movie->dvd_id,
-                'tags' => implode(', ', $tags->toArray()),
-                'description' => $this->movie->description,
-                'cover' => $this->movie->cover,
-            ],
-            function ($message) {
-                $message->to(config('mail.to.address'), config('mail.to.name'))->subject($this->movie->dvd_id);
-                $message->from(config('mail.from.address'), config('mail.from.name'));
-            });
+        if (WordPressPost::where(['title' => $this->movie->dvd_id])->exists()) {
+            return;
+        }
+        Mail::send(new \App\Mail\WordPressPost($this->movie));
+        WordPressPost::create(['title' => $this->movie->dvd_id]);
     }
 }

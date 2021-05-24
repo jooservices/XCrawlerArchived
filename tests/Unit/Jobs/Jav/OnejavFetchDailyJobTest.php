@@ -15,18 +15,16 @@ class OnejavFetchDailyJobTest extends AbstractCrawlingTest
     public function setUp(): void
     {
         parent::setUp();
+        Event::fake();
         $this->fixtures = __DIR__ . '/../../../Fixtures/Onejav';
     }
 
     public function test_fetch_new_job()
     {
-        Event::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         OnejavFetchDailyJob::dispatch();
         $this->assertDatabaseCount('onejav', 10);
-
-        Event::assertDispatched(OnejavDailyCompletedEvent::class);
     }
 
     public function test_cant_fetch_new_job()
@@ -35,6 +33,7 @@ class OnejavFetchDailyJobTest extends AbstractCrawlingTest
         app()->instance(XCrawlerClient::class, $this->mocker);
         OnejavFetchDailyJob::dispatch();
         $this->assertDatabaseCount('onejav', 0);
+        Event::assertDispatched(OnejavDailyCompletedEvent::class);
     }
 
     public function test_fetch_daily_job_no_duplicate()
@@ -45,6 +44,7 @@ class OnejavFetchDailyJobTest extends AbstractCrawlingTest
         OnejavFetchDailyJob::dispatch();
         $items = app(OnejavCrawler::class)->getItems(Onejav::NEW_URL);
         $this->assertEquals($items->count(), Onejav::all()->count());
+        Event::assertDispatched(OnejavDailyCompletedEvent::class);
     }
 
     /**

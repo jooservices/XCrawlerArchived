@@ -1,8 +1,17 @@
 [title {{ $title }}]
 [category Adult,JAV]
-[tags {{ $tags }}]
+[tags {{ $tags }}, {{ $idols }}]
 [publicize off]
 [excerpt]{{ $description }}[/excerpt]
 [status draft]
-{{ $description }}
-<p><img src="{{ $cover }}"/></p>
+<p><img src="{{ $cover }}" rel="nofollow"/></p>
+<quote>{{ $description }}</quote>
+<p>
+    <strong>Idols:</strong> {{ $idols }}
+</p>
+
+<p>
+    @if($onejav)
+        <a href="{{ $onejav->url }}" rel="nofollow">Onejav</a>
+    @endif
+</p>

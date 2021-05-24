@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Queue::failing(function (JobFailed $event) {
             // Not send for testing
-            if (!app()->environment('testing')) {
+            if (app()->environment('production')) {
                 Notification::route('slack', config('services.slack.exceptions'))->notify(new FailedJobNotification($event));
             }
         });

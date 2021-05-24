@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Observers;
 
+use App\Mail\WordPressPost;
 use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\R18;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class R18CreatedTest extends TestCase
@@ -49,6 +51,8 @@ class R18CreatedTest extends TestCase
                 'idol_id' => $idol->id
             ]);
         }
+
+        Mail::assertSent(WordPressPost::class);
     }
 
 }

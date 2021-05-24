@@ -77,9 +77,6 @@ class FailedJobNotification extends Notification
                 $attachment->fields([
                     'Job' => $this->event->job->getName(),
                     'Exception message' => $this->event->exception->getMessage(),
-                    'Job class' => $this->event->job->resolveName(),
-                    'Job body' => $this->event->job->getRawBody(),
-                    'Exception' => $this->event->exception->getTraceAsString(),
                 ]);
             });
     }
