@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('jav:onejav-new')->everyFiveMinutes();
         $schedule->command('jav:onejav-daily')->dailyAt('12:00');
-        $schedule->command('jav:r18-release')->everyTenMinutes();
+        //$schedule->command('jav:r18-release')->everyTenMinutes();
 
         /**
          * We have around 10 sub pages (~ 10 fetches) with 30 idols / page,
