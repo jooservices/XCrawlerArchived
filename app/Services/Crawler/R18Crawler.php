@@ -27,8 +27,16 @@ class R18Crawler
         $item = app(Item::class);
         $item->url = $url;
 
-        $item->cover = trim($response->getData()->filter('.detail-single-picture img')->attr('src'));
-        $item->title = trim($response->getData()->filter('.product-details-page h1')->text(null, false));
+        $node = $response->getData()->filter('.detail-single-picture img');
+        if ($node->count() > 0) {
+            $item->cover = trim($node->attr('src'));
+        }
+
+        $node = $response->getData()->filter('product-details-page h1');
+        if ($node->count() > 0) {
+            $item->title = trim($node->text(null, false));
+        }
+
         $item->tags = collect($response->getData()->filter('.product-categories-list a')->each(
             function ($el) {
                 return trim($el->text(null, false));
@@ -37,7 +45,7 @@ class R18Crawler
             return null === $value || empty($value);
         })->toArray();
 
-        $fields = collect($response->getData()->filter('.product-onload .product-details dt')->each(
+        $fields = collect($response->getData()->filter('.product-details dt')->each(
             function ($dt) {
                 $text = trim($dt->text(null, false));
                 $value = $dt->nextAll()->text(null, false);
