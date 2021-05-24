@@ -9,19 +9,20 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Spatie\RateLimitedMiddleware\RateLimited;
+use Throwable;
 
 class ExceptionNotifcation extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private \Exception $exception;
+    private Throwable $exception;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(\Exception $exception)
+    public function __construct( Throwable $exception)
     {
         $this->exception = $exception;
     }
@@ -34,7 +35,6 @@ class ExceptionNotifcation extends Notification implements ShouldQueue
      */
     public function middleware()
     {
-
         $rateLimitedMiddleware = (new RateLimited())
             ->allow(3) // Allow 3 jobs
             ->everySecond()
@@ -77,13 +77,14 @@ class ExceptionNotifcation extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'File' => $this->exception->getFile(),
+            'Line' => $this->exception->getLine(),
         ];
     }
 
     public function toSlack($notifiable)
     {
-        if (!app()->environment('testing')) {
+        if (app()->environment('production')) {
             return (new SlackMessage)
                 ->from(config('app.name') )
                 ->content($this->exception->getMessage())

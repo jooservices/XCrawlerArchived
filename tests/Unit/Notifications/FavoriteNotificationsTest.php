@@ -10,15 +10,12 @@ use App\Notifications\FavoritedMovie;
 use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
-class TestFavoriteNotifications extends TestCase
+class FavoriteNotificationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     private MockObject|XCrawlerClient $mocker;
 
     public function setUp(): void
@@ -36,10 +33,10 @@ class TestFavoriteNotifications extends TestCase
 
     public function test_favorite_movie_send_notfication_tag()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
-        $sampleItem = json_decode($this->getFixture('onejav_item.json'), true);
+        $sampleItem = json_decode($this->getFixture('item.json'), true);
 
         $tag = Tag::factory()->create([
             'name' => $sampleItem['tags'][0]
@@ -59,10 +56,10 @@ class TestFavoriteNotifications extends TestCase
 
     public function test_favorite_movie_send_notfication_idol()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('onejav_new.html'));
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
-        $sampleItem = json_decode($this->getFixture('onejav_item.json'), true);
+        $sampleItem = json_decode($this->getFixture('item.json'), true);
 
         $idol = Idol::factory()->create([
             'name' => $sampleItem['actresses'][0]

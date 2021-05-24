@@ -1,4 +1,4 @@
-name: XCrawler - PROD
+name: XCrawler - Prod
 
 on:
   push:

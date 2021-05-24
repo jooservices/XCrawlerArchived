@@ -9,6 +9,10 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
+/**
+ * Send notification after crawling completed
+ * @package App\Notifications
+ */
 class CrawlingCompletedNotification extends Notification implements ShouldQueue
 {
     use Queueable;

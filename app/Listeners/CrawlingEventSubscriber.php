@@ -5,10 +5,7 @@ namespace App\Listeners;
 use App\Events\Jav\OnejavDailyCompletedEvent;
 use App\Events\OnejavNewCompletedEvent;
 use App\Models\Onejav;
-use App\Notifications\CrawlingCompletedNotification;
-use App\Services\Jav\OnejavService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
 
 class CrawlingEventSubscriber
 {
@@ -24,9 +21,6 @@ class CrawlingEventSubscriber
             $data['message'] = 'State :' . $event->url->state_code;
             $data['footer'] = Onejav::NEW_URL . '?page=' . $event->url->data['current_page'] - 1;
         }
-
-        Notification::route('slack', config('services.slack.notifications'))
-            ->notify(new CrawlingCompletedNotification(OnejavService::SOURCE, $data));
     }
 
     public function subscribe($events)
