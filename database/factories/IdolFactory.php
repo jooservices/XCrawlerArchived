@@ -22,7 +22,10 @@ class IdolFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name
+            'name' => $this->faker->name,
+            'birthday' => $this->faker->date('Y-m-d'),
+            'blood_type' => $this->faker->word,
+            'city' => $this->faker->city
         ];
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Models\Traits;
 
-use App\Observers\JavThirdPartyObserver;
+use App\Observer\JavThirdPartyObserve;
 
-trait HasMovieObserver
+trait HasMovieObserve
 {
-    protected static function bootHasMovieObserver()
+    protected static function bootHasMovieObserve()
     {
-        static::observe(JavThirdPartyObserver::class);
+        static::observe(JavThirdPartyObserve::class);
     }
 
     public static function findByDvdId(string $dvdId)

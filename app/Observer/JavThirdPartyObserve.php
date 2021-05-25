@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observer;
 
 use App\Jobs\CreateMovieJob;
 use Illuminate\Database\Eloquent\Model;
 
-class JavThirdPartyObserver
+class JavThirdPartyObserve
 {
     /**
      * Handle created event.

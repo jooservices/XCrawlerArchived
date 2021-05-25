@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Observers;
 
-use App\Mail\WordPressPost;
+use App\Mail\WordPressIdolPost;
 use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\R18;
@@ -14,6 +14,7 @@ class R18CreatedTest extends TestCase
 {
     public function test_create_r18()
     {
+        Mail::fake();
         $r18 = R18::factory()->create();
 
         $this->assertDatabaseHas('movies', [
@@ -52,7 +53,7 @@ class R18CreatedTest extends TestCase
             ]);
         }
 
-        Mail::assertSent(WordPressPost::class);
+        Mail::assertQueued(WordPressIdolPost::class);
     }
 
 }

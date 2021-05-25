@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WordPressPost extends Mailable implements ShouldQueue
+class WordPressMoviePost extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class WordPressPost extends Mailable implements ShouldQueue
         return $this
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->to(config('mail.to.address'), config('mail.to.name'))
-            ->view('emails.mail')
+            ->view('emails.movie')
             ->with([
                 'title' => $this->movie->dvd_id,
                 'tags' => implode(', ', $this->movie->tags()->get(['name'])->keyBy('name')->keys()->toArray()),

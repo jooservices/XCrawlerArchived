@@ -3,29 +3,38 @@
 namespace App\Listeners;
 
 use App\Events\MovieCreated;
-use App\Jobs\Email\WordPress;
+use App\Mail\WordPressMoviePost;
+use App\Models\WordPressPost;
 use App\Notifications\FavoritedMovie;
+use Illuminate\Support\Facades\Mail;
 
 class MovieEventSubscriber
 {
     public function movieCreated(MovieCreated $event)
     {
+        $movie = $event->movie;
+
         // Trigger notifications
-        foreach ($event->movie->tags()->cursor() as $tag) {
+        foreach ($movie->tags()->cursor() as $tag) {
             if ($tag->favorite()->exists()) {
-                $event->movie->notify(new FavoritedMovie());
+                $movie->notify(new FavoritedMovie());
                 break;
             }
         }
 
-        foreach ($event->movie->idols()->cursor() as $idol) {
+        foreach ($movie->idols()->cursor() as $idol) {
             if ($idol->favorite()->exists()) {
-                $event->movie->notify(new FavoritedMovie());
+                $movie->notify(new FavoritedMovie());
                 break;
             }
         }
 
-        WordPress::dispatch($event->movie);
+        // Send movie post
+        if (WordPressPost::where(['title' => $movie->dvd_id])->exists()) {
+            return;
+        }
+        Mail::send(new WordPressMoviePost($movie));
+        WordPressPost::create(['title' => $movie->dvd_id]);
     }
 
     public function subscribe($events)

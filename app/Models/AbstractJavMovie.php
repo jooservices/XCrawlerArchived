@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Interfaces\MovieInterface;
 use App\Models\Traits\HasEvents;
-use App\Models\Traits\HasMovieObserver;
+use App\Models\Traits\HasMovieObserve;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class AbstractJavMovie extends Model implements MovieInterface
 {
-    use HasMovieObserver;
+    use HasMovieObserve;
     use HasEvents;
 
     public function getDvdId(): ?string

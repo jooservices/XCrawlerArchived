@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Observers;
 
-use App\Mail\WordPressPost;
+use App\Mail\WordPressMoviePost;
 use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\Onejav;
@@ -56,6 +56,6 @@ class OnejavCreatedTest extends TestCase
             ]);
         }
 
-        Mail::assertSent(WordPressPost::class);
+        Mail::assertQueued(WordPressMoviePost::class);
     }
 }
