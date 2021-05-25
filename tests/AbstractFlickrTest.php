@@ -60,7 +60,7 @@ abstract class AbstractFlickrTest extends TestCase
         app()->instance(FlickrService::class, $this->mocker);
     }
 
-    protected function factoryContact()
+    protected function factoryContact(): FlickrContact
     {
         return FlickrContact::factory()->create(
             [

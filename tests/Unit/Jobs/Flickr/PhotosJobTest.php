@@ -6,7 +6,7 @@ use App\Jobs\Flickr\PhotosJob;
 use App\Models\FlickrContact;
 use Tests\AbstractFlickrTest;
 
-class PhotosJobTest  extends AbstractFlickrTest
+class PhotosJobTest extends AbstractFlickrTest
 {
     public function test_can_get_photos()
     {

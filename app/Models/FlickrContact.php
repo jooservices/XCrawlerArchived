@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $nsid
+ * @property string state_code
  * @package App\Models
  */
 class FlickrContact extends Model
