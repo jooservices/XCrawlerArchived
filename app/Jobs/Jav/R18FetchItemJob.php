@@ -82,6 +82,6 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        R18::firstOrCreate(['url' => $item->get('url'),], $item->toArray());
+        R18::updateOrCreate(['url' => $item->get('url'),], $item->toArray());
     }
 }

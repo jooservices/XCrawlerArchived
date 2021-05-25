@@ -34,11 +34,11 @@ class Kernel extends ConsoleKernel
          * And we do process 10 idol / command every 5 minutes,
          * it take us 10 x 12 = 120 idols / hourly
          */
-        //$schedule->command('jav:xcity-idols')->hourly();
-        //$schedule->command('jav:xcity-idol')->everyFiveMinutes();
+        $schedule->command('jav:xcity-idols')->hourly();
+        $schedule->command('jav:xcity-idol')->everyFiveMinutes();
 
-        //$schedule->command('jav:xcity-videos')->everyFifteenMinutes();
-        //$schedule->command('jav:xcity-video')->everyFiveMinutes();
+        $schedule->command('jav:xcity-videos')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-video')->everyFiveMinutes();
 
         /**
          * Contacts : 1 request / time

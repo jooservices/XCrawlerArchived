@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observer;
 
 use App\Models\XCrawlerLog;
 use App\Notifications\CrawlingFailed;
 
-class XCrawlerLogObserver
+class XCrawlerLogObserve
 {
     /**
      * Handle the XCrawlerLog "created" event.

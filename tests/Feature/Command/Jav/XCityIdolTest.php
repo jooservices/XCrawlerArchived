@@ -10,7 +10,6 @@ use Tests\AbstractXCityTest;
 
 class XCityIdolTest extends AbstractXCityTest
 {
-
     public function test_idols_command()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
@@ -26,15 +25,16 @@ class XCityIdolTest extends AbstractXCityTest
         $temporaryUrl->updateData(['current_page' => $temporaryUrl->data['pages']]);
         $this->artisan('jav:xcity-idols');
         $temporaryUrl->refresh();
+        // This URL is completed
         $this->assertEquals(TemporaryUrl::STATE_COMPLETED, $temporaryUrl->state_code);
 
         // Process again will create new TemporaryUrl
-        TemporaryUrl::where(['source' => XCityIdolService::SOURCE])->update([
-            'state_code' => TemporaryUrl::STATE_COMPLETED
-        ]);
+        TemporaryUrl::where(['source' => XCityIdolService::SOURCE])->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
 
         $this->artisan('jav:xcity-idols');
+        // 9 Init items
         $this->assertEquals(9, $service->getItems(XCityIdolService::SOURCE)->count());
+        // And 9 Completed items
         $this->assertEquals(9, $service->getItems(XCityIdolService::SOURCE, TemporaryUrl::STATE_COMPLETED)->count());
     }
 

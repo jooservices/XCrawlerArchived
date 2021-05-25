@@ -19,7 +19,6 @@ class XCityIdolFetchItemsTest extends AbstractXCityTest
 
     public function test_xcity_idol_fetch_items_job_with_one_page()
     {
-
         $this->url = TemporaryUrl::factory()->create([
             'url' => $this->faker->url, 'source' => $this->faker->uuid, 'state_code' => $this->faker->uuid,
             'data' => [

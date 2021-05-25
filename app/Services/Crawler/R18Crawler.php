@@ -32,7 +32,7 @@ class R18Crawler
             $item->cover = trim($node->attr('src'));
         }
 
-        $node = $response->getData()->filter('product-details-page h1');
+        $node = $response->getData()->filter('.product-details-page h1');
         if ($node->count() > 0) {
             $item->title = trim($node->text(null, false));
         }
