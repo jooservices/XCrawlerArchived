@@ -7,7 +7,7 @@
 <p><img src="{{ $idol->cover }}" rel="nofollow" alt="{{$idol->name}}"/></p>
 
 <ul>
-    <li><strong>Birthday</strong> {{$idol->birthday->format('Y-m-d')}}</li>
+    <li><strong>Birthday</strong> {{$idol->birthday}}</li>
     <li><strong>Blood</strong> {{$idol->blood_type}}</li>
     <li><strong>City</strong> {{$idol->city}}</li>
 </ul>
