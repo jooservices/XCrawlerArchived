@@ -2,9 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Notifications\ExceptionNotifcation;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Notification;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -28,15 +26,6 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
-    public function report(Throwable $e)
-    {
-        parent::report($e);
-
-        if (app()->environment('production')) {
-            Notification::route('slack', config('services.slack.exceptions'))->notify(new ExceptionNotifcation($e));
-        }
-    }
 
     /**
      * Register the exception handling callbacks for the application.
