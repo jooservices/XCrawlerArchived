@@ -64,6 +64,8 @@ class ContactAlbumbsJob implements ShouldQueue, ShouldBeUnique
 
         $albums->each(function ($albums) {
             foreach ($albums['photoset'] as $album) {
+                $album['title']= isset($album['title']) ? $album['title']['_content'] : null;
+                $album['description']= isset($album['description']) ? $album['description']['_content'] : null;
                 FlickrAlbum::updateOrCreate([
                     'id' => $album['id'],
                     'owner' => $album['owner'],
