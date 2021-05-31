@@ -6,7 +6,6 @@ build:
           - 'true'
       tests:
         override:
-          - php-scrutinizer-run
           -
             command: phpcs-run
     tests: true
