@@ -28,9 +28,9 @@ class ContactInfoJob extends AbstractFlickrJob
         return $this->getUnique([$this->contact->nsid]);
     }
 
-    public function handle()
+    public function handle(FlickrService $service)
     {
-        if (!$contactInfo = app(FlickrService::class)->getPeopleInfo($this->contact->nsid)) {
+        if (!$contactInfo = $service->getPeopleInfo($this->contact->nsid)) {
             $this->contact->updateState(FlickrContact::STATE_INFO_FAILED);
             return;
         }

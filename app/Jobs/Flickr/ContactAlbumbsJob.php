@@ -29,10 +29,10 @@ class ContactAlbumbsJob extends AbstractFlickrJob
         return $this->getUnique([$this->contact->nsid]);
     }
 
-    public function handle()
+    public function handle(FlickrService $service)
     {
         $this->contact->updateState(FlickrContact::STATE_ALBUM_PROCESSING);
-        $albums = app(FlickrService::class)->getContactAlbums($this->contact->nsid);
+        $albums = $service->getContactAlbums($this->contact->nsid);
 
         if ($albums->isEmpty()) {
             $this->contact->updateState(FlickrContact::STATE_ALBUM_FAILED);

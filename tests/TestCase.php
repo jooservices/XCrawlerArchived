@@ -22,7 +22,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware();
         Mail::fake();
     }
 

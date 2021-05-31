@@ -28,7 +28,7 @@ trait XCityJob
             $rateLimitedMiddleware = (new RateLimited())
                 ->allow(3) // Allow 3 jobs
                 ->everySecond()
-                ->releaseAfterMinutes(1); // Release back to pool after 60 seconds
+                ->releaseAfterMinutes(10); // Release back to pool after 60 seconds
 
             return [$rateLimitedMiddleware];
         }

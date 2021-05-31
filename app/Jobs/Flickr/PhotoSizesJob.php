@@ -28,9 +28,9 @@ class PhotoSizesJob extends AbstractFlickrJob
         return $this->getUnique([$this->photo->id]);
     }
 
-    public function handle()
+    public function handle(FlickrService $service)
     {
-        if (!$sizes = app(FlickrService::class)->getPhotoSize($this->photo->id)) {
+        if (!$sizes = $service->getPhotoSize($this->photo->id)) {
             $this->photo->updateState(FlickrPhoto::STATE_SIZE_FAILED);
             return;
         }

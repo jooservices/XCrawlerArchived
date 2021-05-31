@@ -29,10 +29,10 @@ class AlbumPhotosJob extends AbstractFlickrJob
         return $this->getUnique([$this->album->id]);
     }
 
-    public function handle()
+    public function handle(FlickrService $service)
     {
         $this->album->updateState(FlickrAlbum::STATE_PHOTOS_PROCESSING);
-        $photos = app(FlickrService::class)->getAlbumPhotos($this->album->id);
+        $photos = $service->getAlbumPhotos($this->album->id);
 
         if ($photos->isEmpty()) {
             $this->album->updateState(FlickrAlbum::STATE_PHOTOS_FAILED);

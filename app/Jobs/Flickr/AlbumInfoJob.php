@@ -30,9 +30,9 @@ class AlbumInfoJob extends AbstractFlickrJob
         return $this->getUnique([$this->albumId, $this->nsid]);
     }
 
-    public function handle()
+    public function handle(FlickrService $service)
     {
-        if (!$album = app(FlickrService::class)->getAlbumInfo($this->albumId, $this->nsid)) {
+        if (!$album = $service->getAlbumInfo($this->albumId, $this->nsid)) {
             FlickrAlbum::where(['id' => $this->albumId, 'owner' => $this->nsid])
                 ->update(['state_code' => FlickrAlbum::STATE_INFO_FAILED]);
 
