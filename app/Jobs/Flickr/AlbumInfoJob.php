@@ -2,28 +2,15 @@
 
 namespace App\Jobs\Flickr;
 
-use App\Jobs\Traits\HasUnique;
 use App\Models\FlickrAlbum;
 use App\Services\Flickr\FlickrService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Get album information
  * @package App\Jobs\Flickr
  */
-class AlbumInfoJob implements ShouldQueue, ShouldBeUnique
+class AlbumInfoJob extends AbstractFlickrJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-    use HasUnique;
-
     private string $albumId;
     private string $nsid;
 
