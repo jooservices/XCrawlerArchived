@@ -1,11 +1,24 @@
 <?php
 
-namespace App\Jobs\Traits;
+namespace App\Jobs\Flickr;
 
+use App\Jobs\Traits\HasUnique;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-trait XCityJob
+abstract class AbstractFlickrJob implements ShouldQueue, ShouldBeUnique
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use HasUnique;
+
     /**
      * Determine the time at which the job should timeout.
      *
@@ -26,9 +39,9 @@ trait XCityJob
     {
         if (config('app.env') !== 'testing') {
             $rateLimitedMiddleware = (new RateLimited())
-                ->allow(3) // Allow 3 jobs
-                ->everySecond()
-                ->releaseAfterMinutes(10); // Release back to pool after 60 seconds
+                ->allow(1000) // Allow 1000 jobs
+                ->everyMinutes(60)
+                ->releaseAfterMinutes(60); // Release back to pool after 60 minutes
 
             return [$rateLimitedMiddleware];
         }
