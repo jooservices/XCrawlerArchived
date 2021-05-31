@@ -11,6 +11,10 @@ class IdolObserve
 {
     public function created(Idol $idol)
     {
+        if (!$idol->cover) {
+            return;
+        }
+
         // Send idol post
         if (WordPressPost::where(['title' => $idol->name])->exists()) {
             return;
