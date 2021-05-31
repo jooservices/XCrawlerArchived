@@ -9,7 +9,6 @@ build:
           - php-scrutinizer-run
           -
             command: phpcs-run
-          - js-scrutinizer-run
     tests: true
 filter:
   paths:
