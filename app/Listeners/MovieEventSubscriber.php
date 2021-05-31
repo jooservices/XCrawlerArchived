@@ -29,10 +29,16 @@ class MovieEventSubscriber
             }
         }
 
+        // Do not create WordPress is we have no cover
+        if (!$movie->cover) {
+            return;
+        }
+
         // Send movie post
         if (WordPressPost::where(['title' => $movie->dvd_id])->exists()) {
             return;
         }
+
         Mail::send(new WordPressMoviePost($movie));
         WordPressPost::create(['title' => $movie->dvd_id]);
     }

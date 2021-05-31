@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property array $actresses
  * @property string $description
  * @property string $torrent
+ * @property Movie $movie
  */
 class Onejav extends AbstractJavMovie
 {

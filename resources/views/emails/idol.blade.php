@@ -1,5 +1,5 @@
 [title {{ $idol->name }}]
-[category Adult,JAV]
+[category Adult,JAV, Porn stars]
 [tags {{ $idol->name }}]
 [publicize off]
 [excerpt]{{ $idol->name }}[/excerpt]
