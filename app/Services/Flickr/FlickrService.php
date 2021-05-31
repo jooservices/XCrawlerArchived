@@ -159,6 +159,7 @@ class FlickrService extends AbstractFlickrService
     {
         try {
             $albums = $this->client->photosets()->getList($nsid, null, 500);
+            dd($albums);
             $albums = collect()->add($albums);
             $pages = $albums->first()['pages'];
 
