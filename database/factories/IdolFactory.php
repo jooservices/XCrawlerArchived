@@ -23,7 +23,8 @@ class IdolFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'birthday' => $this->faker->date('Y-m-d'),
+            'cover' => $this->faker->url,
+            'birthday' => $this->faker->date(),
             'blood_type' => $this->faker->word,
             'city' => $this->faker->city
         ];

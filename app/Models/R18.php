@@ -81,4 +81,9 @@ class R18 extends AbstractJavMovie
     {
         return $this->title;
     }
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class, 'dvd_id', 'dvd_id');
+    }
 }

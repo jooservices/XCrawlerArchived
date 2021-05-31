@@ -73,6 +73,7 @@ class Movie extends Model
 
     public function tags()
     {
+        // Many to Many
         return $this->belongsToMany(Tag::class, 'tag_movie')->withTimestamps();
     }
 
