@@ -13,10 +13,17 @@ class PhotosJobTest extends AbstractFlickrTest
         $this->mockSucceed();
         $contact = $this->factoryContact();
 
+        /**
+         * - Get all photos
+         * - Update contact to STATE_PHOTOS_COMPLETED
+         * - Dispatch ContactAlbumbsJob
+         * - Get all photos of Album
+         * - Update contact to STATE_ALBUM_COMPLETED
+         */
         PhotosJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_photos', 6);
         $contact->refresh();
-        $this->assertEquals(FlickrContact::STATE_PHOTOS_COMPLETED, $contact->state_code);
+        $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED, $contact->state_code);
     }
 
     public function test_cant_get_photos()

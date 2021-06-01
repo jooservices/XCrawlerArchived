@@ -23,7 +23,7 @@ class PhotosTest extends AbstractFlickrTest
         $this->artisan('flickr:photos');
         $this->assertDatabaseCount('flickr_photos', 6);
         $contact->refresh();
-        $this->assertEquals(FlickrContact::STATE_PHOTOS_COMPLETED, $contact->state_code);
+        $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED, $contact->state_code);
     }
 
     public function test_get_photos_failed()
