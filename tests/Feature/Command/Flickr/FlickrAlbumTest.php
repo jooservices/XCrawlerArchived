@@ -12,9 +12,7 @@ class FlickrAlbumTest extends AbstractFlickrTest
     {
         $this->mockSucceed();
 
-        $contact = FlickrContact::factory()->create([
-            'nsid' => '94529704@N02'
-        ]);
+        $contact = $this->factoryContact();
         $this->artisan('flickr:albums');
         $this->assertDatabaseCount('flickr_albums', 0);
 
@@ -22,7 +20,8 @@ class FlickrAlbumTest extends AbstractFlickrTest
         $contact->refresh();
 
         $this->artisan('flickr:albums');
-        $this->assertEquals(23, FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->count());
+        $this->assertDatabaseCount('flickr_albums', 23);
+        $this->assertEquals(23, FlickrAlbum::byState(FlickrAlbum::STATE_PHOTOS_COMPLETED)->count());
         $contact->refresh();
         $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED, $contact->state_code);
     }
