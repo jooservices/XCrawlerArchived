@@ -5,6 +5,11 @@ namespace App\Models\Traits;
 use App\Models\State;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Trait HasStates
+ * @property string $state_code
+ * @package App\Models\Traits
+ */
 trait HasStates
 {
     public function scopeByState(Builder $builder, string $state)
