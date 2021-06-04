@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\Flickr\ItemDownloaded;
+use App\Mail\WordPressFlickrAlbumPost;
 use App\Models\FlickrDownload;
+use Illuminate\Support\Facades\Mail;
 
 class FlickrDownloadItemSubscriber
 {
@@ -15,6 +17,11 @@ class FlickrDownloadItemSubscriber
         }
 
         // Completed
+        if ($download->state_code === FlickrDownload::STATE_TO_WORDPRESS)
+        {
+            Mail::send(new WordPressFlickrAlbumPost($download));
+        }
+
         $download->updateState(FlickrDownload::STATE_COMPLETED);
     }
 

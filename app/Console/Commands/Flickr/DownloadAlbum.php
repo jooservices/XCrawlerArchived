@@ -17,7 +17,7 @@ class DownloadAlbum extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:download-album {url}';
+    protected $signature = 'flickr:download-album {url} {--toWordPress}';
 
     /**
      * The console command description.
@@ -29,6 +29,7 @@ class DownloadAlbum extends Command
     public function handle(FlickrService $service)
     {
         $url = $this->argument('url');
+        $toWordPress = $this->option('toWordPress');
 
         if (!$userInfo = $service->client->urls()->lookupUser($url)) {
             return;
@@ -48,7 +49,7 @@ class DownloadAlbum extends Command
             'name' => $albumInfo['title'],
             'path' => $albumInfo['owner'] . '/' . Str::slug($albumInfo['title']),
             'total' => $albumInfo['count_photos'],
-            'state_code' => FlickrDownload::STATE_INIT,
+            'state_code' => $toWordPress ? FlickrDownload::STATE_TO_WORDPRESS : FlickrDownload::STATE_INIT,
         ]);
 
         // Get photos
@@ -83,7 +84,7 @@ class DownloadAlbum extends Command
                 FlickrDownloadItem::create([
                     'download_id' => $flickrDownload->id,
                     'photo_id' => $photo->id,
-                    'state_code' => FlickrDownloadItem::STATE_INIT
+                    'state_code' => $this->option('toWordPress') ? FlickrDownloadItem::STATE_WORDPRESS_INIT : FlickrDownloadItem::STATE_INIT
                 ]);
             }
         });

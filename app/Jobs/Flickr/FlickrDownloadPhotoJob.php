@@ -38,6 +38,13 @@ class FlickrDownloadPhotoJob extends AbstractFlickrJob
             $photo->update(['sizes' => $sizes]);
         }
 
+        if ($this->downloadItem->state_code === FlickrDownloadItem::STATE_WORDPRESS_INIT) {
+            $this->downloadItem->updateState(FlickrDownloadItem::STATE_COMPLETED);
+            Event::dispatch(new ItemDownloaded($this->downloadItem));
+
+            return;
+        }
+
         $photoSize = $photo->largestSize();
         $downloadDir = $this->downloadItem->download->path;
 

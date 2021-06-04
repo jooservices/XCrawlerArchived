@@ -17,6 +17,7 @@ class FlickrDownloadItem extends Model
     use HasStates;
 
     public const STATE_INIT = 'FDIN';
+    public const STATE_WORDPRESS_INIT = 'FDWI';
     public const STATE_COMPLETED = 'FDCE';
 
     protected $fillable = [
