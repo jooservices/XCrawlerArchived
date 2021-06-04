@@ -39,4 +39,14 @@ class FlickrPhotoFactory extends Factory
             ]
         ];
     }
+
+    public function init()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state_code' => FlickrPhoto::STATE_INIT,
+                'sizes' => null,
+            ];
+        });
+    }
 }

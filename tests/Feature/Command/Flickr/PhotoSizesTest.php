@@ -29,12 +29,9 @@ class PhotoSizesTest extends AbstractFlickrTest
     {
         $this->mockFailed();
         $contact = $this->factoryContact();
-        $photo = FlickrPhoto::factory()->create([
+        $photo = FlickrPhoto::factory()->state('init')->create([
             'id' => '9472222272',
             'owner' => $contact->nsid,
-        ]);
-        $photo->update([
-            'sizes' => null
         ]);
 
         PhotoSizesJob::dispatch($photo);
