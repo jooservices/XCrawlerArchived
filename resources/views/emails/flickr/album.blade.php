@@ -6,5 +6,5 @@
 [status draft]
 
 @foreach ($urls as $url)
-    <a href="{{$url}}"><img src="{{$url}}" rel="nofollow" alt="{{$album}}"/></a>
+    <a href="{{$url}}" target="_blank"><img src="{{$url}}" rel="nofollow" alt="{{$album}}"/></a>
 @endforeach
