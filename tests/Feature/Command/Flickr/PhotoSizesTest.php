@@ -38,7 +38,7 @@ class PhotoSizesTest extends AbstractFlickrTest
         ]);
 
         PhotoSizesJob::dispatch($photo);
-        $photo->refresh();
+        $photo = $photo->refresh();
 
         $this->assertEquals(FlickrPhoto::STATE_SIZE_FAILED, $photo->state_code);
         $this->assertNull($photo->sizes);
