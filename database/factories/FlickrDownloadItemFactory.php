@@ -25,7 +25,20 @@ class FlickrDownloadItemFactory extends Factory
     {
         return [
             'download_id' => FlickrDownload::factory()->create()->id,
-            'photo_id' => FlickrPhoto::factory()->create()->id,
+            'photo_id' => FlickrPhoto::factory()->create([
+                'sizes' => [
+                    'size' => [
+                        [
+                            'url' => $this->faker->url,
+                            'label' => 'Original',
+                            'media' => 'photo',
+                            'width' => '1920',
+                            'height' => '1080',
+                            'source' => $this->faker->url
+                        ]
+                    ]
+                ]
+            ])->id,
             'state_code' => FlickrDownloadItem::STATE_INIT
         ];
     }
