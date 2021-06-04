@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Console\Commands\Flickr\Album;
 use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -61,8 +60,22 @@ class FlickrPhoto extends Model
         'state_code' => 'string',
     ];
 
-    public function albums()
+    public function hasSizes()
     {
-        $this->belongsToMany(Album::class, 'album_photo');
+        return !empty($this->sizes);
+    }
+
+    public function largestSize()
+    {
+        if (!$this->hasSizes()) {
+            return null;
+        }
+
+        $sizes = collect($this->sizes['size']);
+        $sizes = $sizes->sortBy(function ($size) {
+            return $size['width'] + $size['height'];
+        });
+
+        return $sizes->last();
     }
 }

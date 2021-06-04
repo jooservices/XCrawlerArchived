@@ -24,7 +24,17 @@ class FlickrPhotoFactory extends Factory
     {
         return [
             'id' => $this->faker->numberBetween(1,100),
-            'owner' => FlickrContact::factory()->create()->nsid
+            'owner' => FlickrContact::factory()->create()->nsid,
         ];
+    }
+
+    public function init()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state_code' => FlickrPhoto::STATE_INIT,
+                'sizes' => null,
+            ];
+        });
     }
 }

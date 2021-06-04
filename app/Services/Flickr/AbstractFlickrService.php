@@ -12,7 +12,7 @@ use OAuth\OAuth1\Token\StdOAuth1Token;
 class AbstractFlickrService
 {
     protected ?Integration $integration;
-    protected PhpFlickr $client;
+    public PhpFlickr $client;
 
     /**
      * @throws FlickrException

@@ -93,7 +93,7 @@ abstract class AbstractClient implements Domain\ClientInterface
      */
     public function get(string $endpoint, array $payload = []): ResponseInterface
     {
-        return $this->request($endpoint, $payload, 'GET');
+        return $this->request($endpoint, $payload);
     }
 
     /**

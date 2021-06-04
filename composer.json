@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-curl": "*",
         "fakerphp/faker": "^1.14",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -18,18 +19,18 @@
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.6",
         "spatie/laravel-rate-limited-job-middleware": "^1.5",
-        "symfony/dom-crawler": "^5.2"
+        "symfony/dom-crawler": "^5.3"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.5",
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-dump-server": "^1.7",
-        "facade/ignition": "^2.9",
-        "laravel/sail": "^1.6.0",
+        "facade/ignition": "^2.10",
+        "laravel/sail": "^1.7.0",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
-        "phpstan/phpstan": "^0.12.82",
-        "phpunit/phpunit": "^9.3.3",
+        "nunomaduro/collision": "^5.4",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^9.5",
         "friendsofphp/php-cs-fixer": "^3.0"
     },
     "autoload": {
