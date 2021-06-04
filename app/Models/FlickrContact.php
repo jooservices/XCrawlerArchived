@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $nsid
- * @property string state_code
  * @package App\Models
  */
 class FlickrContact extends Model
@@ -25,6 +24,7 @@ class FlickrContact extends Model
     public const STATE_ALBUM_PROCESSING = 'FCAP';
     public const STATE_ALBUM_COMPLETED = 'FCAC';
     public const STATE_ALBUM_FAILED = 'FCAF';
+    public const STATE_MANUAL = 'FCML';
 
     /**
      * The primary key for the model.

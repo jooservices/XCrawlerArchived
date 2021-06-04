@@ -5,13 +5,16 @@ namespace App\Providers;
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
 use App\Listeners\CrawlingEventSubscriber;
+use App\Listeners\FlickrDownloadItemSubscriber;
 use App\Listeners\MovieEventSubscriber;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
+use App\Models\FlickrDownloadItem;
 use App\Models\Idol;
 use App\Models\XCrawlerLog;
 use App\Observer\FlickrAlbumObserve;
 use App\Observer\FlickrContactObserve;
+use App\Observer\FlickrDownloadItemObserve;
 use App\Observer\IdolObserve;
 use App\Observer\XCrawlerLogObserve;
 use Illuminate\Auth\Events\Registered;
@@ -39,7 +42,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $subscribe = [
         MovieEventSubscriber::class,
-        CrawlingEventSubscriber::class
+        CrawlingEventSubscriber::class,
+        FlickrDownloadItemSubscriber::class
     ];
 
     /**
@@ -56,5 +60,6 @@ class EventServiceProvider extends ServiceProvider
         // Flickr
         FlickrContact::observe(FlickrContactObserve::class);
         FlickrAlbum::observe(FlickrAlbumObserve::class);
+        FlickrDownloadItem::observe(FlickrDownloadItemObserve::class);
     }
 }
