@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
 use App\Listeners\CrawlingEventSubscriber;
+use App\Listeners\Flickr\AlbumEventSubscriber;
+use App\Listeners\Flickr\ContactEventSubscriber;
 use App\Listeners\FlickrDownloadItemSubscriber;
 use App\Listeners\MovieEventSubscriber;
 use App\Models\FlickrAlbum;
@@ -43,7 +45,11 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
         MovieEventSubscriber::class,
         CrawlingEventSubscriber::class,
-        FlickrDownloadItemSubscriber::class
+        FlickrDownloadItemSubscriber::class,
+
+        // Flickr
+        ContactEventSubscriber::class,
+        AlbumEventSubscriber::class
     ];
 
     /**

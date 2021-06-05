@@ -2,14 +2,22 @@
 
 namespace Tests\Unit\Jobs\Flickr;
 
+use App\Events\Flickr\ContactCreated;
 use App\Models\FlickrDownload;
 use App\Models\FlickrDownloadItem;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Event;
 use Tests\AbstractFlickrTest;
 
 class FlickrDownloadItemJobTest extends AbstractFlickrTest
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Event::fake([ContactCreated::class]);
+    }
+
     public function test_download_item_succeed()
     {
         $mock = $this->createMock(Client::class);

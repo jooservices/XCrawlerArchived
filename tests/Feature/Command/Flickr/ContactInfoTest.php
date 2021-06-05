@@ -2,14 +2,27 @@
 
 namespace Tests\Feature\Command\Flickr;
 
+use App\Events\Flickr\ContactCreated;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Tests\AbstractFlickrTest;
 
 class ContactInfoTest extends AbstractFlickrTest
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Event::fake([ContactCreated::class]);
+    }
+
     public function test_get_contact_info()
     {
+        /**
+         * From now whenever contact is created it will also trigger job to get detail info
+         * We do fake event here to prevent that
+         * Beside that this command used for relooping when all contact info are updated
+         */
         $this->mockSucceed();
         $this->artisan('flickr:contacts');
         $this->assertDatabaseCount('flickr_contacts', 1070);
