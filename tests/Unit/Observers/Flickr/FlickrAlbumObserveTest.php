@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Observers;
+namespace Tests\Unit\Observers\Flickr;
 
 use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
@@ -13,6 +13,9 @@ class FlickrAlbumObserveTest extends TestCase
     {
         Queue::fake();
 
+        /**
+         * Whenever album is created we'll dispatch job to get photos
+         */
         FlickrAlbum::factory()->create();
 
         Queue::assertPushed(AlbumPhotosJob::class);

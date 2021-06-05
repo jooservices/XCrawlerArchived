@@ -2,12 +2,20 @@
 
 namespace Tests\Feature\Command\Flickr;
 
+use App\Events\Flickr\ContactCreated;
 use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;
+use Illuminate\Support\Facades\Event;
 use Tests\AbstractFlickrTest;
 
 class PhotoSizesTest extends AbstractFlickrTest
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        Event::fake([ContactCreated::class]);
+    }
+
     public function test_get_photo_sizes()
     {
         $this->mockSucceed();

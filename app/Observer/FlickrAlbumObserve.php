@@ -2,18 +2,16 @@
 
 namespace App\Observer;
 
-use App\Jobs\Flickr\AlbumPhotosJob;
+use App\Events\Flickr\AlbumCreated;
+use App\Events\Flickr\AlbumUpdated;
 use App\Models\FlickrAlbum;
+use Illuminate\Support\Facades\Event;
 
 class FlickrAlbumObserve
 {
     public function created(FlickrAlbum $album)
     {
-        if ($album->state_code !== FlickrAlbum::STATE_INIT) {
-            return;
-        }
-
-        AlbumPhotosJob::dispatch($album);
+        Event::dispatch(new AlbumCreated($album));
     }
 
     public function updated(FlickrAlbum $album)
@@ -22,10 +20,6 @@ class FlickrAlbumObserve
             return;
         }
 
-        if ($album->state_code !== FlickrAlbum::STATE_INIT) {
-            return;
-        }
-
-        AlbumPhotosJob::dispatch($album);
+        Event::dispatch(new AlbumUpdated($album));
     }
 }
