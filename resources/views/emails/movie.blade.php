@@ -5,7 +5,7 @@
 [excerpt]{{ $movie->description }}[/excerpt]
 [status draft]
 <p>
-    <img src="{{ $movie->cover }}" rel="nofollow" alt="{{$title}}"/>
+    <img src="{{ $movie->cover }}" rel="nofollow" alt="{{$movie->dvd_id}}"/>
 </p>
 
 <quote>{{ $movie->description }}</quote>
