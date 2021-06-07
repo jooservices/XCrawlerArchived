@@ -30,4 +30,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'slack' => [
+        'notifications' => env('SLACK_NOTIFICATIONS'),
+        'exceptions' => env('SLACK_EXCEPTIONS'),
+    ],
+    'onejav' => [
+        'pages_count' => env('ONEJAV_TOTAL_PAGES', 7340)
+    ],
+
+    'flickr' => [
+        'client_id' => env('FLICKR_CLIENT_ID'),
+        'client_secret' => env('FLICKR_CLIENT_SECRET'),
+    ],
 ];

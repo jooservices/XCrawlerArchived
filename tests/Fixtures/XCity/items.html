@@ -1,0 +1,896 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!--mfunc-->
+<!--/mfunc-->
+<!--mfunc-->
+<!--/mfunc-->
+
+<head>
+    <meta charset="UTF-8"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"6b48335931",applicationID:"223540187"};window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var i=t[n]={exports:{}};e[n][0].call(i.exports,function(t){var i=e[n][1][t];return r(i||t)},i,i.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(e,t,n){function r(){}function i(e,t,n){return function(){return o(e,[u.now()].concat(c(arguments)),t?null:this,n),t?void 0:this}}var o=e("handle"),a=e(7),c=e(8),f=e("ee").get("tracer"),u=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(e,t){s[t]=i(p+t,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,i="function"==typeof t;return o(l+"tracer",[u.now(),e,n],r),function(){if(f.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return t.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],n),e}finally{f.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=i(l+t)}),newrelic.noticeError=function(e,t){"string"==typeof e&&(e=new Error(e)),o("err",[e,u.now(),!1,t])}},{}],2:[function(e,t,n){function r(){return c.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,c=e(9);t.exports=r,t.exports.offset=a,t.exports.getLastTimestamp=i},{}],3:[function(e,t,n){function r(e){return!(!e||!e.protocol||"file:"===e.protocol)}t.exports=r},{}],4:[function(e,t,n){function r(e,t){var n=e.getEntries();n.forEach(function(e){"first-paint"===e.name?d("timing",["fp",Math.floor(e.startTime)]):"first-contentful-paint"===e.name&&d("timing",["fcp",Math.floor(e.startTime)])})}function i(e,t){var n=e.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(e){e.getEntries().forEach(function(e){e.hadRecentInput||d("cls",[e])})}function a(e){if(e instanceof m&&!g){var t=Math.round(e.timeStamp),n={type:e.type};t<=p.now()?n.fid=p.now()-t:t>p.offset&&t<=Date.now()?(t-=p.offset,n.fid=p.now()-t):t=p.now(),g=!0,d("timing",["fi",t,n])}}function c(e){d("pageHide",[p.now(),e])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var f,u,s,d=e("handle"),p=e("loader"),l=e(6),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){f=new PerformanceObserver(r);try{f.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,w=["click","keydown","mousedown","pointerdown","touchstart"];w.forEach(function(e){document.addEventListener(e,a,!1)})}l(c)}},{}],5:[function(e,t,n){function r(e,t){if(!i)return!1;if(e!==i)return!1;if(!t)return!0;if(!o)return!1;for(var n=o.split("."),r=t.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,f=c.match(a);f&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(i="Safari",o=f[1])}t.exports={agent:i,version:o,match:r}},{}],6:[function(e,t,n){function r(e){function t(){e(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,t,!1)}t.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],7:[function(e,t,n){function r(e,t){var n=[],r="",o=0;for(r in e)i.call(e,r)&&(n[o]=t(r,e[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],8:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,i=n-t||0,o=Array(i<0?0:i);++r<i;)o[r]=e[t+r];return o}t.exports=r},{}],9:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function i(e){function t(e){return e&&e instanceof r?e:e?u(e,f,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){e&&a&&e(n,r,i);for(var c=t(i),f=v(n),u=f.length,s=0;s<u;s++)f[s].apply(c,r);var p=d[h[n]];return p&&p.push([b,n,r,c]),c}}function o(e,t){y[e]=v(e).concat(t)}function m(e,t){var n=y[e];if(n)for(var r=0;r<n.length;r++)n[r]===t&&n.splice(r,1)}function v(e){return y[e]||[]}function g(e){return p[e]=p[e]||i(n)}function w(e,t){s(e,function(e,n){t=t||"feature",h[n]=t,t in d||(d[t]=[])})}var y={},h={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:t,buffer:w,abort:c,aborted:!1};return b}function o(e){return u(e,f,a)}function a(){return new r}function c(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var f="nr@context",u=e("gos"),s=e(7),d={},p={},l=t.exports=i();t.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(e,t,n){function r(e,t,n){if(i.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return e[t]=r,r}var i=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){i.buffer([e],r),i.emit(e,t,n)}var i=e("ee").get("handle");t.exports=r,r.ee=i},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,o,function(){return i++})}var i=1,o="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!E++){var e=x.info=NREUM.info,t=l.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return u.abort();f(h,function(t,n){e[t]||(e[t]=n)});var n=a();c("mark",["onload",n+x.offset],null,"api"),c("timing",["load",n]);var r=l.createElement("script");r.src="https://"+e.agent,t.parentNode.insertBefore(r,t)}}function i(){"complete"===l.readyState&&o()}function o(){c("mark",["domContent",a()+x.offset],null,"api")}var a=e(2),c=e("handle"),f=e(7),u=e("ee"),s=e(5),d=e(3),p=window,l=p.document,m="addEventListener",v="attachEvent",g=p.XMLHttpRequest,w=g&&g.prototype;if(d(p.location)){NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:g,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var y=""+location,h={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1208.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=t.exports={offset:a.getLastTimestamp(),now:a,origin:y,features:{},xhrWrappable:b,userAgent:s};e(1),e(4),l[m]?(l[m]("DOMContentLoaded",o,!1),p[m]("load",r,!1)):(l[v]("onreadystatechange",i),p[v]("onload",r)),c("mark",["firstbyte",a.getLastTimestamp()],null,"api");var E=0}},{}],"wrap-function":[function(e,t,n){function r(e,t){function n(t,n,r,f,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,f],s],e)}c(n+"start",[o,a,f],s,u);try{return p=t.apply(a,o)}catch(m){throw c(n+"err",[o,a,m],s,u),m}finally{c(n+"end",[o,a,p],s,u)}}return a(t)?t:(n||(n=""),nrWrapper[p]=t,o(t,nrWrapper,e),nrWrapper)}function r(e,t,r,i,o){r||(r="");var c,f,u,s="-"===r.charAt(0);for(u=0;u<t.length;u++)f=t[u],c=e[f],a(c)||(e[f]=n(c,s?f+r:r,i,f,o))}function c(n,r,o,a){if(!m||t){var c=m;m=!0;try{e.emit(n,r,o,t,a)}catch(f){i([f,n,r,o],e)}m=c}}return e||(e=s),n.inPlace=r,n.flag=p,n}function i(e,t){t||(t=s);try{t.emit("internal-error",e)}catch(n){}}function o(e,t,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(e);return r.forEach(function(n){Object.defineProperty(t,n,{get:function(){return e[n]},set:function(t){return e[n]=t,t}})}),t}catch(o){i([o],n)}for(var a in e)l.call(e,a)&&(t[a]=e[a]);return t}function a(e){return!(e&&e instanceof Function&&e.apply&&!e[p])}function c(e,t){var n=t(e);return n[p]=e,o(e,n,s),n}function f(e,t,n){var r=e[t];e[t]=c(r,n)}function u(){for(var e=arguments.length,t=new Array(e),n=0;n<e;++n)t[n]=arguments[n];return t}var s=e("ee"),d=e(8),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;t.exports=r,t.exports.wrapFunction=c,t.exports.wrapInPlace=f,t.exports.argsToArray=u},{}]},{},["loader"]);</script>
+    <meta name="viewport" content="width=1150">
+
+    <meta name="robots" content="index,follow">
+    <meta name="msvalidate.01" content="E0B78919FCA9C3A3984D41F14374ABA2">
+
+    <title>[Starts A] JAV actress database [JAV Idol Listing] - Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</title>
+
+    <meta name="description" content="Database of JAV actress [JAV idol directory book]. It is the database of the industry's oldest JAV actress accumulated from the beginning of 1996.">
+
+
+    <link rel="stylesheet" href="https://xxx.xcity.jp/wp-content/themes/xcity-ja/style.css?ver=1596595777" media="screen,tv">
+    <link rel="stylesheet" href="/css_en/jquery.ui.autocomplete.min.css" media="screen,tv">
+    <link rel="pingback" href="https://xxx.xcity.jp/xmlrpc.php">
+    <link rel="icon" type="image/x-icon" href="//faws.xcity.jp/image/parts/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="//faws.xcity.jp/image/parts/favicon/apple-touch-icon-180x180.png">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="msapplication-TileImage" content="//faws.xcity.jp/image/parts/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="//faws.xcity.jp/image/parts/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+
+
+    <link rel='dns-prefetch' href='//xaws.xcity.jp' />
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/idol.css?ver=1427858291" media="screen,tv">
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/jquery-1.12.4.min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/wp-content/plugins/xcity-rest/xcity-rest.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/js_en/jquery.ui.autocomplete.min.js?ver=4.9.13'></script>
+    <link rel='https://api.w.org/' href='https://xxx.xcity.jp/wp-json/' />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://xxx.xcity.jp/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://xxx.xcity.jp/wp-includes/wlwmanifest.xml" />
+    <meta name="generator" content="WordPress 4.9.13" />
+    <link rel='shortlink' href='https://xxx.xcity.jp/?p=7' />
+    <link rel="alternate" type="application/json+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2F&#038;format=xml" />
+    <link rel='canonical' href='https://xxx.xcity.jp/idol/?kana=%E3%81%82&amp;num=30'>
+    <script>
+        function getDomain(){
+            var nowUrl = location.href;
+            var arr_uri = nowUrl.match(/^(.*?:\/\/)(.*?)([a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})[\:[0-9]*]?([\/].*?)?$/i);
+            return arr_uri[3];
+        }
+
+        //<!--mfunc-->
+
+        var dataLayer = dataLayer || [];
+        dataLayer.push({
+            'dimension1': 'false',
+            'dimension3': 'none'
+        });//<!--/mfunc-->
+
+        $(function() {
+            $loginEle = $('#login');
+            if($loginEle.hasClass('paidMember')) {
+                $('.visible-paidMember').show();
+            } else if($loginEle.hasClass('freeMember')) {
+                $('.visible-freeMember').show();
+            } else {
+                $('.visible-nonMember').show();
+            }
+
+            $('#search_word_autocomplete').autocomplete({
+                source: function(req,resp){
+                    $.ajax({
+                        url: "https://regist.xcity.jp/english/if/get_suggest.php",
+                        type: "GET",
+                        cache: false,
+                        data: {"q": req.term},
+                        success: function(response){
+                            if(response.status == 1){
+                                resp(response.res);
+                            }
+                        },
+                        dataType: 'json'
+                    });
+                },
+                minLength: 2
+            });
+        });
+
+        $(window).load(function(){
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("/serviceWorker.js")
+                    .then(function(registration) {
+                        console.log("serviceWorker registed.");
+                    }).catch(function(error) {
+                    console.warn("serviceWorker error.", error);
+                });
+            }
+        });
+    </script>
+
+
+</head>
+
+<!--mfunc-->
+<body class="page-template page-template-template-idol-directorylist page-template-template-idol-directorylist-php page page-id-7 page-parent" ><!--/mfunc-->
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WDSKPF"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WDSKPF');</script>
+<!-- End Google Tag Manager -->
+
+<div id="container">
+    <div id="wrapper">
+        <div id="header">
+            <!--↓↓↓上部divタグよりヘッダ区画↓↓↓ -->
+            <div id="headerTop">
+                <div id="banner">
+                    <a href="/enta/">
+                        <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/entrance_enta.jpg" alt="グラドル動画も見放題！XCITYエンタ入り口 Main Menu">
+                    </a>
+                </div>
+
+
+                <div id="mainlogo">
+                    <a href="/main/">
+                        <img src="//faws.xcity.jp/image/parts/logo/xcity_ktkn.svg" alt="XCITY Main Menu">
+                    </a><div>
+                    Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</div>
+                </div>
+                <!-- ここからログイン区画 -->
+                <!--mfunc-->
+
+
+                <div id="login" class="">
+                    <p>
+                        Welcome <strong>Guest</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/login.php?redirect_to=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2F%3Fkana%3D%25E3%2581%2582%26num%3D30">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_login.gif" alt="Log In">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/free/regist_top.php">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_beginner.gif" alt="Free Membership Registration">
+                            </a>
+                        </li>
+                        <li class="help">
+                            <a href="/help/">Help</a>
+                        </li>
+                    </ul>
+                </div><!--/mfunc-->
+                <!-- ここまでログイン区画 -->
+            </div>
+            <div id="headerMid">
+                <!--↓上部divタグよりメインメニュー区画↓ -->
+                <ul id="menu" >
+                    <li class="page_item page-item-home "><a href="/main/" class="">Main Menu</a></li>
+                    <!--mfunc-->
+                    <li class="page_item page-item-3"><a href="https://xxx.xcity.jp/avod/list/">AV OnDemand®</a></li>
+                    <li class="page_item page-item-16000"><a href="https://xxx.xcity.jp/amateur/">Amateur OnDemand</a></li>
+                    <li class="page_item page-item-7  current_page_ancestor current_page_parent "><a href="https://xxx.xcity.jp/idol/">JAV Idol Listing</a></li>
+                    <li class="page_item page-item-272"><a href="https://xxx.xcity.jp/gravure/">Gravure</a></li>
+                    <li class="page_item page-item-13610"><a href="https://xxx.xcity.jp/anime/">HENTAI Anime</a></li>
+                    <li class="page_item page-item-19108"><a href="https://xxx.xcity.jp/vr/">VR OnDemand</a></li>
+                    <!--/mfunc-->
+                </ul>
+                <!--↑下部divタグまでメインメニュー区画↑ -->
+            </div>
+            <div id="headerBtm">
+                <!--↓上部divタグより検索および文字の大きさ選択区画↓ -->
+                <p>
+                    Database of JAV actress [JAV idol directory book]. It is the database of the industry&#039;s oldest JAV actress accumulated from the beginning of 1996.											</p>
+
+                <div id="headerItem">
+
+                    <div id="src">
+                        <form method="get" id="search" name="searchform" action="/idol/">
+                            <select id="genre" name="genre" onchange="this.form.action=this.form.genre.value;">
+                                <option value='/result_published/' >All distribution Items</option><option value='/avod/result/' >AV OnDemand</option><option value='/amateur/list/' >Amateur OnDemand</option><option value='/idol/' selected="selected">JAV Idol Listing</option><option value='/gravure/webphoto/' >Gravure Pictures</option><option value='/anime/list/' >HENTAI Anime</option><option value='/vr/list/' >VR OnDemand</option><option value='/result/' >Includes non-dist Items</option></select>
+                            <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/komoku_src.png"
+                                 alt="Search">
+                            <input id="search_word_autocomplete" type="text" class="search_input" value="Site Search" name="q"
+                                   onfocus="if (this.value == 'Site Search') {this.value = '';}"
+                                   onblur="if (this.value == '') {this.value = 'Site Search';}">
+                            <input type="hidden" name="sg" value="idol">
+                            <button class="button" onsubmit='return false;'></button>
+                        </form>
+                    </div>
+                    <div id="google_translate_element"></div><script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,es,th,vi,zh-TW', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, autoDisplay: false}, 'google_translate_element');
+                    }
+                </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+                    <!--↑下部divタグまで検索および文字の大きさ選択区画↑ -->
+                </div>
+                <!--↑↑↑下部divタグ検索＆文字の大きさ選択区画↑↑↑ -->
+            </div>
+            <!--↑↑↑下部divタグまでヘッダ区画↑↑↑ -->
+        </div>
+
+        <div id="contents">
+            <!--↓↓↓上部divタグよりコンテンツ区画↓↓↓ -->
+            <div class='go-sp-banner' style='display:none'>
+                <a href="#" onclick="var date1 = new Date();date1.setTime(0);document.cookie='notsp=0;domain=.'+getDomain()+';path=/;expires='+date1.toGMTString(); location.href='/main/';return false;"><img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/go_sp.jpg"></a>
+            </div>
+
+            <!-- ここからパンくずリスト -->
+            <ol id="topicpath" vocab="http://schema.org/" typeof="BreadcrumbList"><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="main" href="/"><span property="name">main</span></a><meta property="position" content="1"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="JAV Idol Listing" href="/idol/"><span property="name">JAV Idol Listing</span></a><meta property="position" content="2"></li><li property="itemListElement" typeof="ListItem"><span property="name">A</span><meta property="position" content="3"></li></ol>				<div id="main">
+
+            <div id="leftCol">
+
+                <!--mfunc-->
+                <!--mfunc xcity_active_member_tag_func('','&lt;p class=&quot;bannerYahoo&quot;&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot;&gt;&lt;img src=&quot;//faws.xcity.jp/image/parts/en/left_member_banner.jpg?190930&quot; alt=&quot;XCITY Membership&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot; class=&quot;wallet_regist&quot;&gt;&lt;img src=&quot;/wp-content/uploads/2017/03/left_member_l_off.jpg&quot; alt=&quot;XCITY Membership&quot; onMouseOver=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&amp;#039;&quot; onMouseOut=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&amp;#039;&quot;&gt;&lt;/a&gt;&lt;/p&gt;')--><p class="bannerYahoo"><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership"><img src="//faws.xcity.jp/image/parts/en/left_member_banner.jpg?190930" alt="XCITY Membership"></a><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership" class="wallet_regist"><img src="/wp-content/uploads/2017/03/left_member_l_off.jpg" alt="XCITY Membership" onMouseOver="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&#039;" onMouseOut="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&#039;"></a></p><!--/mfunc--><!--/mfunc-->
+
+
+                <div class="frame200">
+                    <h4>ActressSearch Item</h4>
+                    <div class="mid">
+                        <table class="avidolSrcInitial">
+                            <tbody>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%82&ini=%E3%81%82">A</a></td>
+                                <td><a href="/idol/?kana=%E3%81%82&ini=%E3%81%84">I</a></td>
+                                <td><a href="/idol/?kana=%E3%81%82&ini=%E3%81%86">U</a></td>
+                                <td><a href="/idol/?kana=%E3%81%82&ini=%E3%81%88">E</a></td>
+                                <td><a href="/idol/?kana=%E3%81%82&ini=%E3%81%8A">O</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%8B&ini=%E3%81%8B">Ka</a></td>
+                                <td><a href="/idol/?kana=%E3%81%8B&ini=%E3%81%8D">Ki</a></td>
+                                <td><a href="/idol/?kana=%E3%81%8B&ini=%E3%81%8F">Ku</a></td>
+                                <td><a href="/idol/?kana=%E3%81%8B&ini=%E3%81%91">Ke</a></td>
+                                <td><a href="/idol/?kana=%E3%81%8B&ini=%E3%81%93">Ko</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%95&ini=%E3%81%95">Sa</a></td>
+                                <td><a href="/idol/?kana=%E3%81%95&ini=%E3%81%97">Si</a></td>
+                                <td><a href="/idol/?kana=%E3%81%95&ini=%E3%81%99">Su</a></td>
+                                <td><a href="/idol/?kana=%E3%81%95&ini=%E3%81%9B">Se</a></td>
+                                <td><a href="/idol/?kana=%E3%81%95&ini=%E3%81%9D">So</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%9F&ini=%E3%81%9F">Ta</a></td>
+                                <td><a href="/idol/?kana=%E3%81%9F&ini=%E3%81%A1">Ti</a></td>
+                                <td><a href="/idol/?kana=%E3%81%9F&ini=%E3%81%A4">Tu</a></td>
+                                <td><a href="/idol/?kana=%E3%81%9F&ini=%E3%81%A6">Te</a></td>
+                                <td><a href="/idol/?kana=%E3%81%9F&ini=%E3%81%A8">To</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%AA&ini=%E3%81%AA">Na</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AA&ini=%E3%81%AB">Ni</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AA&ini=%E3%81%AC">Nu</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AA&ini=%E3%81%AD">Ne</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AA&ini=%E3%81%AE">No</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%AF&ini=%E3%81%AF">Ha</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AF&ini=%E3%81%B2">Hi</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AF&ini=%E3%81%B5">Hu</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AF&ini=%E3%81%B8">He</a></td>
+                                <td><a href="/idol/?kana=%E3%81%AF&ini=%E3%81%BB">Ho</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%81%BE&ini=%E3%81%BE">Ma</a></td>
+                                <td><a href="/idol/?kana=%E3%81%BE&ini=%E3%81%BF">Mi</a></td>
+                                <td><a href="/idol/?kana=%E3%81%BE&ini=%E3%82%80">Mu</a></td>
+                                <td><a href="/idol/?kana=%E3%81%BE&ini=%E3%82%81">Me</a></td>
+                                <td><a href="/idol/?kana=%E3%81%BE&ini=%E3%82%82">Mo</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%82%84&ini=%E3%82%84">Ya</a></td>
+                                <td></td>
+                                <td><a href="/idol/?kana=%E3%82%84&ini=%E3%82%86">Yu</a></td>
+                                <td></td>
+                                <td><a href="/idol/?kana=%E3%82%84&ini=%E3%82%88">Yo</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%82%89&ini=%E3%82%89">Ra</a></td>
+                                <td><a href="/idol/?kana=%E3%82%89&ini=%E3%82%8A">Ri</a></td>
+                                <td><a href="/idol/?kana=%E3%82%89&ini=%E3%82%8B">Ru</a></td>
+                                <td><a href="/idol/?kana=%E3%82%89&ini=%E3%82%8C">Re</a></td>
+                                <td><a href="/idol/?kana=%E3%82%89&ini=%E3%82%8D">Ro</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/idol/?kana=%E3%82%8F&ini=%E3%82%8F">Wa</a></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="avidolSrcNameForm">
+                            <h5>Search by Actress Name</h5>
+                            <form class="avidolSrcName" action="/idol/" method="get" name="avidolSrcName">
+                                <input class="name" type="text" name="q" value="">
+                                <input class="bnDisp" type="submit" value="Show">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="btm"></div>
+                </div>
+
+                <div id="update" class="frame200">
+                    <h4>New JAV Idols News</h4>
+                    <div class="mid">
+                        <table id="newinfo" cellspacing="0" cellpadding="0" border="0" width="100%"><tbody><tr><th scope="row"><a href="/idol/newface/?month=2105#idol-18854" title="Aya Sigemori" ><img alt="Aya Sigemori" src="//faws.xcity.jp/actress/small/image/person/thumb_1618973179.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/21</dt><dd><a href="/idol/newface/?month=2105#idol-18854">Aya Sigemori</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2105#idol-18856" title="Riho Takahasi" ><img alt="Riho Takahasi" src="//faws.xcity.jp/actress/small/image/person/thumb_1618975800.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/21</dt><dd><a href="/idol/newface/?month=2105#idol-18856">Riho Takahasi</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18769" title="Miyu Kurita" ><img alt="Miyu Kurita" src="//faws.xcity.jp/actress/small/image/person/thumb_1616041583.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18769">Miyu Kurita</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18771" title="Mayu Sinomiya" ><img alt="Mayu Sinomiya" src="//faws.xcity.jp/actress/small/image/person/thumb_1616668728.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18771">Mayu Sinomiya</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18818" title="Rua Takasiki" ><img alt="Rua Takasiki" src="//faws.xcity.jp/actress/small/image/person/thumb_1617590648.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18818">Rua Takasiki</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18819" title="Sakura Miyamoto" ><img alt="Sakura Miyamoto" src="//faws.xcity.jp/actress/small/image/person/thumb_1617591749.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18819">Sakura Miyamoto</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18820" title="Mana Kuroi" ><img alt="Mana Kuroi" src="//faws.xcity.jp/actress/small/image/person/thumb_1617595996.png" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18820">Mana Kuroi</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18821" title="Suzu Takayama" ><img alt="Suzu Takayama" src="//faws.xcity.jp/actress/small/image/person/thumb_1617611390.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18821">Suzu Takayama</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18829" title="Mio Masiro" ><img alt="Mio Masiro" src="//faws.xcity.jp/actress/small/image/person/thumb_1617762334.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18829">Mio Masiro</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18830" title="Yuuhi Izumi" ><img alt="Yuuhi Izumi" src="//faws.xcity.jp/actress/small/image/person/thumb_1617766364.jpg" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18830">Yuuhi Izumi</a></dd></tr><tr><th scope="row"><a href="/idol/newface/?month=2104#idol-18840" title="Huwari Hino" ><img alt="Huwari Hino" src="//faws.xcity.jp/actress/small/image/person/thumb_1618297745.png" class="actressThumb"></a></th><td><dl><dt>21/4/14</dt><dd><a href="/idol/newface/?month=2104#idol-18840">Huwari Hino</a></dd></tr></tbody></table>	</div>
+                    <div class="btm"></div>
+                </div>
+            </div>
+            <div id="centerCol">
+                <div id="itemCol">					<!--mfunc-->
+                    <!--/mfunc-->
+                    <div class="pages">
+                    </div>
+
+
+                    <ul id="navi">
+                        <li>
+                            <a class="present" href="/idol/">JAV Idol Listing</a>
+                        </li>
+                        <li>
+                            <a href="/idol/newface/">Information about new JAV idols</a>
+                        </li>
+                    </ul>
+
+                    <p class="text">JAV actress database [JAV Idol Listing]. Biggest and oldest AV actress database in Japan since 1996.</p>
+
+                    <div class="ctrlPanelGeneral">
+                        <!--↓上部divタグよりソート区画↓ -->
+                        <h3>A Actresses list</h3>
+                        <ul class="itemStatus">
+                            <li>A</li><li class="shikiri"><a href='/idol/?kana=か'>Ka</a></li><li class="shikiri"><a href='/idol/?kana=さ'>Sa</a></li><li class="shikiri"><a href='/idol/?kana=た'>Ta</a></li><li class="shikiri"><a href='/idol/?kana=な'>Na</a></li><li class="shikiri"><a href='/idol/?kana=は'>Ha</a></li><li class="shikiri"><a href='/idol/?kana=ま'>Ma</a></li><li class="shikiri"><a href='/idol/?kana=や'>Ya</a></li><li class="shikiri"><a href='/idol/?kana=ら'>Ra</a></li><li class="shikiri"><a href='/idol/?kana=わ'>Wa</a></li>	</ul>
+                        <!--↑下部divタグまでソート区画↑ -->
+                    </div>
+                    <ul class="itemStatusMore"><li><a href="/idol/?ini=%E3%81%82">A</a></li><li class="shikiri"><a href="/idol/?ini=%E3%81%84">I</a></li><li class="shikiri"><a href="/idol/?ini=%E3%81%86">U</a></li><li class="shikiri"><a href="/idol/?ini=%E3%81%88">E</a></li><li class="shikiri"><a href="/idol/?ini=%E3%81%8A">O</a></li></ul>
+
+                    <div class="ctrlPanelMin">
+                        <form id="itemNum" action="" method="get" name="itemNum">
+                            <select id="select" name="num" onchange="window.location.href = this.options[this.selectedIndex].value;">
+                                <option value='/idol/?kana=%E3%81%82&num=30' selected='selected'>30 items</option><option value='/idol/?kana=%E3%81%82&num=60'>60 items</option><option value='/idol/?kana=%E3%81%82&num=90'>90 items</option></select>
+                            Showing</form>
+                    </div>
+
+                    <div id="avidol">
+                        <ul class="pageScrl">
+                            <!--↓上部ulタグよりページ遷移リンク区画↓ -->
+                            <li class="prev"></li>
+                            <li><span class="rest-page-current">1</span></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=2" title="2ページ">2</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=3" title="3ページ">3</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=4" title="4ページ">4</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=5" title="5ページ">5</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=6" title="6ページ">6</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=7" title="7ページ">7</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=8" title="8ページ">8</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=9" title="9ページ">9</a></li><li><span class="rest-page-break">...</span></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=107" title="107ページ">107</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=108" title="108ページ">108</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=109" title="109ページ">109</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=110" title="110ページ">110</a></li>
+                            <li class="next"><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=2" title="2ページ">next</a></li>
+                            <!--↑下部ulタグまでページ遷移リンク区画↑ -->
+                        </ul>
+
+                        <br style="clear:both;">
+
+
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5628/" title="Syunka Ayami">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1518577517.jpg" alt="Syunka Ayami" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5628/" title="Syunka Ayami">
+                                        Syunka Ayami<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5517/" title="Ai Uehara">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1493091565.jpg" alt="Ai Uehara" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5517/" title="Ai Uehara">
+                                        Ai Uehara<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/3165/" title="Tsukasa Aoi">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1435305408.jpg" alt="Tsukasa Aoi" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/3165/" title="Tsukasa Aoi">
+                                        Tsukasa Aoi<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/3061/" title="Nana Ogura">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/3061.jpg" alt="Nana Ogura" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/3061/" title="Nana Ogura">
+                                        Nana Ogura<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/3208/" title="Hibiki Otsuki">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1576138105.jpg" alt="Hibiki Otsuki" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/3208/" title="Hibiki Otsuki">
+                                        Hibiki Otsuki<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/517/" title="Yuma Asami">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1439350180.jpg" alt="Yuma Asami" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/517/" title="Yuma Asami">
+                                        Yuma Asami<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/7561/" title="Masami Ichikawa">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1463991564.jpg" alt="Masami Ichikawa" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/7561/" title="Masami Ichikawa">
+                                        Masami Ichikawa<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5417/" title="Nozomi Aso">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1439538941.jpg" alt="Nozomi Aso" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5417/" title="Nozomi Aso">
+                                        Nozomi Aso<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5011/" title="Mizuho Uehara">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1493092550.jpg" alt="Mizuho Uehara" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5011/" title="Mizuho Uehara">
+                                        Mizuho Uehara<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/519/" title="Kirara Asuka">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1499999151.jpg" alt="Kirara Asuka" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/519/" title="Kirara Asuka">
+                                        Kirara Asuka<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5526/" title="Ayumi Shinoda">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1506064808.jpg" alt="Ayumi Shinoda" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5526/" title="Ayumi Shinoda">
+                                        Ayumi Shinoda<br>
+                                        (Miwako Ikeda)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/1130/" title="Yu Asakura">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1439359796.jpg" alt="Yu Asakura" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/1130/" title="Yu Asakura">
+                                        Yu Asakura<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/10373/" title="Maria Aine">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1484271465.jpg" alt="Maria Aine" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/10373/" title="Maria Aine">
+                                        Maria Aine<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/4027/" title="Chika Arimura">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1443406402.jpg" alt="Chika Arimura" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/4027/" title="Chika Arimura">
+                                        Chika Arimura<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/448/" title="Akari Asahina">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/448.jpg" alt="Akari Asahina" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/448/" title="Akari Asahina">
+                                        Akari Asahina<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/6914/" title="Nana Ayano">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1570761101.jpg" alt="Nana Ayano" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/6914/" title="Nana Ayano">
+                                        Nana Ayano<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5069/" title="Yui Akane">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/5069.jpg" alt="Yui Akane" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5069/" title="Yui Akane">
+                                        Yui Akane<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5226/" title="Kurea Hasumi">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1583727034.jpg" alt="Kurea Hasumi" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5226/" title="Kurea Hasumi">
+                                        Kurea Hasumi<br>
+                                        (Ami Adach)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5072/" title="Yuzu Ogura">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/5072.jpg" alt="Yuzu Ogura" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5072/" title="Yuzu Ogura">
+                                        Yuzu Ogura<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/8198/" title="Rena Aoi">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1556088116.jpg" alt="Rena Aoi" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/8198/" title="Rena Aoi">
+                                        Rena Aoi<br>
+                                        (高木恵)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/6644/" title="Kanako Iioka">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/6644.jpg" alt="Kanako Iioka" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/6644/" title="Kanako Iioka">
+                                        Kanako Iioka<br>
+                                        (Kana Morisawa)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/13125/" title="Yuna Ogura">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1614572345.jpg" alt="Yuna Ogura" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/13125/" title="Yuna Ogura">
+                                        Yuna Ogura<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/2977/" title="Chika Eiro">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/2977.jpg" alt="Chika Eiro" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/2977/" title="Chika Eiro">
+                                        Chika Eiro<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/8452/" title="Sana Imanaga">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1515120789.jpg" alt="Sana Imanaga" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/8452/" title="Sana Imanaga">
+                                        Sana Imanaga<br>
+                                        (松永さな)
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/449/" title="Aino Kishi">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/449.jpg" alt="Aino Kishi" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/449/" title="Aino Kishi">
+                                        Aino Kishi<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/1391/" title="Syouko Akiyama">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/1391.jpg" alt="Syouko Akiyama" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/1391/" title="Syouko Akiyama">
+                                        Syouko Akiyama<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/5885/" title="Yui Ooba">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1568360079.jpg" alt="Yui Ooba" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/5885/" title="Yui Ooba">
+                                        Yui Ooba<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/12299/" title="Sakino Oto">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1507167015.jpg" alt="Sakino Oto" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/12299/" title="Sakino Oto">
+                                        Sakino Oto<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/6347/" title="Miku Abeno">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1569383229.jpg" alt="Miku Abeno" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/6347/" title="Miku Abeno">
+                                        Miku Abeno<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="itemBox">
+                            <div class="mid">
+
+                                <p class="tn">
+                                    <a href="detail/2963/" title="Ai Haneda">
+                                        <img src="//faws.xcity.jp/actress/large/image/person/thumb_1556006249.jpg" alt="Ai Haneda" class="actressThumb">
+                                    </a>
+                                </p>
+
+                                <p class="name">
+                                    <a href="detail/2963/" title="Ai Haneda">
+                                        Ai Haneda<br>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <br style="clear:both;">
+
+                        <ul class="pageScrl">
+                            <!--↓上部ulタグよりページ遷移リンク区画↓ -->
+                            <li class="prev"></li>
+                            <li><span class="rest-page-current">1</span></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=2" title="2ページ">2</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=3" title="3ページ">3</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=4" title="4ページ">4</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=5" title="5ページ">5</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=6" title="6ページ">6</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=7" title="7ページ">7</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=8" title="8ページ">8</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=9" title="9ページ">9</a></li><li><span class="rest-page-break">...</span></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=107" title="107ページ">107</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=108" title="108ページ">108</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=109" title="109ページ">109</a></li><li><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=110" title="110ページ">110</a></li>
+                            <li class="next"><a class="rest-page-item" href="/idol/?kana=%E3%81%82&num=30&page=2" title="2ページ">next</a></li>
+                            <!--↑下部ulタグまでページ遷移リンク区画↑ -->
+                        </ul>
+                        <br style="clear:both">
+                    </div>
+
+                </div>          </div>
+        </div>
+            <br style="clear: both;">
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="footerTop"><a href="#container">To Top</a></div>
+    <div id="footerBtm">
+        <ul>
+            <li><a href="http://alchemia.co.jp/">company overview</a></li>
+            <li><a href="/membership-agreement/">XCITY Membership Agreement</a></li>
+            <li><a href="/policy/">About Privacy Policy</a></li>
+            <li><a href="/law/">Required Information by Japanese Commercial Law</a></li>
+            <li><a href="/sitemap/">Site Map</a></li>
+            <li><a href="/contact-page/" class="noShikiri">Contact Us</a></li>
+        </ul>
+        <p id="copyright">Copyright&nbsp;&copy;&nbsp;2021 XCITY Website. All rights reserved.</p>
+    </div>
+</div>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/favorite.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/order.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/keyword-click.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xxx.xcity.jp/wp-includes/js/wp-embed.min.js?ver=4.9.13'></script>
+<!--[if lte IE 6]>
+<script defer type="text/javascript" src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/js/pngfix.js"></script>
+<![endif]-->
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam-cell.nr-data.net","licenseKey":"6b48335931","applicationID":"223540187","transactionName":"M1IAMUoED0pRU01bXwoYNxdRSk5OVVIWWkQAWAEWZwAPFlleXVdISkcKFQ==","queueTime":0,"applicationTime":66,"atts":"HxUDRwIeHEQ=","errorBeacon":"bam-cell.nr-data.net","agent":""}</script></body>
+
+</html>
