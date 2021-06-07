@@ -2,7 +2,7 @@
 [category Adult,JAV]
 [tags {{ $tags }}, {{ $idols }}]
 [publicize off]
-[excerpt]{{ $description }}[/excerpt]
+[excerpt]{{ $movie->description }}[/excerpt]
 [status draft]
 <p>
     <img src="{{ $movie->cover }}" rel="nofollow" alt="{{$title}}"/>
