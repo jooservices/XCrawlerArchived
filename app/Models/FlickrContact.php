@@ -5,9 +5,18 @@ namespace App\Models;
 use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * @property string $nsid
+ * @property boolean $ispro
+ * @property string $pro_badge
+ * @property string $username
+ * @property string $realname
+ * @property string $description
+ * @property array $photos
+ * @property int $photos_count
+ * @property-read  FlickrAlbum[]|Collection $albums
  * @package App\Models
  */
 class FlickrContact extends Model
@@ -78,7 +87,7 @@ class FlickrContact extends Model
 
     protected $casts = [
         'nsid' => 'string',
-        'ispro' => 'int',
+        'ispro' => 'boolean',
         'pro_badge' => 'string',
         'expire' => 'int',
         'can_buy_pro' => 'int',
@@ -116,5 +125,15 @@ class FlickrContact extends Model
     public static function findByNsid(string $nsid): self
     {
         return self::where('nsid', $nsid)->first();
+    }
+
+    public function albums()
+    {
+        return $this->hasMany(FlickrAlbum::class, 'owner');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(FlickrPhoto::class, 'owner');
     }
 }

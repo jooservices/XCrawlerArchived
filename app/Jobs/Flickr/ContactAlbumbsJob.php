@@ -5,6 +5,7 @@ namespace App\Jobs\Flickr;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Services\Flickr\FlickrService;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Get albums of contact
@@ -33,7 +34,6 @@ class ContactAlbumbsJob extends AbstractFlickrJob
     {
         $this->contact->updateState(FlickrContact::STATE_ALBUM_PROCESSING);
         $albums = $service->getContactAlbums($this->contact->nsid);
-
         if ($albums->isEmpty()) {
             $this->contact->updateState(FlickrContact::STATE_ALBUM_FAILED);
             return;
@@ -41,8 +41,12 @@ class ContactAlbumbsJob extends AbstractFlickrJob
 
         $albums->each(function ($albums) {
             foreach ($albums['photoset'] as $album) {
-                $album['title']= isset($album['title']) ? $album['title']['_content'] : null;
-                $album['description']= isset($album['description']) ? $album['description']['_content'] : null;
+                $title = $album['title'] ?? null;
+                $album['title'] = is_array($title) ? $title['_content'] : $title;
+
+                $description = $album['description'] ?? null;
+                $album['description'] = is_array($description) ? $description['_content'] : $description;
+
                 FlickrAlbum::updateOrCreate([
                     'id' => $album['id'],
                     'owner' => $album['owner'],

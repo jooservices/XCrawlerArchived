@@ -14,8 +14,8 @@ class FlickrService extends AbstractFlickrService
                 return collect();
             }
 
+            $pages = $contacts['contacts']['pages'];
             $contacts = collect()->add($contacts['contacts']);
-            $pages = $contacts->first()['pages'];
 
             if (1 === $pages) {
                 return $contacts;

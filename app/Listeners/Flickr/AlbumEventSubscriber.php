@@ -3,7 +3,7 @@
 namespace App\Listeners\Flickr;
 
 use App\Events\Flickr\AlbumCreated;
-use App\Events\Flickr\AlbumUpdated;
+use App\Events\Flickr\AlbumStateChanged;
 use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 
@@ -22,7 +22,7 @@ class AlbumEventSubscriber
     {
         $events->listen([
             AlbumCreated::class,
-             AlbumUpdated::class
+            AlbumStateChanged::class
         ], self::class . '@getAlbumPhotos');
     }
 }

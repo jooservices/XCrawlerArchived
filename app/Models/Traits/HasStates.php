@@ -4,10 +4,12 @@ namespace App\Models\Traits;
 
 use App\Models\State;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 /**
  * Trait HasStates
  * @property string $state_code
+ * @property-read State[]|Collection $states
  * @package App\Models\Traits
  */
 trait HasStates

@@ -25,6 +25,7 @@ class FlickrPhotoFactory extends Factory
         return [
             'id' => $this->faker->numberBetween(1,100),
             'owner' => FlickrContact::factory()->create()->nsid,
+            'title' => $this->faker->title,
         ];
     }
 

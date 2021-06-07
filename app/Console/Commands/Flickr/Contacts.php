@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Flickr;
 
 use App\Jobs\Flickr\ContactsJob;
+use App\Models\FlickrContact;
 use Illuminate\Console\Command;
 
 class Contacts extends Command

@@ -23,6 +23,8 @@ class FlickrContactFactory extends Factory
     {
         return [
             'nsid' => $this->faker->uuid,
+            'username' => $this->faker->name,
+            'ispro' => $this->faker->boolean,
             'state_code' => FlickrContact::STATE_INIT
         ];
     }

@@ -36,23 +36,13 @@ class Kernel extends ConsoleKernel
          */
         $schedule->command('jav:xcity-idols')->hourly();
         $schedule->command('jav:xcity-idol')->everyFiveMinutes();
-
         $schedule->command('jav:xcity-videos')->everyFifteenMinutes();
         $schedule->command('jav:xcity-video')->everyFiveMinutes();
 
-        /**
-         * Contacts : 1 request / time
-         * Contact info : 1 request / time
-         * Photos process : 1 request / time
-         * Photo sizes : 40 requests / time
-         * Album : 1 request / time
-         * Album photos : 1 request / time
-         */
-        $schedule->command('flickr:contacts')->monthly();
-        $schedule->command('flickr:contact-info')->everyFifteenMinutes();
-        $schedule->command('flickr:photos')->everyTenMinutes();
-        $schedule->command('flickr:photo-sizes')->everyFiveMinutes();
-        $schedule->command('flickr:albums')->everyTenMinutes();
+        // Flickr
+        //$schedule->command('flickr:contacts')->monthly();
+        $schedule->command('flickr:contact-info')->everyThirtyMinutes();
+        //$schedule->command('flickr:photo-sizes')->everyFiveMinutes();
         $schedule->command('flickr:album-photos')->everyTenMinutes();
         // $schedule->command('inspire')->hourly();
     }

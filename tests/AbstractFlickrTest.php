@@ -32,6 +32,7 @@ abstract class AbstractFlickrTest extends TestCase
             'getAllPhotos' => 'photos.json',
             'getPhotoSize' => 'sizes.json',
             'getContactAlbums' => 'albums.json',
+            'getAlbumPhotos' => 'albumphotos.json',
         ];
 
         foreach ($mocks as $method => $file) {
@@ -51,6 +52,8 @@ abstract class AbstractFlickrTest extends TestCase
             'getPeopleInfo' => null,
             'getAllPhotos' => collect(),
             'getPhotoSize' => null,
+            'getContactAlbums' => collect(),
+            'getAlbumPhotos' => collect(),
         ];
 
         foreach ($mocks as $method => $response) {
