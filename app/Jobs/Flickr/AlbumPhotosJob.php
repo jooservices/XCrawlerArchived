@@ -3,6 +3,7 @@
 namespace App\Jobs\Flickr;
 
 use App\Models\FlickrAlbum;
+use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
 use App\Services\Flickr\FlickrService;
 
@@ -12,7 +13,7 @@ use App\Services\Flickr\FlickrService;
  */
 class AlbumPhotosJob extends AbstractFlickrJob
 {
-    private FlickrAlbum $album;
+    public FlickrAlbum $album;
 
     public function __construct(FlickrAlbum $album)
     {
@@ -41,6 +42,16 @@ class AlbumPhotosJob extends AbstractFlickrJob
 
         $photos->each(function ($photos) {
             foreach ($photos['photo'] as $photo) {
+                /**
+                 * This job can process with not exists contact' album
+                 * That's why we need create contact if not exists yet
+                 * - Create contact if needed
+                 * - Create photo
+                 */
+                FlickrContact::firstOrCreate([
+                    'nsid' => $photos['owner'],
+                ], ['state_code' => FlickrContact::STATE_INIT]);
+
                 $photo = FlickrPhoto::firstOrCreate([
                     'id' => $photo['id'],
                     'owner' => $photos['owner']
@@ -51,5 +62,10 @@ class AlbumPhotosJob extends AbstractFlickrJob
         });
 
         $this->album->updateState(FlickrAlbum::STATE_PHOTOS_COMPLETED);
+        $contact = $this->album->owner()->first();
+
+        if ($contact->state_code === FlickrContact::STATE_INIT) {
+            $contact->updateState(FlickrContact::STATE_ALBUM_COMPLETED);
+        }
     }
 }

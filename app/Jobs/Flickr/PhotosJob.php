@@ -12,7 +12,7 @@ use App\Services\Flickr\FlickrService;
  */
 class PhotosJob extends AbstractFlickrJob
 {
-    private FlickrContact $contact;
+    public FlickrContact $contact;
 
     public function __construct(FlickrContact $contact)
     {

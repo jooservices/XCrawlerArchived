@@ -3,6 +3,7 @@
 namespace Tests\Feature\Command\Flickr;
 
 use App\Events\Flickr\ContactCreated;
+use App\Events\Flickr\ContactStateChanged;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -13,7 +14,7 @@ class ContactInfoTest extends AbstractFlickrTest
     public function setUp(): void
     {
         parent::setUp();
-        Event::fake([ContactCreated::class]);
+        Event::fake([ContactCreated::class, ContactStateChanged::class]);
     }
 
     public function test_get_contact_info()
@@ -35,15 +36,5 @@ class ContactInfoTest extends AbstractFlickrTest
         // Try to make all contacts are completed
         DB::table('flickr_contacts')->update(['state_code' => FlickrContact::STATE_PHOTOS_COMPLETED]);
         $this->assertEquals(0, FlickrContact::byState(FlickrContact::STATE_INIT)->count());
-
-        // Execute contact-info again will reset back to INIT
-        $this->artisan('flickr:contact-info'); // Reset everything back to INIT
-
-        $contact = FlickrContact::findByNsid('100028207@N03');
-        $this->assertEquals(FlickrContact::STATE_INIT, $contact->state_code);
-
-        $this->artisan('flickr:contact-info');
-        $contact = FlickrContact::findByNsid('100028207@N03');
-        $this->assertEquals(FlickrContact::STATE_INFO_COMPLETED, $contact->state_code);
     }
 }

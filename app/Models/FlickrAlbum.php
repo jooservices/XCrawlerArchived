@@ -62,4 +62,9 @@ class FlickrAlbum extends Model
     {
         return $this->belongsToMany(FlickrPhoto::class, 'flickr_photo_album', 'album_id', 'photo_id')->withTimestamps();
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(FlickrContact::class, 'owner', 'nsid');
+    }
 }

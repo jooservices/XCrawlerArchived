@@ -33,3 +33,6 @@ Homestead.json
 /.env.testing
 /.php_cs.cache
 /coverage.xml
+
+# Coverage
+/html/

@@ -7,18 +7,18 @@ use App\Core\EventSourcing\RecordedEvent;
 use App\Listeners\CrawlingEventSubscriber;
 use App\Listeners\Flickr\AlbumEventSubscriber;
 use App\Listeners\Flickr\ContactEventSubscriber;
-use App\Listeners\FlickrDownloadItemSubscriber;
+use App\Listeners\Flickr\DownloadItemSubscriber;
 use App\Listeners\MovieEventSubscriber;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Models\FlickrDownloadItem;
 use App\Models\Idol;
 use App\Models\XCrawlerLog;
-use App\Observer\FlickrAlbumObserve;
-use App\Observer\FlickrContactObserve;
-use App\Observer\FlickrDownloadItemObserve;
-use App\Observer\IdolObserve;
-use App\Observer\XCrawlerLogObserve;
+use App\Observers\Flickr\ContactObserver;
+use App\Observers\Flickr\AlbumObserver;
+use App\Observers\Flickr\DownloadItemObserver;
+use App\Observers\IdolObserver;
+use App\Observers\XCrawlerLogObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -45,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
         MovieEventSubscriber::class,
         CrawlingEventSubscriber::class,
-        FlickrDownloadItemSubscriber::class,
+        DownloadItemSubscriber::class,
 
         // Flickr
         ContactEventSubscriber::class,
@@ -60,12 +60,12 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(RecordedEvent::class, RecordedEventSubscriber::class);
-        XCrawlerLog::observe(XCrawlerLogObserve::class);
-        Idol::observe(IdolObserve::class);
+        XCrawlerLog::observe(XCrawlerLogObserver::class);
+        Idol::observe(IdolObserver::class);
 
         // Flickr
-        FlickrContact::observe(FlickrContactObserve::class);
-        FlickrAlbum::observe(FlickrAlbumObserve::class);
-        FlickrDownloadItem::observe(FlickrDownloadItemObserve::class);
+        FlickrContact::observe(ContactObserver::class);
+        FlickrAlbum::observe(AlbumObserver::class);
+        FlickrDownloadItem::observe(DownloadItemObserver::class);
     }
 }

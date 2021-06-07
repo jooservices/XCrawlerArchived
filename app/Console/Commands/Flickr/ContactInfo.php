@@ -25,8 +25,6 @@ class ContactInfo extends Command
     public function handle()
     {
         if (!$contact = FlickrContact::byState(FlickrContact::STATE_INIT)->first()) {
-            // Everything done than reset it for another loop
-            FlickrContact::where(['state_code' => FlickrContact::STATE_PHOTOS_COMPLETED])->update(['state_code' => FlickrContact::STATE_INIT]);
             return;
         }
 
