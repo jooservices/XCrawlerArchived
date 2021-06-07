@@ -36,12 +36,10 @@ class WordPressMoviePost extends Mailable implements ShouldQueue
             ->to(config('mail.to.address'), config('mail.to.name'))
             ->view('emails.movie')
             ->with([
-                'title' => $this->movie->dvd_id,
+                'movie' => $this->movie,
                 'tags' => implode(', ', $this->movie->tags()->get(['name'])->keyBy('name')->keys()->toArray()),
                 'idols' => implode(', ', $this->movie->idols()->get(['name'])->keyBy('name')->keys()->toArray()),
                 'onejav' => $this->movie->onejav->first(),
-                'description' => $this->movie->description,
-                'cover' => $this->movie->cover,
             ]);
     }
 }
