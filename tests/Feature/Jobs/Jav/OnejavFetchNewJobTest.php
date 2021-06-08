@@ -38,8 +38,6 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
         $this->url->refresh();
 
         $this->assertEquals(2, $this->url->data['current_page']);
-
-        Event::assertDispatched(OnejavNewCompletedEvent::class);
     }
 
     public function test_fetch_new_job_with_empty_data()

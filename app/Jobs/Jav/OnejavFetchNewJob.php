@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Jav;
 
-use App\Events\OnejavNewCompletedEvent;
+use App\Events\Jav\OnejavNewCompletedEvent;
 use App\Jobs\Traits\HasUnique;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
