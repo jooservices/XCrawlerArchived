@@ -23,6 +23,7 @@ class XCrawlerLog extends Model
     protected $fillable = [
         'url',
         'payload',
+        'response',
         'source',
         'succeed'
     ];
@@ -30,6 +31,7 @@ class XCrawlerLog extends Model
     protected $casts = [
         'url' => 'string',
         'payload' => 'array',
+        'response' => 'string',
         'source' => 'string',
         'succeed' => 'boolean'
     ];

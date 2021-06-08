@@ -3,9 +3,10 @@
 namespace App\Services\Flickr;
 
 use App\Models\Integration;
-use App\Models\XCrawlerLog;
+use App\Services\Client\Domain\ResponseInterface;
+use App\Services\Client\FlickrClientResponse;
 use Jooservices\PhpFlickr\FlickrException;
-use Jooservices\PhpFlickr\PhpFlickr;
+
 use OAuth\Common\Storage\Memory;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 
@@ -32,20 +33,7 @@ class AbstractFlickrService
 
         $this->client = new PhpFlickr(config('services.flickr.client_id'), config('services.flickr.client_secret'));
         $this->client->setOauthStorage($storage);
-    }
 
-    protected function failed(string $method, \Exception $exception, array $payload = [])
-    {
-        $payload = array_merge(
-            ['method' => $method],
-            ['message' => $exception->getMessage(), 'file' => $exception->getFile()],
-            $payload
-        );
-        XCrawlerLog::create([
-            'url' => 'https://flickr.com',
-            'source' => 'flickr',
-            'succeed' => false,
-            'payload' => $payload
-        ]);
+        app()->bind(ResponseInterface::class, FlickrClientResponse::class);
     }
 }
