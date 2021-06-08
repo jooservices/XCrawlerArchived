@@ -68,25 +68,26 @@ class OnejavCrawler
 
     public function getItemsRecursive(Collection &$items, string $url, array $payload = []): int
     {
+        $currentPage = $payload['page'] ?? 1;
         $response = $this->client->get($url, $payload);
 
         if ($response->isSuccessful()) {
             $pageNode = $response->getData()->filter('a.pagination-link')->last();
             if ($pageNode->count() === 0) {
-                $page = 1;
+                $lastPage = 1;
             } else {
-                $page = (int)$pageNode->text();
+                $lastPage = (int)$pageNode->text();
             }
 
             $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
                 return $this->parse($el);
             })));
 
-            if (empty($payload) || $payload['page'] < $page) {
-                $page = $this->getItemsRecursive($items, $url, ['page' => $page]);
+            if (empty($payload) || $payload['page'] < $lastPage) {
+                $lastPage = $this->getItemsRecursive($items, $url, ['page' => $currentPage + 1]);
             }
 
-            return $page;
+            return $lastPage;
         }
 
         return 1;
