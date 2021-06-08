@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Jav;
 
 use App\Models\TemporaryUrl;
 use Illuminate\Broadcasting\InteractsWithSockets;

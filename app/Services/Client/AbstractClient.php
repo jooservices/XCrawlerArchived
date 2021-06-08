@@ -2,12 +2,14 @@
 
 namespace App\Services\Client;
 
+use App\Events\ClientRequested;
 use App\Services\Client\Domain\ResponseInterface;
 use Carbon\CarbonImmutable;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\MessageFormatter;
+use Illuminate\Support\Facades\Event;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -192,6 +194,7 @@ abstract class AbstractClient implements Domain\ClientInterface
             $this->response->responseMessage = $e->getMessage();
             $this->response->body = $e->getResponse()->getBody()->getContents();
         } finally {
+            Event::dispatch(new ClientRequested($this->response));
             return $this->response;
         }
     }
