@@ -35,6 +35,10 @@ class FlickrDownloadPhotoJob extends AbstractFlickrJob
         // Get sizes if don't have yet
         if (!$photo->hasSizes()) {
             $sizes = $service->getPhotoSize($photo->id);
+            if (!$sizes) {
+                $this->downloadItem->updateState(FlickrDownloadItem::STATE_FAILED);
+                return;
+            }
             $photo->update(['sizes' => $sizes]);
         }
 
@@ -57,9 +61,12 @@ class FlickrDownloadPhotoJob extends AbstractFlickrJob
             'sink' => storage_path('app/' . $downloadDir . '/' . basename($photoSize['source']))
         ]);
 
-        if ($response->getStatusCode() === 200) {
-            $this->downloadItem->updateState(FlickrDownloadItem::STATE_COMPLETED);
-            Event::dispatch(new ItemDownloaded($this->downloadItem));
+        if ($response->getStatusCode() !== 200) {
+            $this->downloadItem->updateState(FlickrDownloadItem::STATE_FAILED);
+            return;
         }
+
+        $this->downloadItem->updateState(FlickrDownloadItem::STATE_COMPLETED);
+        Event::dispatch(new ItemDownloaded($this->downloadItem));
     }
 }

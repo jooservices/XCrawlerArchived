@@ -40,7 +40,7 @@ class AlbumPhotosJob extends AbstractFlickrJob
             return;
         }
 
-        $photos->each(function ($photos) {
+        $photos->each(function ($photos) use ($service) {
             foreach ($photos['photo'] as $photo) {
                 /**
                  * This job can process with not exists contact' album
@@ -50,7 +50,7 @@ class AlbumPhotosJob extends AbstractFlickrJob
                  */
                 FlickrContact::firstOrCreate([
                     'nsid' => $photos['owner'],
-                ], ['state_code' => FlickrContact::STATE_INIT]);
+                ], ['state_code' => FlickrContact::STATE_MANUAL]);
 
                 $photo = FlickrPhoto::firstOrCreate([
                     'id' => $photo['id'],

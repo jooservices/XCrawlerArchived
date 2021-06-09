@@ -19,6 +19,7 @@ class FlickrDownloadItem extends Model
     public const STATE_INIT = 'FDIN';
     public const STATE_WORDPRESS_INIT = 'FDWI';
     public const STATE_COMPLETED = 'FDCE';
+    public const STATE_FAILED = 'FDFL';
 
     protected $fillable = [
         'download_id',

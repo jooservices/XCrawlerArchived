@@ -1,14 +1,13 @@
 <?php
 
-namespace Tests\Feature\Command\Flickr;
+namespace App\Flickr\Tests\Feature\Command;
 
 use App\Events\Flickr\ContactCreated;
 use App\Events\Flickr\ContactStateChanged;
+use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
-use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;
-use Tests\AbstractFlickrTest;
 
 class AlbumPhotosTest extends AbstractFlickrTest
 {

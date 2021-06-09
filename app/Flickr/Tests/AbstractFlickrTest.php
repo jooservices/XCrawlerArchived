@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests;
+namespace App\Flickr\Tests;
 
 use App\Models\FlickrContact;
 use App\Models\Integration;
 use App\Services\Flickr\FlickrService;
 use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 abstract class AbstractFlickrTest extends TestCase
 {
@@ -25,14 +26,16 @@ abstract class AbstractFlickrTest extends TestCase
     protected function mockSucceed()
     {
         $this->mocker = $this->getMockBuilder(FlickrService::class)->getMock();
-        $this->fixtures = __DIR__ . '/Fixtures/Flickr';
+        $this->fixtures = __DIR__ . '/Fixtures';
         $mocks = [
             'getAllContacts' => 'contacts.json',
             'getPeopleInfo' => 'contact.json',
             'getAllPhotos' => 'photos.json',
-            'getPhotoSize' => 'sizes.json',
             'getContactAlbums' => 'albums.json',
-            'getAlbumPhotos' => 'albumphotos.json',
+            'getPhotoSize' => 'sizes.json',
+
+            'getAlbumPhotos' => 'album_photos.json',
+            'getFavoritePhotos' => 'contact_favorite_photos.json'
         ];
 
         foreach ($mocks as $method => $file) {

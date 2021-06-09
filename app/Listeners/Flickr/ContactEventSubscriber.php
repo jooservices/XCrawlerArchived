@@ -11,12 +11,7 @@ use App\Models\FlickrContact;
 
 class ContactEventSubscriber
 {
-    public function getContactInfo($event)
-    {
-        ContactInfoJob::dispatch($event->contact);
-    }
-
-    public function processContact(ContactStateChanged $event)
+    public function processContact($event)
     {
         /**
          * Contact create will dispatch info job than update STATE_INFO_COMPLETED
@@ -42,9 +37,6 @@ class ContactEventSubscriber
     {
         $events->listen([
             ContactCreated::class,
-        ], self::class . '@getContactInfo');
-
-        $events->listen([
             ContactStateChanged::class,
         ], self::class . '@processContact');
     }
