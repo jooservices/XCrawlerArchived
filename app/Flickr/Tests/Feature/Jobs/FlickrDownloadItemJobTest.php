@@ -74,9 +74,11 @@ class FlickrDownloadItemJobTest extends AbstractFlickrTest
 
     public function test_cant_download_item_have_no_sizes_yet()
     {
+        $this->mockFailed();
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);
+
         /**
          * Observer will trigger job
          */
