@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Observers\Flickr;
+namespace App\Flickr\Tests\Unit\Observers;
 
 use App\Events\Flickr\AlbumCreated;
 use App\Jobs\Flickr\AlbumPhotosJob;

@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Feature\Jobs\Flickr;
+namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\PhotosJob;
 use App\Models\FlickrContact;
+use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;
-use Tests\AbstractFlickrTest;
 
 class PhotosJobTest extends AbstractFlickrTest
 {
@@ -22,8 +23,8 @@ class PhotosJobTest extends AbstractFlickrTest
 
         PhotosJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_photos', 6);
-        $contact->refresh();
-        $this->assertEquals(FlickrContact::STATE_PHOTOS_COMPLETED, $contact->state_code);
+        $this->assertEquals(6, FlickrPhoto::byState(FlickrPhoto::STATE_INIT)->count());
+        $this->assertEquals(FlickrContact::STATE_PHOTOS_COMPLETED, $contact->refresh()->state_code);
     }
 
     public function test_cant_get_photos()
@@ -33,7 +34,6 @@ class PhotosJobTest extends AbstractFlickrTest
 
         PhotosJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_photos', 0);
-        $contact->refresh();
-        $this->assertEquals(FlickrContact::STATE_PHOTOS_FAILED, $contact->state_code);
+        $this->assertEquals(FlickrContact::STATE_PHOTOS_FAILED, $contact->refresh()->state_code);
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-namespace Tests\Feature\Jobs\Flickr;
+namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\ContactAlbumbsJob;
+use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\Event;
-use Tests\AbstractFlickrTest;
 
 class ContactAlbumsJobTest extends AbstractFlickrTest
 {
@@ -22,6 +23,7 @@ class ContactAlbumsJobTest extends AbstractFlickrTest
 
         ContactAlbumbsJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_albums', 23);
+        $this->assertEquals(23, FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->count());
         $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED,  $contact->refresh()->state_code);
     }
 

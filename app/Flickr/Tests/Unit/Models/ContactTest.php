@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\Flickr;
+namespace App\Flickr\Tests\Unit\Models;
 
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;

@@ -60,29 +60,39 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
         $this->assertEmpty($items);
     }
 
-    public function test_get_page_count()
+    public function test_get_pages_count()
     {
         $this->mocker
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(9))
             ->method('get')
             ->withConsecutive(
                 ['page.html'],
+                ['page.html', ['page' => 2]],
+                ['page.html', ['page' => 3]],
                 ['page.html', ['page' => 4]],
+                ['page.html', ['page' => 5]],
+                ['page.html', ['page' => 6]],
                 ['page.html', ['page' => 7]],
-                ['page.html', ['page' => 8]]
+                ['page.html', ['page' => 8]],
+                ['page.html', ['page' => 9]]
             )
             ->willReturnOnConsecutiveCalls(
                 $this->getSuccessfulMockedResponse('page.html'),
+                $this->getSuccessfulMockedResponse('page_2.html'),
+                $this->getSuccessfulMockedResponse('page_3.html'),
                 $this->getSuccessfulMockedResponse('page_4.html'),
+                $this->getSuccessfulMockedResponse('page_5.html'),
+                $this->getSuccessfulMockedResponse('page_6.html'),
                 $this->getSuccessfulMockedResponse('page_7.html'),
-                $this->getSuccessfulMockedResponse('page_8.html')
+                $this->getSuccessfulMockedResponse('page_8.html'),
+                $this->getSuccessfulMockedResponse('page_9.html')
             );
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(OnejavCrawler::class);
 
         $items = collect();
-        $this->assertEquals(8, $this->crawler->getItemsRecursive($items, 'page.html', []));
-        $this->assertEquals(33, $items->count());
+        $this->assertEquals(9, $this->crawler->getItemsRecursive($items, 'page.html', []));
+        $this->assertEquals(84, $items->count());
     }
 }

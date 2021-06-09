@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Jobs\Flickr;
+namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\ContactInfoJob;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\Event;
-use Tests\AbstractFlickrTest;
 
 class ContactInfoJobTest extends AbstractFlickrTest
 {

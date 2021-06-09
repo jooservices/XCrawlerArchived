@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Jobs\Flickr;
+namespace App\Flickr\Tests\Feature\Jobs;
 
 use App\Events\Flickr\ContactCreated;
+use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;
-use Tests\AbstractFlickrTest;
 
 class PhotoSizesJobTest extends AbstractFlickrTest
 {

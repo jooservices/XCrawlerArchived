@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Flickr;
 
 use App\Jobs\Flickr\ContactInfoJob;
+use App\Jobs\Flickr\GetFavoritePhotosJob;
 use App\Models\FlickrContact;
 use Illuminate\Console\Command;
 
@@ -24,10 +25,11 @@ class ContactInfo extends Command
 
     public function handle()
     {
-        if (!$contact = FlickrContact::byState(FlickrContact::STATE_INIT)->first()) {
+        if (!$contact = FlickrContact::whereIn('state_code', [FlickrContact::STATE_INIT, FlickrContact::STATE_MANUAL])->first()) {
             return;
         }
 
         ContactInfoJob::dispatch($contact);
+        GetFavoritePhotosJob::dispatch($contact);
     }
 }
