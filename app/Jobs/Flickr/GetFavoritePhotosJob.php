@@ -28,6 +28,11 @@ class GetFavoritePhotosJob extends AbstractFlickrJob
     public function handle(FlickrService $service)
     {
         $photos = $service->getFavoritePhotos($this->contact->nsid);
+        if (!$photos) {
+            $this->contact->updateState(FlickrContact::STATE_INFO_FAILED);
+            return;
+        }
+
         $photos->each(function ($photos) use ($service) {
             foreach ($photos['photos']['photo'] as $photo) {
                 /**

@@ -130,7 +130,6 @@ class FlickrService extends AbstractFlickrService
     public function getContactAlbums(string $nsid): Collection
     {
         $albums = $this->client->photosets()->getList($nsid, null, 500);
-        dd($albums);
         $albums = collect()->add($albums);
         $pages = $albums->first()['pages'];
 
@@ -150,15 +149,19 @@ class FlickrService extends AbstractFlickrService
         return $albums;
     }
 
-    public function getFavoritePhotos(string $nsid): Collection
+    public function getFavoritePhotos(string $nsid): ?Collection
     {
         $photos = $this->client->favorites()->getList(
-            $nsid,
+            '123675113@N02',
             null,
             null,
             null,
             500
         );
+
+        if (empty($photos)) {
+            return null;
+        }
 
         $pages = $photos['photos']['pages'];
         $photos = collect()->add($photos);

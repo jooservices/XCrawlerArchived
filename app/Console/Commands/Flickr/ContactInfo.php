@@ -29,7 +29,7 @@ class ContactInfo extends Command
             return;
         }
 
-        ContactInfoJob::dispatch($contact);
+        //ContactInfoJob::dispatch($contact);
         GetFavoritePhotosJob::dispatch($contact);
     }
 }
