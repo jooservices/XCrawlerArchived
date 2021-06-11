@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property string $id
  * @property string $owner
  * @property int    $primary
  * @property string $secret
@@ -28,6 +29,7 @@ class FlickrAlbum extends Model
     public const STATE_PHOTOS_PROCESSING = 'FAPP';
     public const STATE_PHOTOS_COMPLETED = 'FAPC';
     public const STATE_PHOTOS_FAILED = 'FAPF';
+    public const STATE_MANUAL = 'FAML';
 
     public const STATES = [
         self::STATE_INIT,
