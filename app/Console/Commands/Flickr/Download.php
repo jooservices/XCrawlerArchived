@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands\Flickr;
 
+use App\Jobs\Flickr\DownloadJob;
+use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Models\FlickrDownload;
-use App\Models\FlickrDownloadItem;
-use App\Models\FlickrPhoto;
 use App\Services\Flickr\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -24,7 +24,7 @@ class Download extends Command
      *
      * @var string
      */
-    protected $description = 'Download specific album';
+    protected $description = 'Download Flickr photo';
 
     public function handle(FlickrService $service)
     {
@@ -37,7 +37,16 @@ class Download extends Command
         }
 
         $nsid = $userInfo['id'];
+        $this->output->title('Process nsid ' . $nsid);
         $url = explode('/', $url);
+
+        /**
+         * Create contact if not exist yet
+         * Use STATE_MANUAL to prevent observe jobs
+         */
+        $contact = FlickrContact::firstOrCreate([
+            'nsid' => $nsid,
+        ], ['state_code' => FlickrContact::STATE_MANUAL]);
 
         switch ($type) {
             case 'album':
@@ -46,97 +55,54 @@ class Download extends Command
                     $this->output->error('Can not get album info');
                     return;
                 }
-                // Create download request
+
+                /**
+                 * Create album with STATE_MANUALLY to prevent observe job
+                 */
+                $album = FlickrAlbum::updateOrCreate([
+                    'id' => $albumInfo['id'],
+                    'owner' => $nsid,
+                ], [
+                    'primary' => $albumInfo['primary'],
+                    'secret' => $albumInfo['secret'],
+                    'server' => $albumInfo['server'],
+                    'farm' => $albumInfo['farm'],
+                    'photos' => $albumInfo['count_photos'],
+                    'title' => $albumInfo['title'],
+                    'description' => $albumInfo['description'],
+                    'state_code' => FlickrAlbum::STATE_MANUAL
+                ]);
+                $this->output->info('Album ' . $album->id);
+
                 $flickrDownload = FlickrDownload::create([
-                    'name' => $albumInfo['title'],
-                    'path' => $albumInfo['owner'] . '/' . Str::slug($albumInfo['title']),
-                    'total' => $albumInfo['count_photos'],
+                    'name' => $album->title,
+                    'path' => $album->owner . '/' . Str::slug($album->title),
+                    'total' => $album->photos,
+                    'model_id' => $album->id,
+                    'model_type' => FlickrAlbum::class,
                     'state_code' => $toWordPress ? FlickrDownload::STATE_TO_WORDPRESS : FlickrDownload::STATE_INIT,
                 ]);
 
-                // Get photos
-                if (!$photos = $service->getAlbumPhotos($albumId)) {
-                    return;
-                }
-
-                /**
-                 * Create contact if not exist yet
-                 * Use STATE_MANUAL to prevent observe jobs
-                 */
-                FlickrContact::firstOrCreate([
-                    'nsid' => $nsid,
-                ], ['state_code' => FlickrContact::STATE_MANUAL]);
-
-                // Process download
-                $photos->each(function ($photos) use ($flickrDownload) {
-                    foreach ($photos['photo'] as $photo) {
-                        // Create photos
-                        $photo = FlickrPhoto::updateOrCreate([
-                            'id' => $photo['id'],
-                            'owner' => $photos['owner'],
-                        ], [
-                            'secret' => $photo['secret'],
-                            'server' => $photo['server'],
-                            'farm' => $photo['farm'],
-                            'title' => $photo['title'],
-                            'state_code' => FlickrPhoto::STATE_INIT
-                        ]);
-
-                        // Create download item
-                        FlickrDownloadItem::create([
-                            'download_id' => $flickrDownload->id,
-                            'photo_id' => $photo->id,
-                            'state_code' => $this->option('toWordPress') ? FlickrDownloadItem::STATE_WORDPRESS_INIT : FlickrDownloadItem::STATE_INIT
-                        ]);
-                    }
-                });
+                DownloadJob::dispatch($flickrDownload);
                 break;
             case 'profile':
-                $userInfoDetail = $service->getPeopleInfo($nsid)->first();
-                if (!$userInfoDetail) {
+                $this->output->info('Profile ' . $contact->id);
+
+                if (!$userInfoDetail = $service->getPeopleInfo($contact->nsid)->first()) {
                     return;
                 }
 
-                /**
-                 * Create contact if not exist yet
-                 * Use STATE_MANUAL to prevent observe jobs
-                 */
-                FlickrContact::firstOrCreate([
-                    'nsid' => $nsid,
-                ], ['state_code' => FlickrContact::STATE_MANUAL]);
-
                 // Create download request
                 $flickrDownload = FlickrDownload::create([
-                    'name' => $nsid,
-                    'path' => Str::slug($nsid),
+                    'name' => $contact->nsid,
+                    'path' => $contact->nsid,
                     'total' => $userInfoDetail['photos']['count'],
+                    'model_id' => $contact->nsid,
+                    'model_type' => FlickrContact::class,
                     'state_code' => $toWordPress ? FlickrDownload::STATE_TO_WORDPRESS : FlickrDownload::STATE_INIT,
                 ]);
 
-                $photos = $service->getAllPhotos($userInfoDetail['nsid']);
-                // Process download
-                $photos->each(function ($page) use ($flickrDownload, $nsid) {
-                    foreach ($page['photo'] as $photo) {
-                        // Create photos
-                        $photo = FlickrPhoto::updateOrCreate([
-                            'id' => $photo['id'],
-                            'owner' => $nsid,
-                        ], [
-                            'secret' => $photo['secret'],
-                            'server' => $photo['server'],
-                            'farm' => $photo['farm'],
-                            'title' => $photo['title'],
-                            'state_code' => FlickrPhoto::STATE_INIT
-                        ]);
-
-                        // Create download item
-                        FlickrDownloadItem::create([
-                            'download_id' => $flickrDownload->id,
-                            'photo_id' => $photo->id,
-                            'state_code' => $this->option('toWordPress') ? FlickrDownloadItem::STATE_WORDPRESS_INIT : FlickrDownloadItem::STATE_INIT
-                        ]);
-                    }
-                });
+                DownloadJob::dispatch($flickrDownload);
                 break;
         }
     }
