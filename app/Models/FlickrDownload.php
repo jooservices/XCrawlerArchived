@@ -20,11 +20,14 @@ class FlickrDownload extends Model
     public const STATE_INIT = 'FDIN';
     public const STATE_TO_WORDPRESS = 'FDTW';
     public const STATE_COMPLETED = 'FDCE';
+    public const STATE_FAILED = 'FDFL';
 
     protected $fillable = [
         'name',
         'path',
         'total',
+        'model_id',
+        'model_type',
         'state_code'
     ];
 
@@ -32,8 +35,15 @@ class FlickrDownload extends Model
         'name' => 'string',
         'path' => 'string',
         'total' => 'integer',
+        'model_id' => 'string',
+        'model_type' => 'string',
         'state_code' => 'string',
     ];
+
+    public function model()
+    {
+        return $this->morphTo();
+    }
 
     public function items()
     {

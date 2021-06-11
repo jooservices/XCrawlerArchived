@@ -27,6 +27,7 @@ class FlickrAlbumFactory extends Factory
             'owner' => FlickrContact::factory(),
             'title' => $this->faker->title,
             'description' => $this->faker->text,
+            'photos' => $this->faker->numberBetween(),
             'state_code' => FlickrAlbum::STATE_INIT
         ];
     }
