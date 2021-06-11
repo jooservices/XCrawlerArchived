@@ -53,6 +53,7 @@ class Movie extends Model
         'label' => 'string',
         'channel' => 'string',
         'gallery'=> 'array',
+        'sample'=> 'string',
         'is_downloadable' => 'boolean',
     ];
 

@@ -26,12 +26,6 @@
     @endforeach
 @endif
 
-@if(!empty($movie->sample))
-    @foreach ($movie->sample as $image)
-        <img src="{{$image}}" alt="{{$title}}"/>
-    @endforeach
-@endif
-
 <p>
     @if($onejav)
         <a href="{{ $onejav->url }}" rel="nofollow">Onejav</a>
