@@ -49,11 +49,7 @@ class DownloadJob extends AbstractFlickrJob
 
     private function downloadAlbum(FlickrService $service)
     {
-        if (!$photos = $service->getAlbumPhotos($this->model->id)) {
-            $this->download->updateState(FlickrDownload::STATE_FAILED);
-            return;
-        }
-
+        $photos = $service->getAlbumPhotos($this->model->id);
         $photos->each(function ($photos) {
             foreach ($photos['photo'] as $photo) {
                 // Create photos

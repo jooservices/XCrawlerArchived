@@ -21,23 +21,23 @@ class AlbumPhotosJobTest extends AbstractFlickrTest
     {
         $this->mockSucceed();
 
-        FlickrContact::factory()->create(['nsid' => '94529704@N02',]);
-
-        $album = FlickrAlbum::factory()->create(['owner' => '94529704@N02',]);
+        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02',]);
+        $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid,]);
 
         // Get photos of album
         AlbumPhotosJob::dispatch($album);
+        $this->assertEquals($contact->nsid, $album->owner()->first()->nsid);
         $this->assertEquals(FlickrAlbum::STATE_PHOTOS_COMPLETED, $album->refresh()->state_code);
-
+        $photo = $album->photos()->first();
         $this->assertDatabaseHas('flickr_photos', [
-            'id' => '44472585915',
-            'owner' => '94529704@N02',
+            'id' => $photo->id,
+            'owner' => $contact->nsid,
             'state_code' => FlickrPhoto::STATE_INIT
         ]);
 
         $this->assertDatabaseHas('flickr_photo_album', [
             'album_id' => $album->id,
-            'photo_id' => '44472585915'
+            'photo_id' => $photo->id,
         ]);
 
         $this->assertEquals(1, $album->photos()->count());

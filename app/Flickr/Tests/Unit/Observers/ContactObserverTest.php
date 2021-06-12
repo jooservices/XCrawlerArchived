@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
+use App\Events\Flickr\ContactCreated;
 use App\Jobs\Flickr\ContactAlbumbsJob;
 use App\Jobs\Flickr\ContactInfoJob;
 use App\Jobs\Flickr\PhotosJob;
@@ -23,6 +24,22 @@ class ContactObserverTest extends TestCase
         Queue::assertPushed(ContactInfoJob::class, function ($event) use ($contact) {
             return $event->contact->nsid = $contact->nsid;
         });
+    }
+
+    public function test_contact_change_state_init()
+    {
+        $contact = FlickrContact::factory()->create(['state_code' => FlickrContact::STATE_INFO_FAILED]);
+        Queue::assertNothingPushed();
+        $contact->updateState(FlickrContact::STATE_INIT);
+        Queue::assertPushed(ContactInfoJob::class, function ($event) use ($contact) {
+            return $event->contact->nsid = $contact->nsid;
+        });
+    }
+
+    public function test_contct_created_manually()
+    {
+        FlickrContact::factory()->create(['state_code' => FlickrContact::STATE_MANUAL]);
+        Queue::assertNothingPushed();
     }
 
     public function test_contact_info_completed()

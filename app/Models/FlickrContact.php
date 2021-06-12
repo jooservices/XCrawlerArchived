@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -127,12 +128,12 @@ class FlickrContact extends Model
         return self::where('nsid', $nsid)->first();
     }
 
-    public function albums()
+    public function albums(): HasMany
     {
         return $this->hasMany(FlickrAlbum::class, 'owner');
     }
 
-    public function photos()
+    public function photos(): HasMany
     {
         return $this->hasMany(FlickrPhoto::class, 'owner');
     }

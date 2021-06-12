@@ -2,19 +2,19 @@
 
 namespace App\Flickr\Tests\Feature\Command;
 
-use App\Events\Flickr\ContactCreated;
-use App\Events\Flickr\ContactStateChanged;
 use App\Flickr\Tests\AbstractFlickrTest;
+use App\Jobs\Flickr\ContactInfoJob;
+use App\Jobs\Flickr\GetFavoritePhotosJob;
 use App\Models\FlickrContact;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 
 class ContactInfoTest extends AbstractFlickrTest
 {
     public function setUp(): void
     {
         parent::setUp();
-        Event::fake([ContactCreated::class, ContactStateChanged::class]);
+        Queue::fake();
     }
 
     public function test_get_contact_info()
@@ -25,16 +25,17 @@ class ContactInfoTest extends AbstractFlickrTest
          * Beside that this command used for relooping when all contact info are updated
          */
         $this->mockSucceed();
-        $this->artisan('flickr:contacts');
-        $this->assertDatabaseCount('flickr_contacts', 1070);
-        $this->assertEquals(1070, FlickrContact::byState(FlickrContact::STATE_INIT)->count());
-
+        $contact = FlickrContact::factory()->create([
+            'state_code' => FlickrContact::STATE_MANUAL
+        ]);
         $this->artisan('flickr:contact-info');
-        $contact = FlickrContact::findByNsid('100028207@N03');
-        $this->assertEquals(FlickrContact::STATE_INFO_COMPLETED, $contact->state_code);
 
-        // Try to make all contacts are completed
-        DB::table('flickr_contacts')->update(['state_code' => FlickrContact::STATE_PHOTOS_COMPLETED]);
-        $this->assertEquals(0, FlickrContact::byState(FlickrContact::STATE_INIT)->count());
+        Queue::assertPushed(ContactInfoJob::class, function ($event) use ($contact) {
+            return $event->contact->nsid = $contact->nsid;
+        });
+
+        Queue::assertPushed(GetFavoritePhotosJob::class, function ($event) use ($contact) {
+            return $event->contact->nsid = $contact->nsid;
+        });
     }
 }

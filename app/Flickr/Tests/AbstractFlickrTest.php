@@ -12,6 +12,9 @@ abstract class AbstractFlickrTest extends TestCase
 {
     protected FlickrService|MockObject $mocker;
 
+    protected const TOTAL_CONTACTS = 1070;
+    protected const TOTAL_CONTACT_PHOTOS = 6;
+
     public function setUp(): void
     {
         parent::setUp();

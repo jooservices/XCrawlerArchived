@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Listeners\Flickr;
+namespace App\Flickr\Listeners;
 
 use App\Events\Flickr\ItemDownloaded;
-use App\Mail\WordPressFlickrAlbumPost;
+use App\Flickr\Mail\WordPressFlickrAlbumPost;
 use App\Models\FlickrDownload;
 use Illuminate\Support\Facades\Mail;
 

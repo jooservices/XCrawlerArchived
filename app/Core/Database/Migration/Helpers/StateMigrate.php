@@ -2,6 +2,7 @@
 
 namespace App\Core\Database\Migration\Helpers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
@@ -19,12 +20,9 @@ class StateMigrate extends Migration
         foreach ($this->states as $state) {
             DB::table('states')->updateOrInsert([
                 'reference_code' => $state['reference_code'],
-            ], [
-                'entity' => $state['entity'],
-                'state' => $state['state'],
-                'created_at' => $now,
-                'updated_at' => $now
-            ]);
+            ],
+                array_merge($state, ['created_at' => $now, 'updated_at' => $now])
+            );
         }
 
         if ($this->foreignKey) {

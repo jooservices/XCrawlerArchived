@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Flickr;
+namespace App\Flickr\Listeners;
 
 use App\Events\Flickr\ContactCreated;
 use App\Events\Flickr\ContactStateChanged;

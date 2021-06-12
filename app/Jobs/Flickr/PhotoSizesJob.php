@@ -11,7 +11,7 @@ use App\Services\Flickr\FlickrService;
  */
 class PhotoSizesJob extends AbstractFlickrJob
 {
-    private FlickrPhoto $photo;
+    public FlickrPhoto $photo;
 
     public function __construct(FlickrPhoto $photo)
     {

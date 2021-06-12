@@ -9,9 +9,9 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
-class FlickrDownloadPhotoJob extends AbstractFlickrJob
+class DownloadPhotoJob extends AbstractFlickrJob
 {
-    private FlickrDownloadItem $downloadItem;
+    public FlickrDownloadItem $downloadItem;
 
     public function __construct(FlickrDownloadItem $downloadItem)
     {

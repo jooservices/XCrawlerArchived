@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Flickr\Mail;
 
 use App\Models\FlickrDownload;
 use App\Models\FlickrDownloadItem;

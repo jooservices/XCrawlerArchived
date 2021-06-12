@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Flickr;
+namespace App\Flickr\Listeners;
 
 use App\Events\Flickr\AlbumCreated;
 use App\Events\Flickr\AlbumStateChanged;

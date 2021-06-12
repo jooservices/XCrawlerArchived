@@ -22,8 +22,8 @@ class DownloadJobTest extends AbstractFlickrTest
     public function test_can_download_album()
     {
         $this->mockSucceed();
-        FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code'=> FlickrContact::STATE_MANUAL]);
-        $album = FlickrAlbum::factory()->create(['owner' => '94529704@N02', 'photos' => 1]);
+        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code'=> FlickrContact::STATE_MANUAL]);
+        $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid, 'photos' => 1]);
 
         $flickrDownload = FlickrDownload::create([
             'name' => $album->title,
@@ -38,9 +38,7 @@ class DownloadJobTest extends AbstractFlickrTest
 
         $this->assertEquals(1, $flickrDownload->items->count());
         $this->assertDatabaseCount('flickr_photos', 1);
-        $this->assertDatabaseHas('flickr_photos', [
-            'id' => $flickrDownload->items->first()->photo_id
-        ]);
+        $this->assertDatabaseHas('flickr_photos', ['id' => $flickrDownload->items->first()->photo_id]);
 
         $flickrDownload->refresh();
         $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED,$flickrDownload->items()->first()->state_code);

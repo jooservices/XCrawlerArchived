@@ -23,7 +23,22 @@ class ContactsJobTest extends AbstractFlickrTest
         $this->mockSucceed();
 
         ContactsJob::dispatch();
-        $this->assertDatabaseCount('flickr_contacts', 1070);
+        $this->assertDatabaseCount('flickr_contacts', self::TOTAL_CONTACTS);
+        $this->assertEquals(1070, FlickrContact::byState(FlickrContact::STATE_INIT)->count());
+    }
+
+    public function test_do_not_duplicate_contacts()
+    {
+        /**
+         * Fetch contacts and make sure it'll be inserted correctly
+         */
+        $this->mockSucceed();
+
+        for ($index = 1; $index <= 10; $index++) {
+            ContactsJob::dispatch();
+        }
+
+        $this->assertDatabaseCount('flickr_contacts', self::TOTAL_CONTACTS);
         $this->assertEquals(1070, FlickrContact::byState(FlickrContact::STATE_INIT)->count());
     }
 

@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
 
-class FlickrDownloadItemJobTest extends AbstractFlickrTest
+class DownloadPhotoJobTest extends AbstractFlickrTest
 {
     public function setUp(): void
     {
