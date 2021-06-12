@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Flickr;
+namespace App\Flickr\Events;
 
 use App\Models\FlickrAlbum;
 

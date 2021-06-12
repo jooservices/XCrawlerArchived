@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Observers;
 
-use App\Events\Flickr\ContactCreated;
-use App\Events\Flickr\ContactStateChanged;
+use App\Flickr\Events\ContactCreated;
+use App\Flickr\Events\ContactStateChanged;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\Event;
 

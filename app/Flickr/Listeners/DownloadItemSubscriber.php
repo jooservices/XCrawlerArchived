@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Listeners;
 
-use App\Events\Flickr\ItemDownloaded;
+use App\Flickr\Events\ItemDownloaded;
 use App\Flickr\Mail\WordPressFlickrAlbumPost;
 use App\Models\FlickrDownload;
 use Illuminate\Support\Facades\Mail;

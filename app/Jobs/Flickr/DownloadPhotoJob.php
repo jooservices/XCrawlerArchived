@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Flickr;
 
-use App\Events\Flickr\ItemDownloaded;
+use App\Flickr\Events\ItemDownloaded;
 use App\Models\FlickrDownloadItem;
 use App\Services\Flickr\FlickrService;
 use GuzzleHttp\Client;

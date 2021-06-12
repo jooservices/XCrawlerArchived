@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Events\Flickr;
+namespace App\Flickr\Events;
 
 use App\Models\FlickrContact;
 
-class ContactStateChanged
+class ContactCreated
 {
     public FlickrContact $contact;
 

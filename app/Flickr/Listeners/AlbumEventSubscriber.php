@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Listeners;
 
-use App\Events\Flickr\AlbumCreated;
-use App\Events\Flickr\AlbumStateChanged;
+use App\Flickr\Events\AlbumCreated;
+use App\Flickr\Events\AlbumStateChanged;
 use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 

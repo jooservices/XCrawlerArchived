@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Listeners;
 
-use App\Events\Flickr\ContactCreated;
-use App\Events\Flickr\ContactStateChanged;
+use App\Flickr\Events\ContactCreated;
+use App\Flickr\Events\ContactStateChanged;
 use App\Jobs\Flickr\ContactAlbumbsJob;
 use App\Jobs\Flickr\ContactInfoJob;
 use App\Jobs\Flickr\PhotosJob;

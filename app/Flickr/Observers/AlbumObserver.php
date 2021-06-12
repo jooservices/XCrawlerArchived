@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Observers;
 
-use App\Events\Flickr\AlbumCreated;
-use App\Events\Flickr\AlbumStateChanged;
+use App\Flickr\Events\AlbumCreated;
+use App\Flickr\Events\AlbumStateChanged;
 use App\Models\FlickrAlbum;
 use Illuminate\Support\Facades\Event;
 

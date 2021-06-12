@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Unit\Listeners;
 
-use App\Events\Flickr\ContactCreated;
-use App\Events\Flickr\ItemDownloaded;
+use App\Flickr\Events\ContactCreated;
+use App\Flickr\Events\ItemDownloaded;
 use App\Flickr\Mail\WordPressFlickrAlbumPost;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrDownload;
