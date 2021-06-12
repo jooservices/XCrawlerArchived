@@ -16,15 +16,20 @@ use Illuminate\Support\Facades\Mail;
 
 class ItemDownloadedTest extends AbstractFlickrTest
 {
-    public function test_send_mail_after_item_downloaded()
+    public function setUp(): void
     {
+        parent::setUp();
         Mail::fake();
         Event::fake([ContactCreated::class]);
+
         $this->mockSucceed();
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);
+    }
 
+    public function test_send_mail_after_item_downloaded()
+    {
         $photo = FlickrPhoto::factory()->create();
         $download = FlickrDownload::factory()->create([
             'state_code' => FlickrDownload::STATE_TO_WORDPRESS,
@@ -43,11 +48,6 @@ class ItemDownloadedTest extends AbstractFlickrTest
 
     public function test_do_not_send_mail_after_item_download_not_completed()
     {
-        Mail::fake();
-        $mock = $this->createMock(Client::class);
-        $mock->method('get')->willReturn(new Response());
-        app()->instance(Client::class, $mock);
-
         $photo = FlickrPhoto::factory()->create();
         $download = FlickrDownload::factory()->create([
             'state_code' => FlickrDownload::STATE_TO_WORDPRESS,
