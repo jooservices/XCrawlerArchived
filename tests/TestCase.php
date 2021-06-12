@@ -17,6 +17,7 @@ abstract class TestCase extends BaseTestCase
     use WithoutMiddleware;
 
     protected string $fixtures;
+    protected bool $seed = true;
 
     public function setUp(): void
     {
