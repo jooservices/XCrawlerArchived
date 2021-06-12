@@ -2,11 +2,14 @@
 
 namespace App\Flickr\Tests\Unit\Listeners;
 
+use App\Events\Flickr\ContactCreated;
 use App\Events\Flickr\ItemDownloaded;
 use App\Flickr\Mail\WordPressFlickrAlbumPost;
 use App\Flickr\Tests\AbstractFlickrTest;
+use App\Models\FlickrContact;
 use App\Models\FlickrDownload;
 use App\Models\FlickrDownloadItem;
+use App\Models\FlickrPhoto;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
@@ -17,16 +20,20 @@ class ItemDownloadedTest extends AbstractFlickrTest
     public function test_send_mail_after_item_downloaded()
     {
         Mail::fake();
+        Event::fake([ContactCreated::class]);
+        $this->mockSucceed();
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);
 
+        $photo = FlickrPhoto::factory()->create();
         $download = FlickrDownload::factory()->create([
             'state_code' => FlickrDownload::STATE_TO_WORDPRESS,
             'total' => 1
         ]);
         $downloadItem = FlickrDownloadItem::factory()->create([
-            'download_id' => $download->id
+            'download_id' => $download->id,
+            'photo_id' => $photo->id
         ]);
 
         Event::dispatch(new ItemDownloaded($downloadItem));
