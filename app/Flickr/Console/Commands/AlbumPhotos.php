@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Jobs\Flickr\AlbumPhotosJob;
+use App\Flickr\Jobs\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 use Illuminate\Console\Command;
 

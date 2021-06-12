@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrPhoto;
 use App\Services\Flickr\FlickrService;
 
 /**
  * Get photo sizes
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class PhotoSizesJob extends AbstractFlickrJob
 {

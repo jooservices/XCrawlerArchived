@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Jobs\Flickr\DownloadJob;
+use App\Flickr\Jobs\DownloadJob;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Models\FlickrDownload;

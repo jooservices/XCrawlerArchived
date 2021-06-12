@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Command;
 
+use App\Flickr\Jobs\ContactsJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\ContactsJob;
 use Illuminate\Support\Facades\Queue;
 
 class ContactsTest extends AbstractFlickrTest

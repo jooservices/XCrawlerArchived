@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrContact;
 use App\Services\Flickr\FlickrService;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * Get all contacts of authorized user
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class ContactsJob implements ShouldQueue
 {

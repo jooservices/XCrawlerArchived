@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Jobs\Flickr\PhotoSizesJob;
+use App\Flickr\Jobs\PhotoSizesJob;
 use App\Models\FlickrPhoto;
 use Illuminate\Console\Command;
 

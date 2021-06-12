@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Jobs\Flickr\AlbumPhotosJob;
+use App\Flickr\Jobs\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;

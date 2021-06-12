@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Jobs\Flickr\DownloadPhotoJob;
+use App\Flickr\Jobs\DownloadPhotoJob;
 use App\Models\FlickrDownloadItem;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;

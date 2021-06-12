@@ -2,9 +2,9 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Jobs\Flickr\ContactAlbumbsJob;
-use App\Jobs\Flickr\ContactInfoJob;
-use App\Jobs\Flickr\PhotosJob;
+use App\Flickr\Jobs\ContactAlbumbsJob;
+use App\Flickr\Jobs\ContactInfoJob;
+use App\Flickr\Jobs\PhotosJob;
 use App\Models\FlickrContact;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;

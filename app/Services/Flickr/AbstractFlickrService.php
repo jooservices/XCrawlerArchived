@@ -6,7 +6,6 @@ use App\Models\Integration;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\FlickrClientResponse;
 use Jooservices\PhpFlickr\FlickrException;
-
 use OAuth\Common\Storage\Memory;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 

@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Jobs\AlbumPhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;

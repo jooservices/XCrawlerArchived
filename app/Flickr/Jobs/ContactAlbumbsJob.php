@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Services\Flickr\FlickrService;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Get albums of contact
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class ContactAlbumbsJob extends AbstractFlickrJob
 {

@@ -4,7 +4,7 @@ namespace App\Flickr\Listeners;
 
 use App\Flickr\Events\AlbumCreated;
 use App\Flickr\Events\AlbumStateChanged;
-use App\Jobs\Flickr\AlbumPhotosJob;
+use App\Flickr\Jobs\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
 
 class AlbumEventSubscriber

@@ -4,9 +4,9 @@ namespace App\Flickr\Listeners;
 
 use App\Flickr\Events\ContactCreated;
 use App\Flickr\Events\ContactStateChanged;
-use App\Jobs\Flickr\ContactAlbumbsJob;
-use App\Jobs\Flickr\ContactInfoJob;
-use App\Jobs\Flickr\PhotosJob;
+use App\Flickr\Jobs\ContactAlbumbsJob;
+use App\Flickr\Jobs\ContactInfoJob;
+use App\Flickr\Jobs\PhotosJob;
 use App\Models\FlickrContact;
 
 class ContactEventSubscriber

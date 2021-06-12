@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Command;
 
+use App\Flickr\Jobs\PhotoSizesJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
@@ -8,7 +8,7 @@ use App\Services\Flickr\FlickrService;
 
 /**
  * Get photos of contact
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class PhotosJob extends AbstractFlickrJob
 {

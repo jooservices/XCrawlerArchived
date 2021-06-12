@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Observers;
 
-use App\Jobs\Flickr\DownloadPhotoJob;
+use App\Flickr\Jobs\DownloadPhotoJob;
 use App\Models\FlickrDownloadItem;
 
 class DownloadItemObserver

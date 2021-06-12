@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;

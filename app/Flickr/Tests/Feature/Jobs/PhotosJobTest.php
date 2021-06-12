@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Jobs\PhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\PhotosJob;
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;

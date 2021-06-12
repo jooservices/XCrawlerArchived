@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Jobs\Flickr\ContactInfoJob;
-use App\Jobs\Flickr\GetFavoritePhotosJob;
+use App\Flickr\Jobs\ContactInfoJob;
+use App\Flickr\Jobs\GetFavoritePhotosJob;
 use App\Models\FlickrContact;
 use Illuminate\Console\Command;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrContact;
 use App\Services\Flickr\FlickrService;
 
 /**
  * Get contact detail information
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class ContactInfoJob extends AbstractFlickrJob
 {

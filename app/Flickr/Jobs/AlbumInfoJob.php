@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Jobs\Flickr;
+namespace App\Flickr\Jobs;
 
 use App\Models\FlickrAlbum;
 use App\Services\Flickr\FlickrService;
 
 /**
  * Get album information
- * @package App\Jobs\Flickr
+ * @package App\Flickr\Jobs\
  */
 class AlbumInfoJob extends AbstractFlickrJob
 {

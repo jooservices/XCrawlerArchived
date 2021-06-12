@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Jobs\GetFavoritePhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\GetFavoritePhotosJob;
 use App\Models\FlickrContact;
 
 class GetFavoritePhotosJobTest extends AbstractFlickrTest
