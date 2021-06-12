@@ -6,7 +6,6 @@ use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\ContactInfoJob;
 use App\Jobs\Flickr\GetFavoritePhotosJob;
 use App\Models\FlickrContact;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 
 class ContactInfoTest extends AbstractFlickrTest

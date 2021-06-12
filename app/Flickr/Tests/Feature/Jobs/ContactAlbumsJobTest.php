@@ -24,7 +24,7 @@ class ContactAlbumsJobTest extends AbstractFlickrTest
         ContactAlbumbsJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_albums', 23);
         $this->assertEquals(23, FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->where(['owner' => $contact->nsid])->count());
-        $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED,  $contact->refresh()->state_code);
+        $this->assertEquals(FlickrContact::STATE_ALBUM_COMPLETED, $contact->refresh()->state_code);
     }
 
     public function test_cant_get_albums()
@@ -34,6 +34,6 @@ class ContactAlbumsJobTest extends AbstractFlickrTest
 
         ContactAlbumbsJob::dispatch($contact);
         $this->assertDatabaseCount('flickr_albums', 0);
-        $this->assertEquals(FlickrContact::STATE_ALBUM_FAILED,  $contact->refresh()->state_code);
+        $this->assertEquals(FlickrContact::STATE_ALBUM_FAILED, $contact->refresh()->state_code);
     }
 }

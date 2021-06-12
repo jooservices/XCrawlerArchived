@@ -2,8 +2,6 @@
 
 namespace App\Flickr\Tests\Feature\Command;
 
-use App\Events\Flickr\ContactCreated;
-use App\Events\Flickr\ContactStateChanged;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
@@ -28,7 +26,7 @@ class AlbumPhotosTest extends AbstractFlickrTest
         $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid]);
 
         $this->artisan('flickr:album-photos');
-        Queue::assertPushed(AlbumPhotosJob::class, function($event)use ($album){
+        Queue::assertPushed(AlbumPhotosJob::class, function ($event) use ($album) {
             return $event->album->id === $album->id;
         });
     }
@@ -41,7 +39,7 @@ class AlbumPhotosTest extends AbstractFlickrTest
         $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid, 'state_code' => FlickrAlbum::STATE_PHOTOS_COMPLETED]);
 
         $this->artisan('flickr:album-photos');
-        Queue::assertNotPushed(AlbumPhotosJob::class, function($event)use ($album){
+        Queue::assertNotPushed(AlbumPhotosJob::class, function ($event) use ($album) {
             return $event->album->id === $album->id;
         });
     }

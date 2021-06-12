@@ -23,8 +23,8 @@ class ContactInfoJobTest extends AbstractFlickrTest
         ContactInfoJob::dispatch($contact);
         $contact->refresh();
         $this->assertEquals(FlickrContact::STATE_INFO_COMPLETED, $contact->state_code);
-        $this->assertEquals('doanluuky_0907719159',$contact->path_alias);
-        $this->assertEquals('Luu Ky Doan',$contact->username);
+        $this->assertEquals('doanluuky_0907719159', $contact->path_alias);
+        $this->assertEquals('Luu Ky Doan', $contact->username);
         // @TODO Assert all fields
     }
 
@@ -34,6 +34,6 @@ class ContactInfoJobTest extends AbstractFlickrTest
         $contact = $this->factoryContact();
 
         ContactInfoJob::dispatch($contact);
-        $this->assertEquals(FlickrContact::STATE_INFO_FAILED,  $contact->refresh()->state_code);
+        $this->assertEquals(FlickrContact::STATE_INFO_FAILED, $contact->refresh()->state_code);
     }
 }

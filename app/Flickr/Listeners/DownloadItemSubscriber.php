@@ -17,8 +17,7 @@ class DownloadItemSubscriber
         }
 
         // Completed
-        if ($download->state_code === FlickrDownload::STATE_TO_WORDPRESS)
-        {
+        if ($download->state_code === FlickrDownload::STATE_TO_WORDPRESS) {
             Mail::send(new WordPressFlickrAlbumPost($download));
         }
 

@@ -22,7 +22,7 @@ class DownloadJobTest extends AbstractFlickrTest
     public function test_can_download_album()
     {
         $this->mockSucceed();
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code'=> FlickrContact::STATE_MANUAL]);
+        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code' => FlickrContact::STATE_MANUAL]);
         $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid, 'photos' => 1]);
 
         $flickrDownload = FlickrDownload::create([
@@ -41,14 +41,14 @@ class DownloadJobTest extends AbstractFlickrTest
         $this->assertDatabaseHas('flickr_photos', ['id' => $flickrDownload->items->first()->photo_id]);
 
         $flickrDownload->refresh();
-        $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED,$flickrDownload->items()->first()->state_code);
-        $this->assertEquals(FlickrDownload::STATE_COMPLETED,$flickrDownload->state_code);
+        $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED, $flickrDownload->items()->first()->state_code);
+        $this->assertEquals(FlickrDownload::STATE_COMPLETED, $flickrDownload->state_code);
     }
 
     public function test_can_download_profile()
     {
         $this->mockSucceed();
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code'=> FlickrContact::STATE_MANUAL]);
+        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code' => FlickrContact::STATE_MANUAL]);
 
         $flickrDownload = FlickrDownload::create([
             'name' => $contact->nsid,
@@ -65,7 +65,7 @@ class DownloadJobTest extends AbstractFlickrTest
         $this->assertDatabaseCount('flickr_photos', 6);
 
         $flickrDownload->refresh();
-        $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED,$flickrDownload->items()->first()->state_code);
-        $this->assertEquals(FlickrDownload::STATE_COMPLETED,$flickrDownload->state_code);
+        $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED, $flickrDownload->items()->first()->state_code);
+        $this->assertEquals(FlickrDownload::STATE_COMPLETED, $flickrDownload->state_code);
     }
 }

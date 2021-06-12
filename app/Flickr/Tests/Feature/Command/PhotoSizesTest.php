@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Tests\Feature\Command;
 
-use App\Events\Flickr\ContactCreated;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Jobs\Flickr\PhotoSizesJob;
 use App\Models\FlickrPhoto;
@@ -23,8 +22,8 @@ class PhotoSizesTest extends AbstractFlickrTest
         $photo = FlickrPhoto::factory()->create();
 
         $this->artisan('flickr:photo-sizes');
-        Queue::assertPushed(PhotoSizesJob::class, function($event)use ($photo){
-           return $event->photo->id === $photo->id;
+        Queue::assertPushed(PhotoSizesJob::class, function ($event) use ($photo) {
+            return $event->photo->id === $photo->id;
         });
     }
 

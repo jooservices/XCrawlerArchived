@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Events\Flickr\ContactCreated;
 use App\Jobs\Flickr\ContactAlbumbsJob;
 use App\Jobs\Flickr\ContactInfoJob;
 use App\Jobs\Flickr\PhotosJob;

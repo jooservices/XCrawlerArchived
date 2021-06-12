@@ -2,10 +2,8 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Events\Flickr\AlbumCreated;
 use App\Jobs\Flickr\AlbumPhotosJob;
 use App\Models\FlickrAlbum;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
@@ -23,7 +21,7 @@ class AlbumObserveTest extends TestCase
          * Whenever album is created we'll dispatch job to get photos
          */
         $album = FlickrAlbum::factory()->create();
-        Queue::assertPushed(AlbumPhotosJob::class, function($job) use ($album) {
+        Queue::assertPushed(AlbumPhotosJob::class, function ($job) use ($album) {
             return $job->album->id = $album->id;
         });
     }
@@ -32,7 +30,7 @@ class AlbumObserveTest extends TestCase
     {
         $album = FlickrAlbum::factory()->create(['state_code' => FlickrAlbum::STATE_PHOTOS_COMPLETED]);
         $album->updateState(FlickrAlbum::STATE_INIT);
-        Queue::assertPushed(AlbumPhotosJob::class, function($job) use ($album) {
+        Queue::assertPushed(AlbumPhotosJob::class, function ($job) use ($album) {
             return $job->album->id = $album->id;
         });
     }
