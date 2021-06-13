@@ -39,7 +39,10 @@ class MovieEventSubscriber
             return;
         }
 
-        Mail::send(new WordPressMoviePost($movie));
+        if (app()->environment('production')) {
+            Mail::send(new WordPressMoviePost($movie));
+        }
+
         WordPressPost::create(['title' => $movie->dvd_id]);
     }
 

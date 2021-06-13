@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 /**
+ * @property integer $id
  * @property string $name
  * @property string $cover
  * @property string $content_id
