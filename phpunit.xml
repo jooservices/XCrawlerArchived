@@ -14,15 +14,9 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
-        </testsuite>
-        <testsuite name="Unit2">
             <directory suffix="Test.php">./app/*/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature2">
+        <testsuite name="Feature">
             <directory suffix="Test.php">./app/*/Tests/Feature</directory>
         </testsuite>
     </testsuites>
