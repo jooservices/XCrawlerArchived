@@ -11,36 +11,33 @@ use Illuminate\Support\Facades\Queue;
 
 class AlbumPhotosTest extends AbstractFlickrTest
 {
+    private FlickrContact $contact;
+    private FlickrAlbum $album;
+
     public function setUp(): void
     {
         parent::setUp();
         Queue::fake();
         Event::fake();
+
+        $this->contact = FlickrContact::factory()->create(['nsid' => '94529704@N02']);
+        $this->album = FlickrAlbum::factory()->create(['owner' => $this->contact->nsid]);
     }
 
     public function test_can_get_album_photos()
     {
-        $this->mockSucceed();
-
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02']);
-        $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid]);
-
         $this->artisan('flickr:album-photos');
-        Queue::assertPushed(AlbumPhotosJob::class, function ($event) use ($album) {
-            return $event->album->id === $album->id;
+        Queue::assertPushed(AlbumPhotosJob::class, function ($event){
+            return $event->album->id === $this->album->id;
         });
     }
 
     public function test_cant_get_album_photos()
     {
-        $this->mockSucceed();
-
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02']);
-        $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid, 'state_code' => FlickrAlbum::STATE_PHOTOS_COMPLETED]);
-
+        $this->album->updateState(FlickrAlbum::STATE_PHOTOS_COMPLETED);
         $this->artisan('flickr:album-photos');
-        Queue::assertNotPushed(AlbumPhotosJob::class, function ($event) use ($album) {
-            return $event->album->id === $album->id;
+        Queue::assertNotPushed(AlbumPhotosJob::class, function ($event) {
+            return $event->album->id === $this->album->id;
         });
     }
 }

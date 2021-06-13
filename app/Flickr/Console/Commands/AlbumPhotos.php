@@ -24,7 +24,7 @@ class AlbumPhotos extends Command
 
     public function handle()
     {
-        if (!$album = FlickrAlbum::byState(FlickrAlbum::STATE_INIT)->first()) {
+        if (!$album = FlickrAlbum::whereIn('state_code', [FlickrAlbum::STATE_INIT, FlickrAlbum::STATE_MANUAL])->first()) {
             return;
         }
         AlbumPhotosJob::dispatch($album);
