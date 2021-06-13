@@ -29,7 +29,7 @@ class R18CrawlerTest extends AbstractCrawlingTest
 
         foreach ($expectedItem as $key => $value) {
             switch ($key) {
-                case'release_date':
+                case 'release_date':
                     $this->assertEquals('2021-04-09', $item->get('release_date')->format('Y-m-d'));
                     break;
                 case 'url':

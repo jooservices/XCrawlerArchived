@@ -31,7 +31,7 @@ class XCityIdolCrawlerTest extends AbstractXCityTest
 
         foreach ($expectedItem as $key => $value) {
             switch ($key) {
-                case'birthday':
+                case 'birthday':
                     $this->assertEquals('1988-05-24', $item->get('birthday')->format('Y-m-d'));
                     break;
                 case 'url':

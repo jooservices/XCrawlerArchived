@@ -49,7 +49,7 @@ class XCityVideoCrawlerTest extends AbstractXCityTest
 
         foreach ($expectedItem as $key => $value) {
             switch ($key) {
-                case'sales_date':
+                case 'sales_date':
                     $this->assertEquals('2020-05-29', $item->get('sales_date')->format('Y-m-d'));
                     break;
                 case 'release_date':
