@@ -2,8 +2,8 @@
 
 namespace App\Services\Jav;
 
-use App\Jobs\Jav\OnejavFetchDailyJob;
-use App\Jobs\Jav\OnejavFetchNewJob;
+use App\Jav\Jobs\OnejavFetchDailyJob;
+use App\Jav\Jobs\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 

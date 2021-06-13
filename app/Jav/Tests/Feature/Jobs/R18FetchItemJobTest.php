@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Jobs;
 
-use App\Jobs\Jav\R18FetchItemJob;
+use App\Jav\Jobs\R18FetchItemJob;
 use App\Models\Movie;
 use App\Services\Client\XCrawlerClient;
 use Tests\AbstractCrawlingTest;

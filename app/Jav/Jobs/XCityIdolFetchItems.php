@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Jobs\Jav;
+namespace App\Jav\Jobs;
 
 use App\Jobs\Traits\HasUnique;
-use App\Jobs\Traits\XCityJob;
-use App\Models\Idol;
+use App\Jav\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
+use App\Models\XCityIdol;
 use App\Services\Crawler\XCityIdolCrawler;
+use App\Services\Jav\XCityIdolService;
+use App\Services\TemporaryUrlService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class XCityIdolFetchItem implements ShouldQueue
+class XCityIdolFetchItems implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
@@ -54,30 +56,29 @@ class XCityIdolFetchItem implements ShouldQueue
     public function handle()
     {
         $crawler = app(XCityIdolCrawler::class);
+        $service = app(TemporaryUrlService::class);
 
-        // Get detail
-        if ($item = $crawler->getItem($this->url->url)) {
-            $name = $item->get('name');
-            $pos = strpos($name, '[');
+        $currentPage = $this->url->data['current_page'] ?? 1;
+        $payload = $this->url->data['payload'];
+        $payload['url'] = $this->url->url;
+        $payload['page'] = $currentPage;
 
-            if ($pos !== false) {
-                $alias = trim(substr($name, $pos + 1), ']');
-                $name = substr($name, 0, $pos);
-            }
 
-            $data = $item->toArray();
-            $data['name'] = trim($name);
-            $data['alias'] = isset($alias) ? explode(',', $alias) : null;
+        /**
+         * Get idols on page
+         * We have around 30 idols / page
+         */
+        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service, $payload) {;
+            $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL, $payload);
+        });
 
-            /**
-             * XCity have primary data for idol.
-             * We are using updateOrCreate cos this reason
-             */
-            Idol::updateOrCreate(['name' => $data['name']], $data);
-            $this->url->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
+        if ($currentPage === (int)$this->url->data['pages']) {
+            $this->url->completed();
 
             return;
         }
-        $this->url->update(['state_code' => TemporaryUrl::STATE_FAILED]);
+
+        $currentPage++;
+        $this->url->updateData(['current_page' => $currentPage]);
     }
 }

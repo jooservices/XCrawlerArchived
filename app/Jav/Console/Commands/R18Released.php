@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Console\Commands\Jav;
+namespace App\Jav\Console\Commands;
 
-use App\Services\Jav\OnejavService;
+use App\Services\Jav\R18Service;
 use Illuminate\Console\Command;
 
-class OnejavNew extends Command
+class R18Released extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jav:onejav-new';
+    protected $signature = 'jav:r18-released';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch Onejav - New';
+    protected $description = 'Fetch R18 - Release';
 
     /**
      * Execute the console command.
@@ -28,6 +28,6 @@ class OnejavNew extends Command
      */
     public function handle()
     {
-        app(OnejavService::class)->released();
+        app(R18Service::class)->released();
     }
 }

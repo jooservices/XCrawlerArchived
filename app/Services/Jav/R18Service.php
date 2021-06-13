@@ -2,7 +2,7 @@
 
 namespace App\Services\Jav;
 
-use App\Jobs\Jav\R18FetchItemJob;
+use App\Jav\Jobs\R18FetchItemJob;
 use App\Models\R18;
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\R18Crawler;

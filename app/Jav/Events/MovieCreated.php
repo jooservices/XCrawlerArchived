@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Jav\Events;
 
 use App\Core\EventSourcing\RecordedEvent;
 use App\Models\AbstractJavMovie;

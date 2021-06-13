@@ -2,7 +2,7 @@
 
 namespace App\Jav\Observers;
 
-use App\Mail\WordPressIdolPost;
+use App\Jav\Mail\WordPressIdolPost;
 use App\Models\Idol;
 use App\Models\WordPressPost;
 use Illuminate\Support\Facades\Mail;

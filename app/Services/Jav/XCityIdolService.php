@@ -2,7 +2,7 @@
 
 namespace App\Services\Jav;
 
-use App\Jobs\Jav\XCityIdolFetchPages;
+use App\Jav\Jobs\XCityIdolFetchPages;
 use App\Services\Crawler\XCityIdolCrawler;
 
 class XCityIdolService

@@ -2,7 +2,7 @@
 
 namespace App\Jav\Observers;
 
-use App\Jobs\CreateMovieJob;
+use App\Jav\Jobs\CreateMovieJob;
 use Illuminate\Database\Eloquent\Model;
 
 class JavThirdPartyObserver

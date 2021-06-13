@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Traits;
+namespace App\Jav\Jobs\Traits;
 
 use Spatie\RateLimitedMiddleware\RateLimited;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs\Jav;
+namespace App\Jav\Jobs;
 
 use App\Jobs\Traits\HasUnique;
-use App\Jobs\Traits\XCityJob;
+use App\Jav\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
 use App\Models\XCityIdol;
 use App\Services\Crawler\XCityIdolCrawler;

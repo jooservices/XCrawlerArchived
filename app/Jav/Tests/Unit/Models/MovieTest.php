@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
-use App\Events\MovieCreated;
+use App\Jav\Events\MovieCreated;
 use App\Models\Idol;
 use App\Models\Movie;
 use App\Models\Onejav;

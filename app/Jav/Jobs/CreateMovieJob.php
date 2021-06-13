@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jav\Jobs;
 
-use App\Events\MovieCreated;
+use App\Jav\Events\MovieCreated;
 use App\Models\AbstractJavMovie;
 use App\Models\Idol;
 use App\Models\Movie;

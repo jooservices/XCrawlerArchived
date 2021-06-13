@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Console\Commands\Jav;
+namespace App\Jav\Console\Commands;
 
-use App\Jobs\Jav\XCityVideoFetchItem;
-use App\Services\Jav\XCityVideoService;
+use App\Jav\Jobs\XCityIdolFetchItem;
+use App\Services\Jav\XCityIdolService;
 use App\Services\TemporaryUrlService;
 use Illuminate\Console\Command;
 
-class XCityVideo extends Command
+class XCityIdol extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jav:xcity-video';
+    protected $signature = 'jav:xcity-idol';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get XCity video detail';
+    protected $description = 'Get XCity idol detail';
 
     /**
      * Execute the console command.
@@ -30,9 +30,9 @@ class XCityVideo extends Command
      */
     public function handle()
     {
-        $links = app(TemporaryUrlService::class)->getItems(XCityVideoService::SOURCE_VIDEO);
+        $links = app(TemporaryUrlService::class)->getItems(XCityIdolService::SOURCE_IDOL);
         foreach ($links as $link) {
-            XCityVideoFetchItem::dispatch($link);
+            XCityIdolFetchItem::dispatch($link);
         }
     }
 }

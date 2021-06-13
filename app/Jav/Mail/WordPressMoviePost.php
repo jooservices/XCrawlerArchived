@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Jav\Mail;
 
 use App\Models\Movie;
 use Illuminate\Bus\Queueable;

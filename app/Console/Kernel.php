@@ -58,6 +58,7 @@ class Kernel extends ConsoleKernel
             [
                 __DIR__ . '/Commands',
                 __DIR__ . '/../Flickr/Console/Commands',
+                __DIR__ . '/../Jav/Console/Commands',
             ]
         );
 

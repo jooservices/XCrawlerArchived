@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Jav;
+namespace App\Jav\Console\Commands;
 
 use App\Services\Jav\XCityVideoService;
 use Illuminate\Console\Command;

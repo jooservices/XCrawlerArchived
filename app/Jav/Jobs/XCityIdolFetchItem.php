@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Jobs\Jav;
+namespace App\Jav\Jobs;
 
 use App\Jobs\Traits\HasUnique;
-use App\Jobs\Traits\XCityJob;
+use App\Jav\Jobs\Traits\XCityJob;
+use App\Models\Idol;
 use App\Models\TemporaryUrl;
-use App\Models\XCityVideo;
-use App\Services\Crawler\XCityVideoCrawler;
+use App\Services\Crawler\XCityIdolCrawler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class XCityVideoFetchItem  implements ShouldQueue
+class XCityIdolFetchItem implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use XCityJob;
@@ -53,15 +53,28 @@ class XCityVideoFetchItem  implements ShouldQueue
 
     public function handle()
     {
-        $crawler = app(XCityVideoCrawler::class);
+        $crawler = app(XCityIdolCrawler::class);
 
         // Get detail
-        if ($item = $crawler->getItem($this->url->url, $this->url->data['payload'])) {
-            XCityVideo::firstOrCreate([
-                'item_number' => $item->get('item_number')
-            ], $item->toArray());
+        if ($item = $crawler->getItem($this->url->url)) {
+            $name = $item->get('name');
+            $pos = strpos($name, '[');
 
-            $this->url->completed();
+            if ($pos !== false) {
+                $alias = trim(substr($name, $pos + 1), ']');
+                $name = substr($name, 0, $pos);
+            }
+
+            $data = $item->toArray();
+            $data['name'] = trim($name);
+            $data['alias'] = isset($alias) ? explode(',', $alias) : null;
+
+            /**
+             * XCity have primary data for idol.
+             * We are using updateOrCreate cos this reason
+             */
+            Idol::updateOrCreate(['name' => $data['name']], $data);
+            $this->url->update(['state_code' => TemporaryUrl::STATE_COMPLETED]);
 
             return;
         }

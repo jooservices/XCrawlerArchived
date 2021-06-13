@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Console\Commands\Jav;
+namespace App\Jav\Console\Commands;
 
-use App\Jobs\Jav\XCityIdolFetchItems;
+use App\Jav\Jobs\XCityIdolFetchItems;
 use App\Services\Jav\XCityIdolService;
 use App\Services\TemporaryUrlService;
 use Illuminate\Console\Command;

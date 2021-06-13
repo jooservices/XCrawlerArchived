@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Jobs\Jav;
+namespace App\Jav\Jobs;
 
-use App\Events\Jav\OnejavNewCompletedEvent;
+use App\Jav\Events\OnejavNewCompletedEvent;
 use App\Jobs\Traits\HasUnique;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\OnejavCrawler;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

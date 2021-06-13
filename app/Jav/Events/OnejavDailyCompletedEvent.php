@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Jav;
+namespace App\Jav\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

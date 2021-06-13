@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Command;
 
-use App\Jobs\Jav\OnejavFetchDailyJob;
+use App\Jav\Jobs\OnejavFetchDailyJob;
 use Illuminate\Support\Facades\Queue;
 use Tests\AbstractCrawlingTest;
 
