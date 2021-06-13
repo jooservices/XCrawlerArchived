@@ -32,16 +32,17 @@ class AlbumInfoJob extends AbstractFlickrJob
 
     public function handle(FlickrService $service)
     {
-        if (!$album = $service->getAlbumInfo($this->albumId, $this->nsid)) {
+        $album = $service->getAlbumInfo($this->albumId, $this->nsid);
+        if ($album->isEmpty()) {
             FlickrAlbum::where(['id' => $this->albumId, 'owner' => $this->nsid])
                 ->update(['state_code' => FlickrAlbum::STATE_INFO_FAILED]);
 
             return;
         }
 
-        FlickrAlbum::updateOrCreate([
+        $album = FlickrAlbum::updateOrCreate([
             'id' => $album['id'],
             'owner' => $album['owner']
-        ], array_merge($album, ['state_code' => FlickrAlbum::STATE_INIT]));
+        ], $album->merge(['state_code' => FlickrAlbum::STATE_INIT])->toArray());
     }
 }

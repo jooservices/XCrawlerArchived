@@ -2,8 +2,6 @@
 
 namespace App\Services\Flickr;
 
-use App\Services\Flickr\Traits\HasContacts;
-use App\Services\Flickr\Traits\HasPhotos;
 use Illuminate\Support\Collection;
 
 class FlickrService extends AbstractFlickrService
@@ -87,9 +85,9 @@ class FlickrService extends AbstractFlickrService
         return $this->client->photos()->getSizes($photoId);
     }
 
-    public function getAlbumInfo(string $albumId, string $nsid)
+    public function getAlbumInfo(string $albumId, string $nsid): Collection
     {
-        return $this->client->photosets()->getInfo($albumId, $nsid);
+        return collect($this->client->photosets()->getInfo($albumId, $nsid));
     }
 
     public function getAlbumPhotos(string $albumId): Collection

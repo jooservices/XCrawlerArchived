@@ -36,7 +36,7 @@ abstract class AbstractFlickrTest extends TestCase
             'getAllPhotos' => 'photos.json',
             'getContactAlbums' => 'albums.json',
             'getPhotoSize' => 'sizes.json',
-
+            'getAlbumInfo' => 'album_info.json',
             'getAlbumPhotos' => 'album_photos.json',
             'getFavoritePhotos' => 'contact_favorite_photos.json'
         ];
@@ -57,6 +57,7 @@ abstract class AbstractFlickrTest extends TestCase
             'getAllContacts' => collect(),
             'getPeopleInfo' => null,
             'getAllPhotos' => collect(),
+            'getAlbumInfo' => collect(),
             'getPhotoSize' => null,
             'getContactAlbums' => collect(),
             'getAlbumPhotos' => collect(),
