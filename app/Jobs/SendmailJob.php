@@ -13,7 +13,11 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendmailJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+
     public Mailable $mailable;
 
     public function __construct(Mailable $mailable)
