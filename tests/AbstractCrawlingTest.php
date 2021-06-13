@@ -6,6 +6,7 @@ use App\Services\Client\CrawlerClientResponse;
 use App\Services\Client\Domain\ResponseInterface;
 use App\Services\Client\XCrawlerClient;
 use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 abstract class AbstractCrawlingTest extends TestCase
 {
