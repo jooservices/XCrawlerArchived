@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Jav\Listeners;
 
 use App\Events\MovieCreated;
 use App\Mail\WordPressMoviePost;

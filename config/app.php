@@ -1,6 +1,7 @@
 <?php
 
 use App\Flickr\Providers\FlickrServiceProvider;
+use App\Jav\Providers\JavServiceProvider;
 
 return [
 
@@ -180,6 +181,7 @@ return [
          * Custom
          */
         FlickrServiceProvider::class,
+        JavServiceProvider::class,
 
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

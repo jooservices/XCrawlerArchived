@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Jav\Observers;
 
 use App\Models\XCrawlerLog;
 use App\Notifications\CrawlingFailed;

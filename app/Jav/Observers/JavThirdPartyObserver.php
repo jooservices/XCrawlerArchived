@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Jav\Observers;
 
 use App\Jobs\CreateMovieJob;
 use Illuminate\Database\Eloquent\Model;

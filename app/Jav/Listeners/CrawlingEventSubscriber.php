@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Jav\Listeners;
 
 use App\Events\ClientRequested;
 use App\Models\XCrawlerLog;
