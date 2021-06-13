@@ -17,17 +17,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-
 class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use HasUnique;
 
     public TemporaryUrl $url;
-    /**
-     * @var OnejavCrawler|Application|mixed
-     */
-    private mixed $crawler;
 
     /**
      * Create a new job instance.
