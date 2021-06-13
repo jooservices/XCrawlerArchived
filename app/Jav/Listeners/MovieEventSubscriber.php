@@ -3,10 +3,10 @@
 namespace App\Jav\Listeners;
 
 use App\Events\MovieCreated;
+use App\Jobs\SendmailJob;
 use App\Mail\WordPressMoviePost;
 use App\Models\WordPressPost;
 use App\Notifications\FavoritedMovie;
-use Illuminate\Support\Facades\Mail;
 
 class MovieEventSubscriber
 {
@@ -39,7 +39,7 @@ class MovieEventSubscriber
             return;
         }
 
-        Mail::send(new WordPressMoviePost($movie));
+        SendmailJob::dispatch(new WordPressMoviePost($movie));
 
         WordPressPost::create(['title' => $movie->dvd_id]);
     }
