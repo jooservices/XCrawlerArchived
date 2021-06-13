@@ -47,18 +47,18 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->url = TemporaryUrl::factory()->create([
+        $url = TemporaryUrl::factory()->create([
             'url' => Onejav::NEW_URL,
             'source' => OnejavService::SOURCE,
             'data' => [],
             'state_code' => TemporaryUrl::STATE_INIT
         ]);
 
-        OnejavFetchNewJob::dispatch($this->url);
+        OnejavFetchNewJob::dispatch($url);
         $this->assertDatabaseCount('onejav', 10);
-        $this->url->refresh();
+        $url->refresh();
 
-        $this->assertEquals(2, $this->url->data['current_page']);
+        $this->assertEquals(2, $url->data['current_page']);
         Event::assertDispatched(OnejavNewCompletedEvent::class, function ($event) {
             $url = $event->url;
             return $url instanceof TemporaryUrl
@@ -89,7 +89,7 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
             return $url instanceof TemporaryUrl
                 && $url->url === Onejav::NEW_URL
                 && $url->data['current_page'] === 7340
-                &&  $url->state_code === TemporaryUrl::STATE_COMPLETED;
+                && $url->state_code === TemporaryUrl::STATE_COMPLETED;
         });
     }
 
@@ -117,7 +117,7 @@ class OnejavFetchNewJobTest extends AbstractCrawlingTest
             return $url instanceof TemporaryUrl
                 && $url->url === Onejav::NEW_URL
                 && $url->data['current_page'] === 7340
-                &&  $url->state_code === TemporaryUrl::STATE_COMPLETED;
+                && $url->state_code === TemporaryUrl::STATE_COMPLETED;
         });
     }
 }

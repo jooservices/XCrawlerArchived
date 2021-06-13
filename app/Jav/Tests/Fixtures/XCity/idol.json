@@ -1,1 +1,17 @@
-{"url":"http:\/\/adams.biz\/","name":"Yui Hatano","cover":"\/\/faws.xcity.jp\/actress\/large\/image\/person\/thumb_1576137497.jpg","favorite":1011,"birthday":{"date":"1988-05-24 13:27:13.000000","timezone_type":3,"timezone":"UTC"},"blood_type":"A","city":"Kyoto","height":"163","breast":88,"waist":59,"hips":85}
+{
+    "url": "http:\/\/adams.biz\/",
+    "name": "Yui Hatano",
+    "cover": "\/\/faws.xcity.jp\/actress\/large\/image\/person\/thumb_1576137497.jpg",
+    "favorite": 1011,
+    "birthday": {
+        "date": "1988-05-24 13:27:13.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+    },
+    "blood_type": "A",
+    "city": "Kyoto",
+    "height": "163",
+    "breast": 88,
+    "waist": 59,
+    "hips": 85
+}
