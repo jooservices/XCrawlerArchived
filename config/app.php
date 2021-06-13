@@ -1,5 +1,7 @@
 <?php
 
+use App\Flickr\Providers\FlickrServiceProvider;
+
 return [
 
     /*
@@ -173,6 +175,12 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+
+        /**
+         * Custom
+         */
+        FlickrServiceProvider::class,
+
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,

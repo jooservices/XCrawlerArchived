@@ -3,7 +3,6 @@
 namespace App\Services\Client;
 
 use App\Services\Client\Domain\ResponseInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 class FlickrClientResponse implements ResponseInterface
 {

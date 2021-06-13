@@ -17,14 +17,12 @@ class StateMigrate extends Migration
     {
         $now = Carbon::now();
         foreach ($this->states as $state) {
-            DB::table('states')->updateOrInsert([
-                'reference_code' => $state['reference_code'],
-            ], [
-                'entity' => $state['entity'],
-                'state' => $state['state'],
-                'created_at' => $now,
-                'updated_at' => $now
-            ]);
+            DB::table('states')->updateOrInsert(
+                [
+                    'reference_code' => $state['reference_code'],
+                ],
+                array_merge($state, ['created_at' => $now, 'updated_at' => $now])
+            );
         }
 
         if ($this->foreignKey) {

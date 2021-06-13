@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Tests\Feature\Jobs;
 
+use App\Flickr\Jobs\PhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Jobs\Flickr\PhotosJob;
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
 use Illuminate\Support\Facades\Event;
@@ -22,8 +22,8 @@ class PhotosJobTest extends AbstractFlickrTest
         $contact = $this->factoryContact();
 
         PhotosJob::dispatch($contact);
-        $this->assertDatabaseCount('flickr_photos', 6);
-        $this->assertEquals(6, FlickrPhoto::byState(FlickrPhoto::STATE_INIT)->count());
+        $this->assertDatabaseCount('flickr_photos', self::TOTAL_CONTACT_PHOTOS);
+        $this->assertEquals(self::TOTAL_CONTACT_PHOTOS, FlickrPhoto::byState(FlickrPhoto::STATE_INIT)->count());
         $this->assertEquals(FlickrContact::STATE_PHOTOS_COMPLETED, $contact->refresh()->state_code);
     }
 
