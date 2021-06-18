@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property  integer $id
  * @property-read  FlickrPhoto $photo
  * @property-read  FlickrDownload $download
  * @package App\Models

@@ -3,6 +3,7 @@
 namespace App\Services\Crawler;
 
 use App\Services\Client\XCrawlerClient;
+use DateTime;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -64,14 +65,14 @@ class R18Crawler
                             $date = trim($value, '/');
                             $dateTime = null;
 
-                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date)) {
-                                if (!$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
+                            if (!$dateTime = DateTime::createFromFormat('M. d, Y', $date)) {
+                                if (!$dateTime = DateTime::createFromFormat('M d, Y', $date)) {
                                     $dateTime = null;
                                 }
                             }
 
                             $value = $dateTime;
-                        } catch (\Exception) {
+                        } catch (Exception) {
                             break;
                         }
                         break;

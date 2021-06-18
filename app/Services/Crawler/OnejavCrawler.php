@@ -5,6 +5,8 @@ namespace App\Services\Crawler;
 use App\Models\Onejav;
 use App\Services\Client\XCrawlerClient;
 use Carbon\Carbon;
+use DateTime;
+use Exception;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -139,16 +141,16 @@ class OnejavCrawler
         return $item;
     }
 
-    private function convertStringToDateTime(string $date): ?\DateTime
+    private function convertStringToDateTime(string $date): ?DateTime
     {
         try {
             $date = trim($date, '/');
-            if (!$dateTime = \DateTime::createFromFormat('Y/m/j', $date)) {
+            if (!$dateTime = DateTime::createFromFormat('Y/m/j', $date)) {
                 return null;
             }
 
             return $dateTime;
-        } catch (\Exception) {
+        } catch (Exception) {
             return null;
         }
     }

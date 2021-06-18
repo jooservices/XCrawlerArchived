@@ -3,6 +3,7 @@
 namespace App\Services\Crawler;
 
 use App\Services\Client\XCrawlerClient;
+use DateTime;
 use Illuminate\Support\Collection;
 
 class XCityVideoCrawler
@@ -52,7 +53,7 @@ class XCityVideoCrawler
                         return ['favorite' => (int)$li->filter('.favorite-count')->text()];
                     case 'Sales Date':
                         return [
-                            'sales_date' => \DateTime::createFromFormat(
+                            'sales_date' => DateTime::createFromFormat(
                                 'Y/m/j',
                                 trim(str_replace('Sales Date', '', $li->text()))
                             ),
@@ -90,7 +91,7 @@ class XCityVideoCrawler
                     case 'Release Date':
                         $releaseDate = trim(str_replace('Release Date', '', $li->text(null, false)));
                         if (!empty($releaseDate) && !str_contains($releaseDate, 'undelivered now')) {
-                            return ['release_date' => \DateTime::createFromFormat('Y/m/j', $releaseDate)];
+                            return ['release_date' => DateTime::createFromFormat('Y/m/j', $releaseDate)];
                         }
                 }
 

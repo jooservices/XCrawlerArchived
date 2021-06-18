@@ -5,6 +5,8 @@ namespace App\Jav\Jobs;
 use App\Core\Jobs\Traits\HasUnique;
 use App\Models\R18;
 use App\Services\Crawler\R18Crawler;
+use DateTime;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,7 +42,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {
@@ -71,7 +73,7 @@ class R18FetchItemJob implements ShouldQueue, ShouldBeUnique
      * Execute the job.
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {

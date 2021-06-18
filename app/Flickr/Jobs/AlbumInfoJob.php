@@ -35,7 +35,7 @@ class AlbumInfoJob extends AbstractFlickrJob
             return;
         }
 
-        $album = FlickrAlbum::updateOrCreate([
+        FlickrAlbum::updateOrCreate([
             'id' => $album['id'],
             'owner' => $album['owner']
         ], $album->merge(['state_code' => FlickrAlbum::STATE_INIT])->toArray());

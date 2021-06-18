@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
-use App\Jav\Listeners\CrawlingEventSubscriber;
-use App\Jav\Listeners\MovieEventSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

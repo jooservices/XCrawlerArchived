@@ -7,6 +7,7 @@ use App\Jav\Jobs\Traits\XCityJob;
 use App\Models\TemporaryUrl;
 use App\Models\XCityVideo;
 use App\Services\Crawler\XCityVideoCrawler;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,7 +42,7 @@ class XCityVideoFetchItem  implements ShouldQueue
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {

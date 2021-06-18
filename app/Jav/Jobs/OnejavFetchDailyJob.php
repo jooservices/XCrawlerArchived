@@ -5,6 +5,7 @@ namespace App\Jav\Jobs;
 use App\Jav\Events\OnejavDailyCompletedEvent;
 use App\Models\Onejav;
 use App\Services\Crawler\OnejavCrawler;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,7 +26,7 @@ class OnejavFetchDailyJob implements ShouldQueue
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {
