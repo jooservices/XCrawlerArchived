@@ -19,10 +19,7 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
 
     public function test_get_items_on_news()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new.html'));
-
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OnejavCrawler::class);
+        $this->crawler = $this->loadSucceed('new.html', OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
         $item = $items->first()->toArray();
@@ -51,13 +48,9 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
 
     public function test_get_items_on_news_with_invalid_datetime()
     {
-        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new_datetime.html'));
-
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OnejavCrawler::class);
+        $this->crawler = $this->loadSucceed('new_datetime.html', OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
-
         $item = $items->first()->toArray();
         $this->assertEquals(10, $items->count());
 
