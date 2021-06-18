@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Jobs;
 
-use App\Jobs\Traits\HasUnique;
+use App\Core\Jobs\Traits\HasUnique;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

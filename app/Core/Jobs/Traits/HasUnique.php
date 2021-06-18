@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Traits;
+namespace App\Core\Jobs\Traits;
 
 use Illuminate\Support\Carbon;
 

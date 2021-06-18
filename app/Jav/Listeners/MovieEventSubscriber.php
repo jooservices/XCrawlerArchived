@@ -3,7 +3,7 @@
 namespace App\Jav\Listeners;
 
 use App\Jav\Events\MovieCreated;
-use App\Jobs\SendmailJob;
+use App\Core\Jobs\SendmailJob;
 use App\Jav\Mail\WordPressMoviePost;
 use App\Models\WordPressPost;
 use App\Notifications\FavoritedMovie;

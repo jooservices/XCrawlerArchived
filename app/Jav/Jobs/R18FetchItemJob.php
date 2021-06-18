@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs;
 
-use App\Jobs\Traits\HasUnique;
+use App\Core\Jobs\Traits\HasUnique;
 use App\Models\R18;
 use App\Services\Crawler\R18Crawler;
 use Illuminate\Bus\Queueable;
