@@ -22,7 +22,10 @@ class TemporaryUrlFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'url' => $this->faker->url,
+            'source' => $this->faker->uuid,
+            'data' => [],
+            'state_code' => TemporaryUrl::STATE_INIT
         ];
     }
 }

@@ -14,7 +14,7 @@ class XCityVideoFetchItemTest extends AbstractXCityTest
     public function setUp(): void
     {
         parent::setUp();
-        $this->url = TemporaryUrl::factory()->create(['url' => $this->faker->url, 'source' => $this->faker->uuid, 'state_code' => $this->faker->uuid]);
+        $this->url = TemporaryUrl::factory()->create();
     }
 
     public function test_xcity_video_fetch_item_test_failed()
