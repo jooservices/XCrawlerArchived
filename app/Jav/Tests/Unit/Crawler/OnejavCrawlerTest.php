@@ -49,6 +49,39 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
         }
     }
 
+    public function test_get_items_on_news_with_invalid_datetime()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('new_datetime.html'));
+
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $this->crawler = app(OnejavCrawler::class);
+
+        $items = $this->crawler->getItems(Onejav::NEW_URL);
+
+        $item = $items->first()->toArray();
+        $this->assertEquals(10, $items->count());
+
+        $this->assertArrayHasKey('url', $item);
+        $this->assertArrayHasKey('cover', $item);
+        $this->assertArrayHasKey('dvd_id', $item);
+        $this->assertArrayHasKey('size', $item);
+        $this->assertArrayHasKey('date', $item);
+        $this->assertArrayHasKey('tags', $item);
+        $this->assertArrayHasKey('description', $item);
+        $this->assertArrayHasKey('actresses', $item);
+        $this->assertArrayHasKey('torrent', $item);
+
+        $item = json_decode($this->getFixture('item.json'));
+
+        foreach ($item as $key => $value) {
+            if ($key === 'date') {
+                $this->assertNull($items->first()->get('date'));
+                continue;
+            }
+            $this->assertEquals($items->first()->get($key), $value);
+        }
+    }
+
     public function test_get_items_on_news_failed()
     {
         $this->mocker->method('get')->willReturn($this->getErrorMockedResponse('fake'));
