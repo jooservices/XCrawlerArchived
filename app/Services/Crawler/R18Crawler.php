@@ -64,8 +64,10 @@ class R18Crawler
                             $date = trim($value, '/');
                             $dateTime = null;
 
-                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date) && !$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
-                                $dateTime = null;
+                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date)) {
+                                if (!$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
+                                    $dateTime = null;
+                                }
                             }
 
                             $value = $dateTime;
