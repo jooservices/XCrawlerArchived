@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Command;
 
-use App\Jobs\Jav\OnejavFetchNewJob;
+use App\Jav\Jobs\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;

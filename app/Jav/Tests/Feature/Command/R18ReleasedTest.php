@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Command;
 
-use App\Jobs\Jav\R18FetchItemJob;
+use App\Jav\Jobs\R18FetchItemJob;
 use App\Models\R18;
 use App\Models\TemporaryUrl;
 use App\Services\Client\CrawlerClientResponse;
@@ -27,6 +27,8 @@ class R18ReleasedTest extends TestCase
         $this->mocker->method('setHeaders')->willReturnSelf();
         $this->mocker->method('setContentType')->willReturnSelf();
         $this->fixtures = __DIR__ . '/../../Fixtures/R18';
+
+        Queue::fake();
     }
 
     public function test_r18_released_command_job()
@@ -35,7 +37,6 @@ class R18ReleasedTest extends TestCase
          * We can't mock multi params in this case.
          * Job will be tested later
          */
-        Queue::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $links = app(R18Crawler::class)->getItemLinks('items.html');
@@ -48,7 +49,6 @@ class R18ReleasedTest extends TestCase
 
     public function test_r18_released_command_job_end_of_pages()
     {
-        Queue::fake();
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('items.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $crawler = app(R18Crawler::class);

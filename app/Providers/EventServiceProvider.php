@@ -4,12 +4,8 @@ namespace App\Providers;
 
 use App\Core\EventSourcing\Listeners\RecordedEventSubscriber;
 use App\Core\EventSourcing\RecordedEvent;
-use App\Listeners\CrawlingEventSubscriber;
-use App\Listeners\MovieEventSubscriber;
-use App\Models\Idol;
-use App\Models\XCrawlerLog;
-use App\Observers\IdolObserver;
-use App\Observers\XCrawlerLogObserver;
+use App\Jav\Listeners\CrawlingEventSubscriber;
+use App\Jav\Listeners\MovieEventSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -34,8 +30,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
-        MovieEventSubscriber::class,
-        CrawlingEventSubscriber::class,
     ];
 
     /**
@@ -46,7 +40,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(RecordedEvent::class, RecordedEventSubscriber::class);
-        XCrawlerLog::observe(XCrawlerLogObserver::class);
-        Idol::observe(IdolObserver::class);
     }
 }

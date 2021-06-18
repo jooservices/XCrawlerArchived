@@ -2,8 +2,8 @@
 
 namespace App\Jav\Tests\Feature\Jobs;
 
-use App\Events\Jav\OnejavDailyCompletedEvent;
-use App\Jobs\Jav\OnejavFetchDailyJob;
+use App\Jav\Events\OnejavDailyCompletedEvent;
+use App\Jav\Jobs\OnejavFetchDailyJob;
 use App\Models\Onejav;
 use App\Services\Client\XCrawlerClient;
 use Carbon\Carbon;

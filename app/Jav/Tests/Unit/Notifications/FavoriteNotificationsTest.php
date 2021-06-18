@@ -51,6 +51,7 @@ class FavoriteNotificationsTest extends TestCase
         $this->artisan('jav:onejav-new');
         $this->assertDatabaseHas('movies', ['dvd_id' => $sampleItem['dvd_id']]);
         $movie = Movie::where(['dvd_id' => $sampleItem['dvd_id']])->first();
+
         Notification::assertSentToTimes($movie, FavoritedMovie::class);
     }
 
@@ -74,6 +75,7 @@ class FavoriteNotificationsTest extends TestCase
         $this->artisan('jav:onejav-new');
         $this->assertDatabaseHas('movies', ['dvd_id' => $sampleItem['dvd_id']]);
         $movie = Movie::where(['dvd_id' => $sampleItem['dvd_id']])->first();
+
         Notification::assertSentToTimes($movie, FavoritedMovie::class);
     }
 }

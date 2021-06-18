@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Observers;
 
-use App\Mail\WordPressIdolPost;
+use App\Jav\Mail\WordPressIdolPost;
 use App\Models\Idol;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;

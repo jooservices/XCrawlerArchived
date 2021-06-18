@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Observers\JavThirdPartyObserver;
+use App\Jav\Observers\JavThirdPartyObserver;
 
 trait HasMovieObserve
 {

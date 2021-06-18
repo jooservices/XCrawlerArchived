@@ -2,8 +2,8 @@
 
 namespace App\Jav\Tests\Feature\Jobs;
 
-use App\Events\Jav\OnejavNewCompletedEvent;
-use App\Jobs\Jav\OnejavFetchNewJob;
+use App\Jav\Events\OnejavNewCompletedEvent;
+use App\Jav\Jobs\OnejavFetchNewJob;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;

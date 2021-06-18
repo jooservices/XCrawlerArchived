@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Jobs;
 
-use App\Jobs\Jav\XCityIdolFetchItems;
+use App\Jav\Jobs\XCityIdolFetchItems;
 use App\Models\TemporaryUrl;
 use App\Services\Client\XCrawlerClient;
 use Tests\AbstractXCityTest;
