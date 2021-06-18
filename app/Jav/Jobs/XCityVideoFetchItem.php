@@ -54,7 +54,7 @@ class XCityVideoFetchItem  implements ShouldQueue
         $crawler = app(XCityVideoCrawler::class);
 
         // Get detail
-        if ($item = $crawler->getItem($this->url->url, $this->url->data['payload'])) {
+        if ($item = $crawler->getItem($this->url->url, $this->url->data['payload'] ?? [])) {
             XCityVideo::firstOrCreate([
                 'item_number' => $item->get('item_number')
             ], $item->toArray());
