@@ -22,18 +22,8 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
         $this->crawler = $this->loadSucceed('new.html', OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
-        $item = $items->first()->toArray();
         $this->assertEquals(10, $items->count());
-
-        $this->assertArrayHasKey('url', $item);
-        $this->assertArrayHasKey('cover', $item);
-        $this->assertArrayHasKey('dvd_id', $item);
-        $this->assertArrayHasKey('size', $item);
-        $this->assertArrayHasKey('date', $item);
-        $this->assertArrayHasKey('tags', $item);
-        $this->assertArrayHasKey('description', $item);
-        $this->assertArrayHasKey('actresses', $item);
-        $this->assertArrayHasKey('torrent', $item);
+        $this->assertKey($items->first()->toArray());
 
         $item = json_decode($this->getFixture('item.json'));
 
@@ -51,18 +41,8 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
         $this->crawler = $this->loadSucceed('new_datetime.html', OnejavCrawler::class);
 
         $items = $this->crawler->getItems(Onejav::NEW_URL);
-        $item = $items->first()->toArray();
         $this->assertEquals(10, $items->count());
-
-        $this->assertArrayHasKey('url', $item);
-        $this->assertArrayHasKey('cover', $item);
-        $this->assertArrayHasKey('dvd_id', $item);
-        $this->assertArrayHasKey('size', $item);
-        $this->assertArrayHasKey('date', $item);
-        $this->assertArrayHasKey('tags', $item);
-        $this->assertArrayHasKey('description', $item);
-        $this->assertArrayHasKey('actresses', $item);
-        $this->assertArrayHasKey('torrent', $item);
+        $this->assertKey($items->first()->toArray());
 
         $item = json_decode($this->getFixture('item.json'));
 
@@ -73,6 +53,19 @@ class OnejavCrawlerTest extends AbstractCrawlingTest
             }
             $this->assertEquals($items->first()->get($key), $value);
         }
+    }
+
+    private function assertKey(array $item)
+    {
+        $this->assertArrayHasKey('url', $item);
+        $this->assertArrayHasKey('cover', $item);
+        $this->assertArrayHasKey('dvd_id', $item);
+        $this->assertArrayHasKey('size', $item);
+        $this->assertArrayHasKey('date', $item);
+        $this->assertArrayHasKey('tags', $item);
+        $this->assertArrayHasKey('description', $item);
+        $this->assertArrayHasKey('actresses', $item);
+        $this->assertArrayHasKey('torrent', $item);
     }
 
     public function test_get_items_on_news_failed()
