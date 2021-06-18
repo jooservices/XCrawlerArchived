@@ -37,6 +37,16 @@ class XCityIdolFetchItemTest extends AbstractXCityTest
         $this->assertEquals(TemporaryUrl::STATE_COMPLETED, $this->url->state_code);
     }
 
+    public function test_xcity_idol_fetch_item_with_alias_job()
+    {
+        $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('idol_alias.html'));
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        XCityIdolFetchItem::dispatch($this->url);
+
+        $alias = Idol::first()->alias;
+        $this->assertEquals('Test', end($alias));
+    }
+
     public function test_xcity_idol_fetch_item_job_no_duplicated()
     {
         $this->mocker->method('get')->willReturn($this->getSuccessfulMockedResponse('idol.html'));
