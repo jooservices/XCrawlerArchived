@@ -71,7 +71,7 @@ class R18Crawler
                             }
 
                             $value = $dateTime;
-                        } catch (\Exception $exception) {
+                        } catch (\Exception) {
                             break;
                         }
                         break;
@@ -152,7 +152,7 @@ class R18Crawler
 
         try {
             return (int)$response->getData()->filter('li.next')->previousAll()->filter('a')->text();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return 1;
         }
     }

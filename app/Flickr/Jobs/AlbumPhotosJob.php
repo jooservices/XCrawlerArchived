@@ -13,11 +13,8 @@ use App\Services\Flickr\FlickrService;
  */
 class AlbumPhotosJob extends AbstractFlickrJob
 {
-    public FlickrAlbum $album;
-
-    public function __construct(FlickrAlbum $album)
+    public function __construct(public FlickrAlbum $album)
     {
-        $this->album = $album;
     }
 
     /**

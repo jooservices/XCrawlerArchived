@@ -6,10 +6,7 @@ use App\Services\Client\Domain\ResponseInterface;
 
 class ClientRequested
 {
-    public ResponseInterface $response;
-
-    public function __construct(ResponseInterface $response)
+    public function __construct(public ResponseInterface $response)
     {
-        $this->response = $response;
     }
 }

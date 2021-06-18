@@ -11,13 +11,8 @@ use App\Services\Flickr\FlickrService;
  */
 class AlbumInfoJob extends AbstractFlickrJob
 {
-    private string $albumId;
-    private string $nsid;
-
-    public function __construct(string $albumId, string $nsid)
+    public function __construct(private string $albumId, private string $nsid)
     {
-        $this->albumId = $albumId;
-        $this->nsid = $nsid;
     }
 
     /**

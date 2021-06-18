@@ -21,16 +21,13 @@ class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
     use XCityJob;
     use HasUnique;
 
-    public string $url;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $url)
+    public function __construct(public string $url)
     {
-        $this->url = $url;
     }
 
     /**

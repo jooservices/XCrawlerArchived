@@ -14,16 +14,13 @@ class WordPressMoviePost extends Mailable implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public Movie $movie;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Movie $movie)
+    public function __construct(public Movie $movie)
     {
-        $this->movie = $movie;
     }
 
     /**

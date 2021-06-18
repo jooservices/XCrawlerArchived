@@ -17,14 +17,12 @@ use Psr\Log\LoggerInterface;
 
 class Factory
 {
-    private LoggerInterface $logger;
     private array $options;
     private HandlerStack $handler;
     public array $history = [];
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private LoggerInterface $logger)
     {
-        $this->logger = $logger;
         $this->reset();
     }
 

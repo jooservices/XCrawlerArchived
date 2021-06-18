@@ -6,10 +6,7 @@ use App\Models\FlickrContact;
 
 class ContactStateChanged
 {
-    public FlickrContact $contact;
-
-    public function __construct(FlickrContact $contact)
+    public function __construct(public FlickrContact $contact)
     {
-        $this->contact = $contact;
     }
 }

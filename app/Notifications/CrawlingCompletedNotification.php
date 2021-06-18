@@ -17,13 +17,8 @@ class CrawlingCompletedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private string $service;
-    private array $data;
-
-    public function __construct(string $service, array $data)
+    public function __construct(private string $service, private array $data)
     {
-        $this->service = $service;
-        $this->data = $data;
     }
 
     /**

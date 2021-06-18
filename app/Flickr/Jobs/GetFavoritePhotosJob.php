@@ -8,11 +8,8 @@ use App\Services\Flickr\FlickrService;
 
 class GetFavoritePhotosJob extends AbstractFlickrJob
 {
-    public FlickrContact $contact;
-
-    public function __construct(FlickrContact $contact)
+    public function __construct(public FlickrContact $contact)
     {
-        $this->contact = $contact;
     }
 
     /**

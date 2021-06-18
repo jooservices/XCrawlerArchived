@@ -6,10 +6,7 @@ use App\Models\FlickrDownloadItem;
 
 class ItemDownloaded
 {
-    public FlickrDownloadItem $downloadItem;
-
-    public function __construct(FlickrDownloadItem $downloadItem)
+    public function __construct(public FlickrDownloadItem $downloadItem)
     {
-        $this->downloadItem = $downloadItem;
     }
 }

@@ -12,12 +12,10 @@ use Carbon\Carbon;
 
 class DownloadJob extends AbstractFlickrJob
 {
-    public FlickrDownload $download;
     public mixed $model;
 
-    public function __construct(FlickrDownload $download)
+    public function __construct(public FlickrDownload $download)
     {
-        $this->download = $download;
         $this->model = $download->model;
     }
 

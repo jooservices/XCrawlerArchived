@@ -19,16 +19,13 @@ class XCityVideoFetchItem  implements ShouldQueue
     use XCityJob;
     use HasUnique;
 
-    private TemporaryUrl $url;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(TemporaryUrl $url)
+    public function __construct(private TemporaryUrl $url)
     {
-        $this->url = $url;
     }
 
     /**

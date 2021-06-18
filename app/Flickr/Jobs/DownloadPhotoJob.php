@@ -11,11 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class DownloadPhotoJob extends AbstractFlickrJob
 {
-    public FlickrDownloadItem $downloadItem;
-
-    public function __construct(FlickrDownloadItem $downloadItem)
+    public function __construct(public FlickrDownloadItem $downloadItem)
     {
-        $this->downloadItem = $downloadItem;
     }
 
     /**

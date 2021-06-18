@@ -13,17 +13,14 @@ class WordPressFlickrAlbumPost extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private FlickrDownload $download;
-
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(FlickrDownload $download)
+    public function __construct(private FlickrDownload $download)
     {
-        $this->download = $download;
     }
 
     /**

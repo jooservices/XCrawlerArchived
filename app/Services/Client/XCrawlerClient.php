@@ -2,12 +2,13 @@
 
 namespace App\Services\Client;
 
+use App\Services\Client\Domain\ClientInterface;
 use App\Services\Client\Domain\ResponseInterface;
 use GuzzleHttp\MessageFormatter;
 
 class XCrawlerClient extends AbstractClient
 {
-    public function init(string $name = null, array $options = [], int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500, string $loggingFormat = MessageFormatter::CLF): Domain\ClientInterface
+    public function init(string $name = null, array $options = [], int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500, string $loggingFormat = MessageFormatter::CLF): ClientInterface
     {
         $products = [
             'Mozilla/5.0'

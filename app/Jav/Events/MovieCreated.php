@@ -14,12 +14,10 @@ use Illuminate\Database\Eloquent\Model;
 class MovieCreated implements RecordedEvent
 {
     public AbstractJavMovie $model;
-    public Movie $movie;
 
-    public function __construct(AbstractJavMovie $model, Movie $movie)
+    public function __construct(AbstractJavMovie $model, public Movie $movie)
     {
         $this->model = $model;
-        $this->movie = $movie;
     }
 
     public function getCategory(): string

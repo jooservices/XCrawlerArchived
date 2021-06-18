@@ -7,11 +7,8 @@ use App\Core\EventSourcing\RecordedEvent;
 
 class RecordedEventSubscriber
 {
-    private EventManager $eventManager;
-
-    public function __construct(EventManager $eventManager)
+    public function __construct(private EventManager $eventManager)
     {
-        $this->eventManager = $eventManager;
     }
 
     public function handle(RecordedEvent $event)

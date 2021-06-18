@@ -2,6 +2,7 @@
 
 namespace App\Jav\Events;
 
+use Illuminate\Broadcasting\Channel;
 use App\Models\TemporaryUrl;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -13,24 +14,19 @@ class OnejavNewCompletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public TemporaryUrl $url;
-    public Collection $items;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(TemporaryUrl $temporaryUrl, Collection $items)
+    public function __construct(public TemporaryUrl $url, public Collection $items)
     {
-        $this->url = $temporaryUrl;
-        $this->items = $items;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
