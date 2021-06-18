@@ -2,6 +2,7 @@
 
 namespace App\Jav\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -12,22 +13,19 @@ class OnejavDailyCompletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public Collection $items;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Collection $items)
+    public function __construct(public Collection $items)
     {
-        $this->items = $items;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {

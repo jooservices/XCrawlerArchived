@@ -33,11 +33,8 @@ class CreateMovieJob implements ShouldQueue, ShouldBeUnique
      */
     public $uniqueFor = 900;
 
-    private AbstractJavMovie $model;
-
-    public function __construct(AbstractJavMovie $model)
+    public function __construct(private AbstractJavMovie $model)
     {
-        $this->model = $model;
     }
 
     /**

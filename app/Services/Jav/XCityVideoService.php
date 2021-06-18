@@ -70,7 +70,7 @@ class XCityVideoService extends AbstractJavService
         }
 
         $data['from_date'] = $fromDate->addDay()->format('Ymd');
-        $data['page'] = $data['page'] + 1;
+        ++$data['page'];
         $temporaryUrl->update(['data' => $data]);
     }
 }

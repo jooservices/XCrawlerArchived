@@ -108,15 +108,14 @@ class EventManager
     public function store(): Event
     {
         $request = $this->request();
-        $event = $this->instance->events()->create([
+
+        return $this->instance->events()->create([
             'category' => $this->category,
             'event' => $this->event,
             'data' => $this->attributes,
             'ip_address' => $request->getClientIp(),
 
         ]);
-
-        return $event;
     }
 
     /**

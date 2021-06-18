@@ -64,14 +64,12 @@ class R18Crawler
                             $date = trim($value, '/');
                             $dateTime = null;
 
-                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date)) {
-                                if (!$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
-                                    $dateTime = null;
-                                }
+                            if (!$dateTime = \DateTime::createFromFormat('M. d, Y', $date) && !$dateTime = \DateTime::createFromFormat('M d, Y', $date)) {
+                                $dateTime = null;
                             }
 
                             $value = $dateTime;
-                        } catch (\Exception $exception) {
+                        } catch (\Exception) {
                             break;
                         }
                         break;
@@ -152,7 +150,7 @@ class R18Crawler
 
         try {
             return (int)$response->getData()->filter('li.next')->previousAll()->filter('a')->text();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return 1;
         }
     }

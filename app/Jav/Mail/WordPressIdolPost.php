@@ -12,16 +12,13 @@ class WordPressIdolPost extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private Idol $idol;
-
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Idol $idol)
+    public function __construct(private Idol $idol)
     {
-        $this->idol = $idol;
     }
 
     /**

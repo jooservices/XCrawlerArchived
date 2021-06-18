@@ -29,6 +29,6 @@ trait HasStates
 
     public function states()
     {
-        return State::where(['entity' => get_class($this)])->get();
+        return State::where(['entity' => $this::class])->get();
     }
 }

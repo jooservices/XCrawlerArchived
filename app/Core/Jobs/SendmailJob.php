@@ -18,11 +18,8 @@ class SendmailJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public Mailable $mailable;
-
-    public function __construct(Mailable $mailable)
+    public function __construct(public Mailable $mailable)
     {
-        $this->mailable = $mailable;
     }
 
     /**

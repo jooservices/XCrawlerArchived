@@ -21,15 +21,14 @@ class OnejavCrawler
     public function getItems(string $url, array $payload = []): Collection
     {
         $response = $this->client->get($url, $payload);
-        $items = collect();
 
         if ($response->isSuccessful()) {
-            $items = collect($response->getData()->filter('.container .columns')->each(function ($el) {
+            return collect($response->getData()->filter('.container .columns')->each(function ($el) {
                 return $this->parse($el);
             }));
         }
 
-        return $items;
+        return collect();
     }
 
     public function daily(&$page = 1): Collection
@@ -73,11 +72,7 @@ class OnejavCrawler
 
         if ($response->isSuccessful()) {
             $pageNode = $response->getData()->filter('a.pagination-link')->last();
-            if ($pageNode->count() === 0) {
-                $lastPage = 1;
-            } else {
-                $lastPage = (int)$pageNode->text();
-            }
+            $lastPage = $pageNode->count() === 0 ? 1 : (int)$pageNode->text();
 
             $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
                 return $this->parse($el);
@@ -112,7 +107,7 @@ class OnejavCrawler
 
             if (str_contains($item->size, 'MB')) {
                 $item->size = (float)trim(str_replace('MB', '', $item->size));
-                $item->size = $item->size / 1024;
+                $item->size /= 1024;
             } elseif (str_contains($item->size, 'GB')) {
                 $item->size = (float)trim(str_replace('GB', '', $item->size));
             }
@@ -153,7 +148,7 @@ class OnejavCrawler
             }
 
             return $dateTime;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
     }

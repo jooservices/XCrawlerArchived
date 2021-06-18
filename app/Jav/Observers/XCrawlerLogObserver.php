@@ -10,7 +10,7 @@ class XCrawlerLogObserver
     /**
      * Handle the XCrawlerLog "created" event.
      *
-     * @param \App\Models\XCrawlerLog $XCrawlerLog
+     * @param XCrawlerLog $XCrawlerLog
      * @return void
      */
     public function created(XCrawlerLog $XCrawlerLog)

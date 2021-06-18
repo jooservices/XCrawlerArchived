@@ -21,16 +21,13 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     use HasUnique;
 
-    public TemporaryUrl $url;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(TemporaryUrl $url)
+    public function __construct(public TemporaryUrl $url)
     {
-        $this->url = $url;
     }
 
     /**

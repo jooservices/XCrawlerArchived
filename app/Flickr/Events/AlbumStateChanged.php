@@ -6,10 +6,7 @@ use App\Models\FlickrAlbum;
 
 class AlbumStateChanged
 {
-    public FlickrAlbum $album;
-
-    public function __construct(FlickrAlbum $album)
+    public function __construct(public FlickrAlbum $album)
     {
-        $this->album = $album;
     }
 }
