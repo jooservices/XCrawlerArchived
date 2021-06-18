@@ -9,6 +9,7 @@ use App\Models\XCityIdol;
 use App\Services\Crawler\XCityIdolCrawler;
 use App\Services\Jav\XCityIdolService;
 use App\Services\TemporaryUrlService;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -43,7 +44,7 @@ class XCityIdolFetchItems implements ShouldQueue
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {
@@ -65,7 +66,7 @@ class XCityIdolFetchItems implements ShouldQueue
          * Get idols on page
          * We have around 30 idols / page
          */
-        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service, $payload) {;
+        $crawler->getItemLinks($this->url->url, $payload)->each(function ($link) use ($service, $payload) {
             $service->create(XCityIdol::HOMEPAGE_URL . $link, XCityIdolService::SOURCE_IDOL, $payload);
         });
 

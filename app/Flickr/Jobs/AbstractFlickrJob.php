@@ -3,6 +3,7 @@
 namespace App\Flickr\Jobs;
 
 use App\Core\Jobs\Traits\HasUnique;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +23,7 @@ abstract class AbstractFlickrJob implements ShouldQueue, ShouldBeUnique
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {

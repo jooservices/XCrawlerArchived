@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property integer $id
  * @property string $name
  * @property string $path
  * @property integer $total
+ * @property-read FlickrAlbum|FlickrContact $model
  * @package App\Models
  */
 class FlickrDownload extends Model

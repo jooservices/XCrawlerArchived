@@ -10,7 +10,7 @@ class PhpFlickr extends \Jooservices\PhpFlickr\PhpFlickr
 {
     public function request($command, $args = array(), $nocache = false): array
     {
-        if (substr($command, 0, 7) !== 'flickr.') {
+        if (!str_starts_with($command, 'flickr.')) {
             $command = 'flickr.' . $command;
         }
 

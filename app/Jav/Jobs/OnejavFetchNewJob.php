@@ -7,6 +7,7 @@ use App\Core\Jobs\Traits\HasUnique;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\OnejavCrawler;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,7 +44,7 @@ class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {

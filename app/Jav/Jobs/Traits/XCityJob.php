@@ -2,6 +2,7 @@
 
 namespace App\Jav\Jobs\Traits;
 
+use DateTime;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 trait XCityJob
@@ -9,7 +10,7 @@ trait XCityJob
     /**
      * Determine the time at which the job should timeout.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function retryUntil()
     {

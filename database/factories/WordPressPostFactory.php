@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\TemporaryUrl;
+use App\Models\WordPressPost;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TemporaryUrlFactory extends Factory
+class WordPressPostFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = TemporaryUrl::class;
+    protected $model = WordPressPost::class;
 
     /**
      * Define the model's default state.
@@ -22,10 +22,7 @@ class TemporaryUrlFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->url,
-            'source' => $this->faker->uuid,
-            'data' => [],
-            'state_code' => TemporaryUrl::STATE_INIT
+            'title' => $this->faker->title
         ];
     }
 }
