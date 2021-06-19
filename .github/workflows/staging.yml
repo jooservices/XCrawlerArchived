@@ -11,5 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: coverage
+          path: coverage.xml
+
+      - name: upload coverage to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+
       - name: Deploy on STAG
         run: ~/deployer.sh -s
