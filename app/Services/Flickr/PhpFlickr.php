@@ -17,6 +17,7 @@ class PhpFlickr extends \Jooservices\PhpFlickr\PhpFlickr
         // See if there's a cached response.
         $cacheKey = array_merge([$command], $args);
         $this->response = $this->getCached($cacheKey);
+
         if (!($this->response) || $nocache) {
             $args = array_filter($args);
             $oauthService = $this->getOauthService();

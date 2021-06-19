@@ -12,7 +12,7 @@ class FlickrClientResponse implements ResponseInterface
     public string $endpoint = '';
     public array $request = [];
     public array $headers = [];
-    public array $data;
+    public ?array $data;
     public string $body = '';
 
     /**
@@ -144,6 +144,7 @@ class FlickrClientResponse implements ResponseInterface
         if (!$this->data) {
             $this->responseSuccess = false;
             $this->responseMessage = 'Unable to decode Flickr response';
+            return;
         }
 
         if ($this->data['stat'] === 'fail') {
