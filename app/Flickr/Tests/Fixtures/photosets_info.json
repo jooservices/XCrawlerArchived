@@ -1,0 +1,28 @@
+{
+    "photoset": {
+        "id": "72157692139427840",
+        "owner": "94529704@N02",
+        "username": "SoulEvilX",
+        "primary": "28891387978",
+        "secret": "d9a0e13e76",
+        "server": "1736",
+        "farm": 2,
+        "count_views": "567",
+        "count_comments": 0,
+        "count_photos": 16,
+        "count_videos": 0,
+        "title": {
+            "_content": "Vy Trần - Are you 18+"
+        },
+        "description": {
+            "_content": ""
+        },
+        "can_comment": 1,
+        "date_create": "1528852126",
+        "date_update": "1593696884",
+        "photos": 16,
+        "visibility_can_see_set": 1,
+        "needs_interstitial": 0
+    },
+    "stat": "ok"
+}

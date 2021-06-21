@@ -9,7 +9,7 @@ class WordPressPost extends Model
 {
     use HasFactory;
 
-    protected $table= 'wordpress_posts';
+    protected $table = 'wordpress_posts';
 
     protected $fillable = [
         'title'

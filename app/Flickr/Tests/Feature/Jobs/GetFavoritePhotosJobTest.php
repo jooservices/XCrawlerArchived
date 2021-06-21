@@ -5,6 +5,7 @@ namespace App\Flickr\Tests\Feature\Jobs;
 use App\Flickr\Jobs\GetFavoritePhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrContact;
+use App\Services\Flickr\FlickrService;
 
 class GetFavoritePhotosJobTest extends AbstractFlickrTest
 {
@@ -18,13 +19,14 @@ class GetFavoritePhotosJobTest extends AbstractFlickrTest
 
     public function test_get_contact_favorites_photos()
     {
-        $this->mockSucceed();
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
 
         GetFavoritePhotosJob::dispatch($this->contact);
         $this->assertDatabaseCount('flickr_photos', 100);
 
-        $favoritePhotos = json_decode($this->getFixture('contact_favorite_photos.json'), true);
-        $photos = collect($favoritePhotos[0]['photos']['photo']);
+        $favoritePhotos = json_decode($this->getFixture('favorites_list.json'), true);
+        $photos = collect($favoritePhotos['photos']['photo']);
 
         $this->assertDatabaseCount('flickr_contacts', $photos->groupBy('owner')->count() + 1);
         $this->assertDatabaseCount('flickr_photos', $photos->count());
@@ -32,7 +34,8 @@ class GetFavoritePhotosJobTest extends AbstractFlickrTest
 
     public function test_cant_get_contact_favorites_photos()
     {
-        $this->mockFailed();
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
 
         GetFavoritePhotosJob::dispatch($this->contact);
         $this->assertDatabaseCount('flickr_photos', 0);

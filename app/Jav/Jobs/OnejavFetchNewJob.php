@@ -2,8 +2,8 @@
 
 namespace App\Jav\Jobs;
 
-use App\Jav\Events\OnejavNewCompletedEvent;
 use App\Core\Jobs\Traits\HasUnique;
+use App\Jav\Events\OnejavNewCompletedEvent;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\OnejavCrawler;

@@ -30,6 +30,6 @@ class Integration extends Model
 
     public function scopeForService(Builder $builder, string $service)
     {
-       return $builder->where(['service' => $service]);
+        return $builder->where(['service' => $service]);
     }
 }

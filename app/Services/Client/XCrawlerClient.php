@@ -21,7 +21,7 @@ class XCrawlerClient extends AbstractClient
         $system = $systems[array_rand($systems)];
 
         $platforms = [
-            'AppleWebKit/'. mt_rand(537, 605) .'.' .mt_rand(0, 1) . '.' . mt_rand(1, 5)
+            'AppleWebKit/' . mt_rand(537, 605) . '.' . mt_rand(0, 1) . '.' . mt_rand(1, 5)
         ];
         $platform = $platforms[array_rand($platforms)];
 

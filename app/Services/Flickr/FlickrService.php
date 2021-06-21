@@ -2,10 +2,15 @@
 
 namespace App\Services\Flickr;
 
+use App\Flickr\Interfaces\FlickrClientInterface;
 use Illuminate\Support\Collection;
 
-class FlickrService extends AbstractFlickrService
+class FlickrService
 {
+    public function __construct(public FlickrClientInterface $client)
+    {
+    }
+
     public function getAllContacts(): Collection
     {
         if (!$contacts = $this->client->contacts()->getList()) {
@@ -27,7 +32,7 @@ class FlickrService extends AbstractFlickrService
         return $contacts;
     }
 
-    public function getPeopleInfo(string $nsid): mixed
+    public function getPeopleInfo(string $nsid): ?Collection
     {
         if (!$info = $this->client->people()->getInfo($nsid)) {
             return null;
@@ -52,6 +57,10 @@ class FlickrService extends AbstractFlickrService
             null,
             $maxPerPage
         );
+
+        if (!$photos) {
+            return collect();
+        }
 
         $photos = collect()->add($photos);
         $pages = $photos->first()['pages'];
@@ -87,7 +96,8 @@ class FlickrService extends AbstractFlickrService
 
     public function getAlbumInfo(string $albumId, string $nsid): Collection
     {
-        return collect($this->client->photosets()->getInfo($albumId, $nsid));
+        $info = $this->client->photosets()->getInfo($albumId, $nsid);
+        return $info ? collect($info) : collect();
     }
 
     public function getAlbumPhotos(string $albumId): Collection
@@ -102,6 +112,10 @@ class FlickrService extends AbstractFlickrService
             null,
             500
         );
+
+        if (!$photos) {
+            return collect();
+        }
 
         $photos = collect()->add($photos);
         $pages = $photos->first()['pages'];
@@ -128,6 +142,10 @@ class FlickrService extends AbstractFlickrService
     public function getContactAlbums(string $nsid): Collection
     {
         $albums = $this->client->photosets()->getList($nsid, null, 500);
+        if (!$albums) {
+            return collect();
+        }
+
         $albums = collect()->add($albums);
         $pages = $albums->first()['pages'];
 
@@ -150,7 +168,7 @@ class FlickrService extends AbstractFlickrService
     public function getFavoritePhotos(string $nsid): ?Collection
     {
         $photos = $this->client->favorites()->getList(
-            '123675113@N02',
+            $nsid,
             null,
             null,
             null,

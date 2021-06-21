@@ -9,10 +9,10 @@ interface ClientInterface
 {
     public function init(
         string $name = null,
-        array $options = [],
-        int $maxRetries = 3,
-        int $delayInSec = 1,
-        int $minErrorCode = 500,
+        array  $options = [],
+        int    $maxRetries = 3,
+        int    $delayInSec = 1,
+        int    $minErrorCode = 500,
         string $loggingFormat = MessageFormatter::CLF
     ): self;
 

@@ -27,7 +27,7 @@ class AlbumPhotosTest extends AbstractFlickrTest
     public function test_can_get_album_photos()
     {
         $this->artisan('flickr:album-photos');
-        Queue::assertPushed(AlbumPhotosJob::class, function ($event){
+        Queue::assertPushed(AlbumPhotosJob::class, function ($event) {
             return $event->album->id === $this->album->id;
         });
     }

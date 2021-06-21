@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $id
  * @property string $owner
- * @property int    $primary
+ * @property int $primary
  * @property string $secret
- * @property int    $server
- * @property int    $farm
- * @property int    $photos
+ * @property int $server
+ * @property int $farm
+ * @property int $photos
  * @property string $title
  * @property string $description
  * @property string $google_album_id
