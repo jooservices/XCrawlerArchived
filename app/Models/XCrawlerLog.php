@@ -16,7 +16,8 @@ use Illuminate\Notifications\Notifiable;
  */
 class XCrawlerLog extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
     use SoftDeletes;
     use HasSource;
 

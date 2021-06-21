@@ -170,5 +170,4 @@ class FlickrClientResponse implements ResponseInterface
             return ($arr);
         }
     }
-
 }

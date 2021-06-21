@@ -7,6 +7,7 @@ use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrDownload;
 use App\Models\FlickrDownloadItem;
 use App\Models\FlickrPhoto;
+use App\Services\Flickr\FlickrService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
@@ -29,6 +30,8 @@ class DownloadPhotoJobTest extends AbstractFlickrTest
         /**
          * Observer will trigger job
          */
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
         $downloadItem = FlickrDownloadItem::factory()->create();
 
         $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED, $downloadItem->refresh()->state_code);
@@ -44,6 +47,8 @@ class DownloadPhotoJobTest extends AbstractFlickrTest
         /**
          * Observer will trigger job
          */
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
         $downloadItem = FlickrDownloadItem::factory()->create();
 
         $this->assertEquals(FlickrDownloadItem::STATE_FAILED, $downloadItem->refresh()->state_code);
@@ -53,7 +58,8 @@ class DownloadPhotoJobTest extends AbstractFlickrTest
     public function test_download_item_have_no_sizes_yet()
     {
         // Mock getPhotoSize
-        $this->mockSucceed();
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);
@@ -74,7 +80,8 @@ class DownloadPhotoJobTest extends AbstractFlickrTest
 
     public function test_cant_download_item_have_no_sizes_yet()
     {
-        $this->mockFailed();
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);

@@ -2,8 +2,8 @@
 
 namespace App\Jav\Events;
 
-use Illuminate\Broadcasting\Channel;
 use App\Models\TemporaryUrl;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -12,7 +12,9 @@ use Illuminate\Support\Collection;
 
 class OnejavNewCompletedEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * Create a new event instance.

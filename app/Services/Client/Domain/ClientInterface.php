@@ -31,5 +31,4 @@ interface ClientInterface
     public function patch(string $endpoint, array $payload = []): ResponseInterface;
 
     public function delete(string $endpoint, array $payload = []): ResponseInterface;
-
 }

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notification;
 use App\Models\Traits\HasEvents;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 
 /**
  * @property integer $id
@@ -54,8 +54,8 @@ class Movie extends Model
         'description' => 'string',
         'label' => 'string',
         'channel' => 'string',
-        'gallery'=> 'array',
-        'sample'=> 'string',
+        'gallery' => 'array',
+        'sample' => 'string',
         'is_downloadable' => 'boolean',
     ];
 

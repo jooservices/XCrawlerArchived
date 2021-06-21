@@ -30,4 +30,3 @@ class PhotoSize extends Command
         }
     }
 }
-

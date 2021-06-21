@@ -4,12 +4,13 @@ namespace App\Flickr\Tests\Feature\Jobs;
 
 use App\Flickr\Jobs\DownloadJob;
 use App\Flickr\Tests\AbstractFlickrTest;
-use App\Models\FlickrAlbum;
-use App\Models\FlickrContact;
 use App\Models\FlickrDownload;
 use App\Models\FlickrDownloadItem;
+use App\Services\Flickr\FlickrService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DownloadJobTest extends AbstractFlickrTest
 {
@@ -17,54 +18,44 @@ class DownloadJobTest extends AbstractFlickrTest
     {
         parent::setUp();
         Mail::fake();
+        Storage::fake();
+
+        $mock = $this->createMock(Client::class);
+        $mock->method('get')->willReturn(new Response());
+        app()->instance(Client::class, $mock);
     }
 
     public function test_can_download_album()
     {
-        $this->mockSucceed();
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code' => FlickrContact::STATE_MANUAL]);
-        $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid, 'photos' => 1]);
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
 
-        $flickrDownload = FlickrDownload::create([
-            'name' => $album->title,
-            'path' => $album->owner . '/' . Str::slug($album->title),
-            'total' => $album->photos,
-            'model_id' => $album->id,
-            'model_type' => FlickrAlbum::class,
-            'state_code' => FlickrDownload::STATE_TO_WORDPRESS
-        ]);
+        DownloadJob::dispatch('https://www.flickr.com/photos/soulevilx/albums/72157692139427840', 'album', false);
 
-        DownloadJob::dispatch($flickrDownload);
+        $this->assertDatabaseCount('flickr_albums', 1);
+        $this->assertDatabaseCount('flickr_downloads', 1);
 
-        $this->assertEquals(1, $flickrDownload->items->count());
-        $this->assertDatabaseCount('flickr_photos', 1);
+        $flickrDownload = FlickrDownload::first();
+        $this->assertEquals(16, $flickrDownload->items->count());
+        $this->assertDatabaseCount('flickr_photos', 16);
         $this->assertDatabaseHas('flickr_photos', ['id' => $flickrDownload->items->first()->photo_id]);
 
-        $flickrDownload->refresh();
         $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED, $flickrDownload->items()->first()->state_code);
         $this->assertEquals(FlickrDownload::STATE_COMPLETED, $flickrDownload->state_code);
     }
 
     public function test_can_download_profile()
     {
-        $this->mockSucceed();
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02', 'state_code' => FlickrContact::STATE_MANUAL]);
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
 
-        $flickrDownload = FlickrDownload::create([
-            'name' => $contact->nsid,
-            'path' => $contact->nsid,
-            'total' => 1,
-            'model_id' => $contact->nsid,
-            'model_type' => FlickrContact::class,
-            'state_code' => FlickrDownload::STATE_TO_WORDPRESS
-        ]);
+        DownloadJob::dispatch('https://www.flickr.com/photos/soulevilx/albums/72157692139427840', 'profile', false);
 
-        DownloadJob::dispatch($flickrDownload);
+        $this->assertDatabaseCount('flickr_photos', 358);
+        $this->assertDatabaseCount('flickr_downloads', 1);
+        $flickrDownload = FlickrDownload::first();
 
-        $this->assertEquals(6, $flickrDownload->items->count());
-        $this->assertDatabaseCount('flickr_photos', 6);
-
-        $flickrDownload->refresh();
+        $this->assertEquals(358, $flickrDownload->items->count());
         $this->assertEquals(FlickrDownloadItem::STATE_COMPLETED, $flickrDownload->items()->first()->state_code);
         $this->assertEquals(FlickrDownload::STATE_COMPLETED, $flickrDownload->state_code);
     }

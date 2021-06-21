@@ -6,6 +6,7 @@ use App\Flickr\Jobs\PhotosJob;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Support\Facades\Event;
 
 class PhotosJobTest extends AbstractFlickrTest
@@ -18,7 +19,8 @@ class PhotosJobTest extends AbstractFlickrTest
 
     public function test_can_get_photos()
     {
-        $this->mockSucceed();
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
         $contact = $this->factoryContact();
 
         PhotosJob::dispatch($contact);
@@ -29,7 +31,8 @@ class PhotosJobTest extends AbstractFlickrTest
 
     public function test_cant_get_photos()
     {
-        $this->mockFailed();
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
         $contact = $this->factoryContact();
 
         PhotosJob::dispatch($contact);

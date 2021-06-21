@@ -15,6 +15,6 @@ trait HasUnique
 
     protected function getUnique(array $data): string
     {
-        return serialize([$data, app()->environment('production') ? null: Carbon::now()]);
+        return serialize([$data, app()->environment('production') ? null : Carbon::now()]);
     }
 }

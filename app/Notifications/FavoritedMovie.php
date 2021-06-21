@@ -45,7 +45,7 @@ class FavoritedMovie extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
@@ -72,7 +72,7 @@ class FavoritedMovie extends Notification
      */
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->success()
             ->content($notifiable->dvd_id)
             ->attachment(function (SlackAttachment $attachment) use ($notifiable) {

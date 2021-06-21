@@ -3,10 +3,11 @@
 namespace App\Services\Flickr;
 
 use App\Events\ClientRequested;
+use App\Flickr\Interfaces\FlickrClientInterface;
 use App\Services\Client\Domain\ResponseInterface;
 use Illuminate\Support\Facades\Event;
 
-class PhpFlickr extends \Jooservices\PhpFlickr\PhpFlickr
+class PhpFlickr extends \Jooservices\PhpFlickr\PhpFlickr implements FlickrClientInterface
 {
     public function request($command, $args = array(), $nocache = false): array
     {

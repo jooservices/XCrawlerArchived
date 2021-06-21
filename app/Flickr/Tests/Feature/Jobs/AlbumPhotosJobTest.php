@@ -7,6 +7,7 @@ use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
 use App\Models\FlickrPhoto;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Support\Facades\Event;
 
 class AlbumPhotosJobTest extends AbstractFlickrTest
@@ -19,7 +20,8 @@ class AlbumPhotosJobTest extends AbstractFlickrTest
 
     public function test_can_get_album_photos()
     {
-        $this->mockSucceed();
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
 
         $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02',]);
         $album = FlickrAlbum::factory()->create(['owner' => $contact->nsid,]);
@@ -40,13 +42,14 @@ class AlbumPhotosJobTest extends AbstractFlickrTest
             'photo_id' => $photo->id,
         ]);
 
-        $this->assertEquals(1, $album->photos()->count());
-        $this->assertEquals('44472585915', $album->photos()->first()->id);
+        $this->assertEquals(16, $album->photos()->count());
+        $this->assertEquals('28891387978', $album->photos()->first()->id);
     }
 
     public function test_cant_get_album_photos()
     {
-        $this->mockFailed();
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
 
         $album = FlickrAlbum::factory()->create();
 

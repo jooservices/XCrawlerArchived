@@ -2,8 +2,8 @@
 
 namespace App\Jav\Jobs;
 
-use App\Jav\Events\OnejavNewCompletedEvent;
 use App\Core\Jobs\Traits\HasUnique;
+use App\Jav\Events\OnejavNewCompletedEvent;
 use App\Models\Onejav;
 use App\Models\TemporaryUrl;
 use App\Services\Crawler\OnejavCrawler;
@@ -19,7 +19,10 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     use HasUnique;
 
     /**

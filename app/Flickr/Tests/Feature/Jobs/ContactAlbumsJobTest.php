@@ -6,6 +6,7 @@ use App\Flickr\Jobs\ContactAlbumbsJob;
 use App\Flickr\Tests\AbstractFlickrTest;
 use App\Models\FlickrAlbum;
 use App\Models\FlickrContact;
+use App\Services\Flickr\FlickrService;
 use Illuminate\Support\Facades\Event;
 
 class ContactAlbumsJobTest extends AbstractFlickrTest
@@ -18,7 +19,8 @@ class ContactAlbumsJobTest extends AbstractFlickrTest
 
     public function test_can_get_albums()
     {
-        $this->mockSucceed();
+        $this->buildMock(true);
+        $this->service = app(FlickrService::class);
         $contact = $this->factoryContact();
 
         ContactAlbumbsJob::dispatch($contact);
@@ -29,7 +31,8 @@ class ContactAlbumsJobTest extends AbstractFlickrTest
 
     public function test_cant_get_albums()
     {
-        $this->mockFailed();
+        $this->buildMock(false);
+        $this->service = app(FlickrService::class);
         $contact = $this->factoryContact();
 
         ContactAlbumbsJob::dispatch($contact);

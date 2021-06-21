@@ -28,8 +28,7 @@ abstract class AbstractClient implements Domain\ClientInterface
         int $delayInSec = 1,
         int $minErrorCode = 500,
         string $loggingFormat = MessageFormatter::CLF
-    ): Domain\ClientInterface
-    {
+    ): Domain\ClientInterface {
         $serviceName = $name ?? 'xclient';
         $this->logger = new Logger($serviceName);
         $logPath = storage_path('logs/' . strtolower($serviceName) . '/' . CarbonImmutable::now()->format('Y-m-d') . '.log');

@@ -22,10 +22,11 @@ class ItemDownloadedTest extends AbstractFlickrTest
         Mail::fake();
         Event::fake([ContactCreated::class]);
 
-        $this->mockSucceed();
         $mock = $this->createMock(Client::class);
         $mock->method('get')->willReturn(new Response());
         app()->instance(Client::class, $mock);
+
+        $this->buildMock(true);
     }
 
     public function test_send_mail_after_item_downloaded()
