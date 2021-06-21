@@ -21,7 +21,10 @@ use Spatie\RateLimitedMiddleware\RateLimited;
  */
 class OnejavFetchDailyJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Determine the time at which the job should timeout.

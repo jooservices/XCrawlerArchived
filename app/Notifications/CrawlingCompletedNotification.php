@@ -51,7 +51,7 @@ class CrawlingCompletedNotification extends Notification implements ShouldQueue
 
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->from(config('app.name') . ' | ' . strtoupper(config('app.env')))
             ->content($this->service . ' completed')
             ->attachment(function (SlackAttachment $attachment) {
@@ -59,6 +59,5 @@ class CrawlingCompletedNotification extends Notification implements ShouldQueue
                 $attachment->content = $this->data['message'] ?? null;
                 $attachment->footer = $this->data['footer'] ?? null;
             });
-
     }
 }

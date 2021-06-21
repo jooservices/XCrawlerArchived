@@ -19,7 +19,10 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 class OnejavFetchNewJob implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     use HasUnique;
 
     /**

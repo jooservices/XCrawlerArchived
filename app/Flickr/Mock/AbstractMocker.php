@@ -2,6 +2,8 @@
 
 namespace App\Flickr\Mock;
 
+use ReflectionClass;
+
 abstract class AbstractMocker
 {
     public function getResponse(string $fileName): array
@@ -11,7 +13,7 @@ abstract class AbstractMocker
 
     public function __call(string $name, array $arguments)
     {
-        $classname = (new \ReflectionClass($this))->getShortName();
+        $classname = (new ReflectionClass($this))->getShortName();
         $fileName = str_replace('api', '', strtolower($classname));
         $method = str_replace('get', '', strtolower($name));
 

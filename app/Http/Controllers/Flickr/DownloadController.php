@@ -11,7 +11,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 class DownloadController extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
     public function download(FlickrDownloadAlbumRequest $request)
     {

@@ -17,7 +17,10 @@ use Illuminate\Queue\SerializesModels;
 
 class XCityIdolFetchPages implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     use XCityJob;
     use HasUnique;
 

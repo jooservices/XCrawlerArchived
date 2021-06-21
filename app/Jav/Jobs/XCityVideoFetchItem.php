@@ -16,7 +16,10 @@ use Illuminate\Queue\SerializesModels;
 
 class XCityVideoFetchItem implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     use XCityJob;
     use HasUnique;
 
