@@ -34,11 +34,10 @@ abstract class AbstractMocker
             return $arr;
         } elseif (count($arr) == 1 && array_key_exists('_content', $arr)) {
             return $arr['_content'];
-        } else {
-            foreach ($arr as $key => $element) {
-                $arr[$key] = $this->cleanTextNodes($element);
-            }
-            return ($arr);
         }
+        foreach ($arr as $key => $element) {
+            $arr[$key] = $this->cleanTextNodes($element);
+        }
+        return ($arr);
     }
 }
