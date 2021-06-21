@@ -79,7 +79,6 @@ class DownloadJob extends AbstractFlickrJob
                 $this->downloadAlbum($album, $flickrDownload, $service);
                 break;
             case 'profile':
-
                 if (!$userInfoDetail = $service->getPeopleInfo($contact->nsid)->first()) {
                     return;
                 }
