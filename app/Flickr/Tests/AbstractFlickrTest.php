@@ -2,6 +2,8 @@
 
 namespace App\Flickr\Tests;
 
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use App\Flickr\Interfaces\FlickrClientInterface;
 use App\Flickr\Mock\ContactsApi;
 use App\Flickr\Mock\FailedMocker;
@@ -22,7 +24,7 @@ abstract class AbstractFlickrTest extends TestCase
 
     protected const TOTAL_CONTACTS = 1084;
     protected const TOTAL_CONTACT_PHOTOS = 358;
-    protected Mockery\LegacyMockInterface|Mockery\MockInterface|FlickrClientInterface $client;
+    protected LegacyMockInterface|MockInterface|FlickrClientInterface $client;
     protected FlickrService $service;
 
     protected function buildMock(bool $isSucceed)
