@@ -42,4 +42,10 @@ return [
         'client_id' => env('FLICKR_CLIENT_ID'),
         'client_secret' => env('FLICKR_CLIENT_SECRET'),
     ],
+
+    'app' => [
+        'jav' => [
+            'sendmail' => env('JAV_SENDMAIL', true)
+        ]
+    ]
 ];

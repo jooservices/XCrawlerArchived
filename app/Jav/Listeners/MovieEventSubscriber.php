@@ -39,7 +39,9 @@ class MovieEventSubscriber
             return;
         }
 
-        SendmailJob::dispatch(new WordPressMoviePost($movie));
+        if (config('services.app.jav.sendmail')) {
+            SendmailJob::dispatch(new WordPressMoviePost($movie));
+        }
 
         WordPressPost::create(['title' => $movie->dvd_id]);
     }
