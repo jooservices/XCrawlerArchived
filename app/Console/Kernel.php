@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('jav:onejav-new')->everyFiveMinutes();
         $schedule->command('jav:onejav-daily')->dailyAt('12:00');
-        //$schedule->command('jav:r18-release')->everyTenMinutes();
+        $schedule->command('jav:r18-release')->everyTenMinutes();
 
         /**
          * We have around 10 sub pages (~ 10 fetches) with 30 idols / page,
@@ -34,16 +34,16 @@ class Kernel extends ConsoleKernel
          * And we do process 10 idol / command every 5 minutes,
          * it take us 10 x 12 = 120 idols / hourly
          */
-//        $schedule->command('jav:xcity-idols')->hourly();
-//        $schedule->command('jav:xcity-idol')->everyFiveMinutes();
-//        $schedule->command('jav:xcity-videos')->everyFifteenMinutes();
-//        $schedule->command('jav:xcity-video')->everyFiveMinutes();
+        $schedule->command('jav:xcity-idols')->hourly();
+        $schedule->command('jav:xcity-idol')->everyFiveMinutes();
+        $schedule->command('jav:xcity-videos')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-video')->everyFiveMinutes();
 
         // Flickr
-        //$schedule->command('flickr:contacts')->monthly();
-        $schedule->command('flickr:contact-info')->everyThirtyMinutes();
-        //$schedule->command('flickr:photo-sizes')->everyFiveMinutes();
+        $schedule->command('flickr:contacts')->monthly();
+        $schedule->command('flickr:contact-info')->everyTenMinutes();
         $schedule->command('flickr:album-photos')->everyTenMinutes();
+        $schedule->command('flickr:photo-sizes')->everyFiveMinutes();
         // $schedule->command('inspire')->hourly();
     }
 
