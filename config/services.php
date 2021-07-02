@@ -46,6 +46,9 @@ return [
     'app' => [
         'jav' => [
             'sendmail' => env('JAV_SENDMAIL', true)
+        ],
+        'flickr' => [
+            'sendmail' => env('FLICKR_SENDMAIL', true)
         ]
     ]
 ];
