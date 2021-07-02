@@ -2,6 +2,7 @@
 
 use App\Flickr\Providers\FlickrServiceProvider;
 use App\Jav\Providers\JavServiceProvider;
+use App\Now\Providers\NowServiceProvider;
 
 return [
 
@@ -182,6 +183,7 @@ return [
          */
         FlickrServiceProvider::class,
         JavServiceProvider::class,
+        NowServiceProvider::class,
 
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
