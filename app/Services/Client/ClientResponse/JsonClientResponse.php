@@ -12,7 +12,6 @@ class JsonClientResponse extends AbstractClientResponse implements ResponseInter
     public string $endpoint = '';
     public array $request = [];
     public array $headers = [];
-    public $data;
     public string $body = '';
 
     public function loadData()

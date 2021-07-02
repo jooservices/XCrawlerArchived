@@ -32,7 +32,6 @@ class CreateNowRestaurantsTable extends Migration
             $table->string('restaurant_url')->nullable()->index();
 
             $table->unsignedBigInteger('city_id')->nullable()->index();
-            $table->foreign('city_id')->on('now_cities')->references('id');
 
             $table->unsignedBigInteger('district_id')->nullable()->index();
             $table->foreign('district_id')->on('now_districts')->references('id');

@@ -12,7 +12,7 @@ abstract class AbstractClientResponse implements ResponseInterface
     public string $endpoint = '';
     public array $request = [];
     public array $headers = [];
-
+    public $data;
     public string $body = '';
 
     /**
