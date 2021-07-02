@@ -21,7 +21,6 @@ class DeliverynowGetRestaurantDetail implements ShouldQueue
 
     public function __construct(public NowRestaurant $restaurant)
     {
-
     }
 
     public function handle()
@@ -60,6 +59,7 @@ class DeliverynowGetRestaurantDetail implements ShouldQueue
         foreach ($promotions as $promotion) {
             $promotion = NowPromotion::updateOrCreate([
                 'id' => $promotion['id'],
+            ], [
                 'discount_amount' => $promotion['discount_amount'],
                 'max_discount_amount' => $promotion['max_discount_amount'],
                 'min_order_amount' => $promotion['min_order_amount'],

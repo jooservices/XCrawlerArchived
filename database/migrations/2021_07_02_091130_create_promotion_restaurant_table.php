@@ -15,9 +15,7 @@ class CreatePromotionRestaurantTable extends Migration
     {
         Schema::create('now_promotion_restaurant', function (Blueprint $table) {
             $table->unsignedBigInteger('promotion_id');
-            $table->foreign('promotion_id')->on('now_promotions')->references('id');
             $table->unsignedBigInteger('restaurant_id');
-            $table->foreign('restaurant_id')->on('now_restaurants')->references('id');
             $table->timestamps();
             $table->softDeletes();
         });
