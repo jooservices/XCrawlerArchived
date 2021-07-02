@@ -12,7 +12,16 @@ class NowPromotion extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'id'
+        'id',
+        'discount_amount',
+        'max_discount_amount' ,
+        'min_order_amount' ,
+        'discount_on_type' ,
+        'discount_type' ,
+        'discount_value_type',
+        'expired',
+        'home_title' ,
+        'promotion_type' ,
     ];
 
     public function restaurants()
